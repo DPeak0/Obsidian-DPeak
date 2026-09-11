@@ -1,7 +1,8 @@
 {
   "cssTheme": "Cupertino",
   "enabledCssSnippets": [
-    "list"
+    "list",
+    "yinghao"
   ],
   "theme": "system"
 }
