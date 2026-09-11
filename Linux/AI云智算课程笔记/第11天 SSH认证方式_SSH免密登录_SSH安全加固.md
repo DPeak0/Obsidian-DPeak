@@ -146,15 +146,15 @@ ssh-copy-id -i /root/.ssh/id_rsa.pub devops@192.168.200.130
 > 无论学习还是生产，核心配置文件都是 **sshd_config**（服务端）。
 ### sshd_config 关键配置项
 
-|配置项|说明|
-|---|---|
-|`Port`|sshd 监听端口|
-|`ListenAddress`|监听的 IP 地址，`0.0.0.0` 表示监听所有 IPv4 地址|
-|`PermitRootLogin`|是否允许 root 远程 SSH 登录（生产环境应关闭）|
-|`MaxAuthTries`|密码失败后重试次数（生产环境应调小）|
-|`PubkeyAuthentication`|是否开启密钥认证|
-|`PasswordAuthentication`|是否开启密码认证|
-|`PermitEmptyPasswords`|是否允许空密码认证|
+| 配置项                      | 说明                                 |
+| ------------------------ | ---------------------------------- |
+| `Port`                   | sshd 监听端口                          |
+| `ListenAddress`          | 监听的 IP 地址，`0.0.0.0` 表示监听所有 IPv4 地址 |
+| `PermitRootLogin`        | 是否允许 root 远程 SSH 登录（生产环境应关闭）       |
+| `MaxAuthTries`           | 密码失败后重试次数（生产环境应调小）                 |
+| `PubkeyAuthentication`   | 是否开启密钥认证                           |
+| `PasswordAuthentication` | 是否开启密码认证                           |
+| `PermitEmptyPasswords`   | 是否允许空密码认证                          |
 ### 黑白名单
 
 **黑名单（拒绝登录）：**
