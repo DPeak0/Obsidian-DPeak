@@ -82,6 +82,7 @@ rsync -v root@192.168.200.129:/etc/group /opt
 | `--existing`            | 仅同步目标端已存在的文件，不存在的不同步             |     |
 | `--ignore-existing`     | 仅同步不存在的文件，已存在的不更新                |     |
 | `--remove-source-files` | 传输成功后删除本端源文件（跨主机 mv 移动）          |     |
+|                         |                                  |     |
 > **常用组合：** `-avz`（归档 + 详细 + 压缩）
 
 ## SSH 认证方式
