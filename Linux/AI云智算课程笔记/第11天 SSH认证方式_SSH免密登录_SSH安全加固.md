@@ -27,8 +27,9 @@ ssh 远程主机用户名@远程主机IP地址/主机名/域名 '命令'
 	1. 打开 cmd，输入 ssh 登录指令
 	2. 下载第三方 SSH 工具：PuTTY、MobaXterm、Xshell、FinalShell 等
 ## scp/sftp/rsync 传输文件
-openssh-client 提供了 ssh 工具，也提供了文件传输工具 **scp**。
+
 ### `scp` 
+openssh-client 提供了 ssh 工具，也提供了文件传输工具 **scp**。
 **从对端主机下载文件到本地：**
 ```bash
 scp 远程主机用户@远程主机IP地址:远程主机文件 本机路径
@@ -52,31 +53,10 @@ rsync 可实现文件的上传和下载，功能与 scp 相同，但 rsync 支�
 | 传输中断后对端是否存在不完整文件 | 是   | 否（同步成功才存在） |
 | 断点续传             | 不支持 | 支持         |
 | 增量同步             | 不支持 | 支持         |
-
-
 **简单文件传输：** scp 或 rsync 均可。
 **物理服务器数据备份：** 推荐 rsync，将业务服务器数据备份到专门的备份服务器。
 
-- **示例**
-**上传文件：**
-```bash
-# 将 xym 主机的 /etc/passwd 同步到 lab0 主机的 /opt 目录  
-rsync -v /etc/passwd root@192.168.200.129:/opt
-```
-**下载文件：**
-```bash
-#将 lab0 主机的 /etc/group 同步到本机 /opt 目录  
-rsync -v root@192.168.200.129:/etc/group /opt
-```
-
-- **rsync 目录传输规则**
-	- 目录路径带 `/`：将目录下的**所有内容**同步
-	- 目录路径不带 `/`：将**整个目录**同步
-	```bash
-	rsync -r /etc root@192.168.200.129:/opt   # 同步整个 etc 目录  
-	rsync -r /etc/ root@192.168.200.129:/opt  # 同步 etc 目录下的所有文件
-	```
-
+！
 
 
 
