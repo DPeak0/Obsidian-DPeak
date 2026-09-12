@@ -105,8 +105,6 @@ Slave queue ID: 0
 # 系统主机名修改、端口
 ## `hostnamectl`
 ![[2.Linux命令选项解析#hostnamectl 管理系统主机名]]
-
-
 ## netstat
 ![[2.Linux命令选项解析#`netstat`]]
 
