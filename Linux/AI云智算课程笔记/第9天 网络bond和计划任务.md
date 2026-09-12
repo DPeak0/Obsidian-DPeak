@@ -113,6 +113,7 @@ Slave queue ID: 0
 # 计划任务
 
 ## `at`：一次性计划任务
+![[2.Linux命令选项解析#`at` 一次性计划任务]]
 
-
-## `crontab`
+## `crontab` 周期性计划任务
+![[2.Linux命令选项解析#`crontab` 周期性计划任务]]

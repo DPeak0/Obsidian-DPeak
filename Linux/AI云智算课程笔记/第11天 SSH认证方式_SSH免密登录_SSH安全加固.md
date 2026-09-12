@@ -156,7 +156,7 @@ ssh-copy-id -i /root/.ssh/id_rsa.pub devops@192.168.200.130
 | `MaxAuthTries`           | 密码失败后重试次数（生产环境应调小）                 |
 | `PubkeyAuthentication`   | 是否开启密钥认证                           |
 | `PasswordAuthentication` | 是否开启密码认证                           |
-| `PermitEmptyPasswords`   | 是否允许空密码认证                          |
+| `PermitEmptyPasswords`   | `是否允许空密码认证`                        |
 ### 黑白名单
 
 **黑名单（拒绝登录）：**
