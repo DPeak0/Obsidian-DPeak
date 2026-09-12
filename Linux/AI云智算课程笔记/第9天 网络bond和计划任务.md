@@ -103,8 +103,8 @@ Slave queue ID: 0
 3. 创建KVM虚拟机，设置网络模式为br0（桥接模式）
 
 # 系统主机名修改、端口
-## hostnamectl
-
+## `hostnamectl`
+![[2.Linux命令选项解析#hostnamectl 管理系统主机名]]
 
 
 ## netstat
