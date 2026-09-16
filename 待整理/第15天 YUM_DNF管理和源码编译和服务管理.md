@@ -367,14 +367,14 @@ Nginx是一个高性能的Web服务器，同时具备以下功能：
 ### 安装步骤
 #### 1. 下载源码包
 ```bash
-[root@localhost ~]# cd /opt/
-[root@localhost opt]# wget https://nginx.org/download/nginx-1.31.6.tar.gz
+[root@dpeak ~]# cd /opt/
+[root@dpeak opt]# wget https://nginx.org/download/nginx-1.31.6.tar.gz
 ```
 #### 2. 解压缩
 
 ```bash
-[root@localhost opt]# tar -xf nginx-1.31.6.tar.gz
-[root@localhost opt]# ls
+[root@dpeak opt]# tar -xf nginx-1.31.6.tar.gz
+[root@dpeak opt]# ls
 nginx-1.31.6  nginx-1.31.6.tar.gz
 ```
 #### 3. 预配置（./configure）
