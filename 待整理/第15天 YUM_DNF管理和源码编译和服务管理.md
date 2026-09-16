@@ -362,11 +362,10 @@ Nginx是一个高性能的Web服务器，同时具备以下功能：
 - **反向代理** — 代理服务端请求，将用户的请求代理给服务端
 - **缓存服务器** — 缓存网站静态资源
 - **邮件代理服务器**
+![](https://oss.bwihz.cn/%20PicGo/20260916194205997.png)
 
 ### 安装步骤
-
 #### 1. 下载源码包
-
 ```bash
 [root@localhost ~]# cd /opt/
 [root@localhost opt]# wget https://nginx.org/download/nginx-1.31.6.tar.gz
