@@ -29,8 +29,8 @@ YUM仓库就是存放rpm包和元数据（repodata）的目录。yum工具通过
 
 
 ```bash
-[仓库ID]              # 仓库标识ID，任意定义，必须唯一
-name=仓库描述          # 仓库的描述信息
+[BaseOS]              # 仓库标识ID，任意定义，必须唯一
+name=BaseOS          # 仓库的描述信息
 baseurl=仓库地址       # 仓库地址，指向 repodata 的上一级目录
 gpgcheck=1            # 是否校验rpm包签名（1=校验，0=不校验）
 gpgkey=公钥文件路径    # 公钥文件路径，gpgcheck=1 时必须写
