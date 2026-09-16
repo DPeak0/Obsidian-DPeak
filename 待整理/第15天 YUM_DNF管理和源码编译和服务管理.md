@@ -290,11 +290,16 @@ BaseOS                                     baseos
 ### 3. 生成repodata元数据
 ```bash
 ## 安装createrepo工具
-[root@localhost ~]# yum install createrepo_c -y
+[root@dpeak ~]# yum install createrepo_c -y
 
 ## 借助createrepo工具，基于rpm包目录生成repodata
-[root@localhost ~]# cd /var/www/html/rockylinux8
-[root@localhost rockylinux8]# createrepo -v .
+[root@dpeak ~]# cd /var/www/html/rockylinux8
+[root@dpeak rockylinux8]# createrepo -v .
+[root@dpeak rockylinux8]# ll
+total 8
+drwxr-xr-x. 2 root root 4096 Sep 16 19:17 packages
+drwxr-xr-x. 2 root root 4096 Sep 16 19:29 repodata
+
 ```
 
 ### 4. 启动服务
