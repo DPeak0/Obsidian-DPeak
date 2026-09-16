@@ -172,21 +172,10 @@ Complete!
 ```
 
 yum会**自动解决依赖关系**，列出所有需要安装的依赖包并一次性安装。
-### 本地YUM仓库实战案例
-
-> [!example] 实战练习
-> - 仓库配置文件名：`rocky.repo`
-> - 仓库1：BaseOS，描述baseos，地址 `/mnt/cdrom/BaseOS`，开启校验，公钥在 `/etc/pki/rpm-gpg/` 目录下
-> - 仓库2：AppStream，描述appstream，地址 `/mnt/cdrom/AppStream`，开启校验，公钥在 `/etc/pki/rpm-gpg/` 目录下
-> - 测试：`yum clean all` + `yum makecache` 验证配置成功
-> - 安装：`yum install httpd`
 
 ---
-
 # YUM/DNF工具的使用
-
 ## 安装、卸载、更新
-
 ```bash
 yum install 包名       # 安装
 yum remove 包名        # 卸载
