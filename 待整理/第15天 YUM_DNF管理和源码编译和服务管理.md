@@ -20,11 +20,6 @@ RPM包之间存在**依赖关系**：安装A软件包，可能依赖于B软件�
 [root@localhost ~]# ls -l /usr/bin/yum
 lrwxrwxrwx. 1 root root 5 ... /usr/bin/yum -> dnf-3
 ```
-
----
-
-# YUM仓库
-
 ## 什么是YUM仓库
 
 YUM仓库就是存放rpm包和元数据（repodata）的目录。yum工具通过读取仓库配置文件（`.repo`）找到仓库地址，从仓库中获取软件包信息并安装。
