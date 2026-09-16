@@ -45,15 +45,12 @@ enabled=1             # 是否启用（1=启用，0=关闭，不写默认启用�
 ## 配置本地YUM仓库
 
 ### 准备工作
-
 将系统自带的所有repo文件移走，自己从零配置：
-
 ```bash
 [root@localhost ~]# cd /etc/yum.repos.d/
 [root@localhost yum.repos.d]# mkdir bak
 [root@localhost yum.repos.d]# mv *.repo bak/
 ```
-
 ### 步骤一：挂载ISO镜像
 
 将ISO镜像文件连接到光驱设备，然后挂载：
