@@ -285,10 +285,10 @@ BaseOS                                     baseos
 
 ## --downloadonly 只下载不安装，--destdir 指定保存目录
 [root@dpeak ~]# yum install nginx -y --downloadonly --destdir /var/www/html/rockylinux8/packages
-
 ```
 
 ### 3. 生成repodata元数据
+借助createrepo工具生成
 ```bash
 ## 安装createrepo工具
 [root@localhost ~]# yum install createrepo_c -y
