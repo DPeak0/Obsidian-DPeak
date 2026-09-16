@@ -387,6 +387,7 @@ checking for OS
 checking for C compiler ... not found
 
 ./configure: error: C compiler cc is not found
+# 缺少C编译器 使用yum install gcc --allowerasing命令安装gcc；--allowerasing
 ```
 
 > [!danger] 常见报错及解决
