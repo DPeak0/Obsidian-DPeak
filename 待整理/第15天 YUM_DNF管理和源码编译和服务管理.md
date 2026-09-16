@@ -307,17 +307,16 @@ drwxr-xr-x. 2 root root 4096 Sep 16 19:29 repodata
 [root@dpeak rockylinux8]# systemctl stop firewalld
 [root@dpeak rockylinux8]# setenforce 0
 [root@dpeak rockylinux8]# systemctl start httpd
-
 ```
+![353](https://oss.bwihz.cn/%20PicGo/20260916193527416.png)
 
 ### 5. 客户端配置
-
 ```bash
 ## 在客户端的repo文件中指向仓库服务器
 [root@client ~]# vim /etc/yum.repos.d/private.repo
 [private-baseos]
 name=private baseos
-baseurl=http://仓库服务器IP/rockylinux8/
+baseurl=http://192.168.200.128/rockylinux8/
 gpgcheck=0
 enabled=1
 ```
@@ -328,18 +327,17 @@ enabled=1
 
 ## 源码包 vs RPM包
 
-| 对比项 | 源码包 | RPM包 |
-| :--- | :--- | :--- |
-| 来源关系 | 原始代码 | 基于源码包二次编译打包 |
-| 兼容性 | **所有环境都可安装** | 只能在特定发行版安装 |
-| 版本 | **更新更快** | 相对落后 |
-| 安装方式 | 必须经过**编译安装** | rpm / yum 工具直接安装 |
-| 灵活性 | **更灵活**（自定义路径和功能） | 安装路径和功能固定 |
-| 依赖管理 | 缺少的依赖**需要自己手动找** | yum自动解决 |
+| 对比项  | 源码包                 | RPM包             |
+| :--- | :------------------ | :--------------- |
+| 来源关系 | 原始代码                | 基于源码包二次编译打包      |
+| 兼容性  | **所有环境都可安装**        | 只能在特定发行版安装       |
+| 版本   | **有社区进行维护更新，迭代速度快** | 相对落后             |
+| 安装方式 | 必须经过**编译安装**        | rpm / yum 工具直接安装 |
+| 灵活性  | **更灵活**（自定义安装路径和功能） | 安装路径和功能固定        |
+| 依赖管理 | 缺少的依赖**需要自己手动找**    | yum自动解决          |
 
-> [!tip] 二进制包
+> [!tip] 无论是rpm包还是二进制包，都是基于源码包进行二开的！
 > 二进制包：把源码包编译好的配置文件、可执行文件**重新打包**好了，用户只需要解压缩即可使用。
-
 ## 源码包编译安装三步法
 
 ```mermaid
