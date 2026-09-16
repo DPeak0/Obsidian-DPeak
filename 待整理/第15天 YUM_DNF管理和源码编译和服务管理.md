@@ -275,13 +275,11 @@ BaseOS                                     baseos
 ## 搭建步骤
 
 ### 1. 安装httpd提供Web服务
-
 ```bash
 [root@localhost ~]# yum install httpd -y
 ```
 
 ### 2. 创建仓库目录并下载rpm包
-
 ```bash
 [root@localhost ~]# mkdir -p /var/www/html/rockylinux8/packages
 
