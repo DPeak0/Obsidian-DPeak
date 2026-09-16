@@ -52,9 +52,8 @@ enabled=1             # 是否启用（1=启用，0=关闭，不写默认启用�
 [root@localhost yum.repos.d]# mv *.repo bak/
 ```
 ### 步骤一：挂载ISO镜像
-
+![](https://oss.bwihz.cn/%20PicGo/20260916190303734.png)
 将ISO镜像文件连接到光驱设备，然后挂载：
-
 ```bash
 [root@localhost ~]# mount /dev/sr0 /media
 mount: /media: WARNING: device write-protected, mounted read-only.
@@ -63,14 +62,6 @@ mount: /media: WARNING: device write-protected, mounted read-only.
 [root@localhost ~]# ls /media/
 AppStream  BaseOS  EFI  images  isolinux  LICENSE  media.repo  TRANS.TBL
 ```
-
-> [!info] RHEL 8+ 的rpm包分布
-> 从8版本开始，ISO镜像中的rpm包拆分到了**两个目录**：
-> - **BaseOS** — 系统必备的软件包
-> - **AppStream** — 常用应用程序的软件包
->
-> 7及以下版本所有rpm包都在一个 `Packages` 目录下
-
 ### 步骤二：创建仓库配置文件
 
 ```bash
@@ -89,11 +80,13 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial
 ```
 
-> [!warning] 从8版本开始需要配置2个仓库
-> 因为rpm包拆分到了 AppStream 和 BaseOS 两个目录，所以需要分别配置两个仓库。
+> [!warning] 从8版本开始，ISO镜像中的rpm包拆分到了**两个目录**：
+> - **BaseOS** — 系统必备的软件包
+> - **AppStream** — 常用应用程序的软件包
+>
+> 7及以下版本所有rpm包都在一个 `Packages` 目录下
 
 ### 步骤三：清理缓存并重建
-
 ```bash
 [root@localhost ~]# yum clean all
 13 文件已删除
