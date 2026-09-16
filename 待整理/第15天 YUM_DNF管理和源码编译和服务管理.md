@@ -353,7 +353,6 @@ graph LR
 | 编译安装 | `make install` | 将编译好的文件移动到指定安装路径 |
 
 ---
-
 ## Nginx源码包安装实战
 
 ### Nginx简介
