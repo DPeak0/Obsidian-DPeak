@@ -288,7 +288,6 @@ BaseOS                                     baseos
 ```
 
 ### 3. 生成repodata元数据
-
 ```bash
 ## 安装createrepo工具
 [root@localhost ~]# yum install createrepo_c -y
