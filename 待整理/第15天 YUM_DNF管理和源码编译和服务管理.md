@@ -183,7 +183,6 @@ yum update 包名        # 更新
 yum reinstall 包名     # 重装
 ```
 ## 查询
-
 ### 查询包是否安装
 ```bash
 [root@localhost ~]# yum list --installed | grep httpd
@@ -193,7 +192,6 @@ yum reinstall 包名     # 重装
 [root@localhost ~]# yum list
 ```
 ### 查询包的详细信息
-
 ```bash
 [root@localhost ~]# yum info httpd
 已安装的软件包
@@ -207,9 +205,7 @@ URL          : https://httpd.apache.org/
 描述         : The Apache HTTP Server is a powerful, efficient, and extensible
              : web server.
 ```
-
 ### 根据文件搜索来源
-
 ```bash
 ## 搜索文件来自哪个仓库的哪个包
 [root@localhost ~]# yum provides /usr/sbin/useradd
@@ -220,7 +216,6 @@ shadow-utils-2:4.6-12.el8.x86_64 : Utilities for managing accounts and shadow pa
 ```
 
 ### 根据关键字搜索包
-
 ```bash
 [root@localhost ~]# yum search pod
 ```
