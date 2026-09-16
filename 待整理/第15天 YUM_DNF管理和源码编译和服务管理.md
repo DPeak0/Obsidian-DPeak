@@ -216,7 +216,42 @@ shadow-utils-2:4.6-12.el8.x86_64 : Utilities for managing accounts and shadow pa
 ```
 ### 根据关键字搜索包
 ```bash
-[root@localhost ~]# yum search pod
+[root@localhost ~]# yum search pod 
+上次元数据过期检查：0:07:29 前，执行于 2026年09月16日 星期三 10时58分47秒。
+=============================== 名称 和 概况 匹配：pod ===============================
+cockpit-podman.noarch : Cockpit component for Podman containers
+libgpod.i686 : Library to access the contents of an iPod
+libgpod.x86_64 : Library to access the contents of an iPod
+pcp-pmda-podman.x86_64 : Performance Co-Pilot (PCP) metrics for podman containers
+perl-Pod-Checker.noarch : Check POD documents for syntax errors
+perl-Pod-Escapes.noarch : Resolve POD escape sequences
+perl-Pod-Html.noarch : Convert POD files to HTML
+perl-Pod-LaTeX.noarch : Convert POD data to formatted LaTeX
+perl-Pod-Parser.noarch : Basic perl modules for handling Plain Old Documentation (POD)
+perl-Pod-Perldoc.noarch : Look up Perl documentation in Pod format
+perl-Pod-Plainer.noarch : Perl extension for converting Pod to old-style Pod
+perl-Pod-Simple.noarch : Framework for parsing POD documentation
+perl-Pod-Usage.noarch : Print a usage message from embedded POD documentation
+perl-podlators.noarch : Format POD source into various output formats
+podman.x86_64 : Manage Pods, Containers and Container Images
+podman-docker.noarch : Emulate Docker CLI using podman
+podman-plugins.x86_64 : Plugins for podman
+podman-remote.x86_64 : A remote CLI for Podman: A Simple management tool for pods,
+                     : containers and images
+podman-tests.x86_64 : Tests for podman
+=================================== 名称 匹配：pod ===================================
+podman-catatonit.x86_64 : A signal-forwarding process manager for containers
+=================================== 概况 匹配：pod ===================================
+createrepo_c-devel.i686 : Library for repodata manipulation
+createrepo_c-devel.x86_64 : Library for repodata manipulation
+createrepo_c-libs.i686 : Library for repodata manipulation
+createrepo_c-libs.x86_64 : Library for repodata manipulation
+librepo.x86_64 : Repodata downloading library
+librepo.i686 : Repodata downloading library
+perl-Module-Metadata.noarch : Gather package and POD information from perl module
+                            : files
+toolbox.noarch : Script to launch privileged container with podman
+
 ```
 
 ### 查看仓库列表
