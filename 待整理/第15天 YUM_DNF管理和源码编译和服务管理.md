@@ -303,7 +303,6 @@ drwxr-xr-x. 2 root root 4096 Sep 16 19:29 repodata
 ```
 
 ### 4. 启动服务
-
 ```bash
 [root@localhost ~]# systemctl stop firewalld
 [root@localhost ~]# setenforce 0
