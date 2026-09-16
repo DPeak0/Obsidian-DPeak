@@ -382,6 +382,10 @@ nginx-1.31.6  nginx-1.31.6.tar.gz
 ```bash
 [root@dpeak opt]# cd nginx-1.31.6
 [root@dpeak nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
+checking for OS
+ + Linux 4.18.0-305.3.1.el8_4.x86_64 x86_64
+checking for C compiler ... not found
+./configure: error: C compiler cc is not found
 ```
 
 > [!danger] 常见报错及解决
