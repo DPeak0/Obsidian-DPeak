@@ -7,23 +7,16 @@
 ## 为什么需要YUM/DNF
 
 RPM包之间存在**依赖关系**：安装A软件包，可能依赖于B软件包，必须先安装依赖包才能安装A。
-
 而 `rpm` 命令工具**无法自动解决依赖关系**，所以生产环境中大部分应用都是通过 `yum` 或 `dnf` 来安装管理。
+![](https://oss.bwihz.cn/%20PicGo/20260916185355971.png)
 
 - **yum**（Yellowdog Updater Modified）：管理rpm包的工具，自动解决依赖问题。如果识别到rpm包的依赖，yum会**自动先将依赖包安装**
 - **dnf**：yum的升级版，从 **RHEL/Rocky 8** 开始，`yum` 命令其实是 `dnf` 的快捷方式（软链接）
-
-```bash
-## 验证yum是dnf的软链接
-[root@localhost ~]# which yum
-/usr/bin/yum
-[root@localhost ~]# ls -l /usr/bin/yum
-lrwxrwxrwx. 1 root root 5 ... /usr/bin/yum -> dnf-3
-```
+![](https://oss.bwihz.cn/%20PicGo/20260916185554475.png)
 ## 什么是YUM仓库
 
 YUM仓库就是存放rpm包和元数据（repodata）的目录。yum工具通过读取仓库配置文件（`.repo`）找到仓库地址，从仓库中获取软件包信息并安装。
-
+![](https://oss.bwihz.cn/%20PicGo/20260916185627397.png)
 仓库类型：
 
 | 类型 | 说明 | baseurl 前缀 |
@@ -32,13 +25,15 @@ YUM仓库就是存放rpm包和元数据（repodata）的目录。yum工具通过
 | **网络仓库** | rpm包来自网络仓库（如官方仓库） | `https://` / `http://` / `ftp://` |
 
 ## 仓库配置文件格式
+![](https://oss.bwihz.cn/%20PicGo/20260916185958115.png)
+
 
 ```bash
-[仓库ID]              # 仓库标识，任意定义，必须唯一
+[仓库ID]              # 仓库标识ID，任意定义，必须唯一
 name=仓库描述          # 仓库的描述信息
-baseurl=仓库地址       # 指向 repodata 的上一级目录
+baseurl=仓库地址       # 仓库地址，指向 repodata 的上一级目录
 gpgcheck=1            # 是否校验rpm包签名（1=校验，0=不校验）
-gpgkey=公钥文件路径    # gpgcheck=1 时必须写
+gpgkey=公钥文件路径    # 公钥文件路径，gpgcheck=1 时必须写
 enabled=1             # 是否启用（1=启用，0=关闭，不写默认启用）
 ```
 
