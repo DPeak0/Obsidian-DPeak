@@ -380,8 +380,8 @@ nginx-1.31.6  nginx-1.31.6.tar.gz
 #### 3. 预配置（./configure）
 
 ```bash
-[root@localhost opt]# cd nginx-1.31.6
-[root@localhost nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
+[root@dpeak opt]# cd nginx-1.31.6
+[root@dpeak nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
 ```
 
 > [!danger] 常见报错及解决
