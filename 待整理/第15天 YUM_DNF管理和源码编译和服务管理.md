@@ -101,10 +101,77 @@ appstream                                             608 MB/s | 7.1 MB     00:0
 
 ```bash
 [root@localhost ~]# yum install httpd -y
+Last metadata expiration check: 1:31:15 ago on Wed 16 Sep 2026 05:36:33 PM CST.
+Dependencies resolved.
+============================================================================================
+ Package              Arch      Version                                  Repository    Size
+============================================================================================
+Installing:
+ httpd                x86_64    2.4.37-39.module+el8.4.0+571+fd70afb1    AppStream    1.4 M
+Installing dependencies:
+ apr                  x86_64    1.6.3-11.el8.1                           AppStream    124 k
+ apr-util             x86_64    1.6.1-6.el8.1                            AppStream    104 k
+ httpd-filesystem     noarch    2.4.37-39.module+el8.4.0+571+fd70afb1    AppStream     37 k
+ httpd-tools          x86_64    2.4.37-39.module+el8.4.0+571+fd70afb1    AppStream    105 k
+ mod_http2            x86_64    1.15.7-3.module+el8.4.0+553+7a69454b     AppStream    153 k
+ rocky-logos-httpd    noarch    84.5-7.el8                               Baseos        22 k
+Installing weak dependencies:
+ apr-util-bdb         x86_64    1.6.1-6.el8.1                            AppStream     23 k
+ apr-util-openssl     x86_64    1.6.1-6.el8.1                            AppStream     26 k
+
+Transaction Summary
+============================================================================================
+Install  9 Packages
+
+Total size: 2.0 M
+Installed size: 5.4 M
+Downloading Packages:
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                    1/1
+  Installing       : apr-1.6.3-11.el8.1.x86_64                                          1/9
+  Running scriptlet: apr-1.6.3-11.el8.1.x86_64                                          1/9
+  Installing       : apr-util-bdb-1.6.1-6.el8.1.x86_64                                  2/9
+  Installing       : apr-util-openssl-1.6.1-6.el8.1.x86_64                              3/9
+  Installing       : apr-util-1.6.1-6.el8.1.x86_64                                      4/9
+  Running scriptlet: apr-util-1.6.1-6.el8.1.x86_64                                      4/9
+  Installing       : httpd-tools-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64           5/9
+  Running scriptlet: httpd-filesystem-2.4.37-39.module+el8.4.0+571+fd70afb1.noarch      6/9
+  Installing       : httpd-filesystem-2.4.37-39.module+el8.4.0+571+fd70afb1.noarch      6/9
+  Installing       : rocky-logos-httpd-84.5-7.el8.noarch                                7/9
+  Installing       : mod_http2-1.15.7-3.module+el8.4.0+553+7a69454b.x86_64              8/9
+  Installing       : httpd-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64                 9/9
+  Running scriptlet: httpd-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64                 9/9
+  Verifying        : rocky-logos-httpd-84.5-7.el8.noarch                                1/9
+  Verifying        : apr-1.6.3-11.el8.1.x86_64                                          2/9
+  Verifying        : apr-util-1.6.1-6.el8.1.x86_64                                      3/9
+  Verifying        : apr-util-bdb-1.6.1-6.el8.1.x86_64                                  4/9
+  Verifying        : apr-util-openssl-1.6.1-6.el8.1.x86_64                              5/9
+  Verifying        : httpd-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64                 6/9
+  Verifying        : httpd-filesystem-2.4.37-39.module+el8.4.0+571+fd70afb1.noarch      7/9
+  Verifying        : httpd-tools-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64           8/9
+  Verifying        : mod_http2-1.15.7-3.module+el8.4.0+553+7a69454b.x86_64              9/9
+Installed products updated.
+
+Installed:
+  apr-1.6.3-11.el8.1.x86_64
+  apr-util-1.6.1-6.el8.1.x86_64
+  apr-util-bdb-1.6.1-6.el8.1.x86_64
+  apr-util-openssl-1.6.1-6.el8.1.x86_64
+  httpd-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64
+  httpd-filesystem-2.4.37-39.module+el8.4.0+571+fd70afb1.noarch
+  httpd-tools-2.4.37-39.module+el8.4.0+571+fd70afb1.x86_64
+  mod_http2-1.15.7-3.module+el8.4.0+553+7a69454b.x86_64
+  rocky-logos-httpd-84.5-7.el8.noarch
+
+Complete!
+
 ```
 
 yum会**自动解决依赖关系**，列出所有需要安装的依赖包并一次性安装。
-
 ### 本地YUM仓库实战案例
 
 > [!example] 实战练习
