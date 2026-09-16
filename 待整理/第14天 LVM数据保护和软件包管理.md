@@ -21,8 +21,9 @@ LVM支持两种快照技术：
 | **ROW快照** | Redirect-On-Write（写时重定向） | 数据修改时，**新数据**写到新位置，原数据保留在原位 |
 
 ### COW快照原理
+![](https://oss.bwihz.cn/%20PicGo/20260916095925823.png)
+![](https://oss.bwihz.cn/%20PicGo/20260916095953337.png)
 
-![](https://secure2.wostatic.cn/static/ap6Xj8jsQqaihRoeVmTj16/image.png?auth_key=1789466058-mjUBhUatsDKreWFs3zhEFj-0-62b9f7d96611d33763077a1f7f9df780)
 
 COW快照的工作流程：
 
@@ -33,7 +34,7 @@ COW快照的工作流程：
 
 ### COW快照还原原理
 
-![](https://secure2.wostatic.cn/static/vgMd17r48Nf7WZfFJ53e8T/image.png?auth_key=1789466058-8NsDQ9auWxXXN5EjapFaGH-0-59e76b676a6507907bb283666c3324c3)
+
 
 > [!tip] COW vs ROW
 > - **COW**：写入时需要**先复制旧数据再写新数据**，有额外开销，但快照数据集中在一个区域
@@ -209,9 +210,7 @@ Do you really want to proceed with restore of volume group "vg0", while 1 volume
 ---
 
 # LVM的跨主机迁移
-
-![](https://secure2.wostatic.cn/static/vm7tReQZZeaQMdwVsebnq7/image.png?auth_key=1789466058-rm7M4C8JkrSYwNWoDMhZkg-0-26e3dc8f1f33f784dd973c8dfe2d3296)
-
+![](https://oss.bwihz.cn/%20PicGo/20260916095629059.png)
 应用场景：旧服务器硬件老化需要升级，将硬盘拔出插入新服务器，**数据零拷贝迁移**。
 
 核心原理：LVM的卷组元数据（metadata）保存在每个PV的头部，而不是保存在主机系统中。因此只要把磁盘移到另一台主机，就能通过 `vgexport/vgimport` 让新主机识别原有的VG/LV结构。
@@ -286,7 +285,7 @@ Do you really want to proceed with restore of volume group "vg0", while 1 volume
 
 ## 软链接（符号链接、快捷方式）
 
-![](https://secure2.wostatic.cn/static/2pGJgZahzkm2mLjwf7N4m/image.png?auth_key=1789466058-jJENQQuhVe18AF3iGiHsLb-0-651b443c64ad7b70f7b359ed4c5b7a04)
+![](https://oss.bwihz.cn/%20PicGo/20260916095822534.png)
 
 软链接类似于Windows的快捷方式，是一个**独立文件**，其数据块中存储的是**源文件的路径字符串**。
 
@@ -316,7 +315,7 @@ lrwxrwxrwx. 1 root root 10 9月  15 11:50 /root/1.txt -> /etc/1.txt
 
 ## 硬链接（文件副本）
 
-![](https://secure2.wostatic.cn/static/n5XdwbYDYohJqtYKErdaNG/image.png?auth_key=1789466058-gbVK7V2WJi1rkdPcmcy5K8-0-67f7186c634148b82d0a4852695347b5)
+![](https://oss.bwihz.cn/%20PicGo/20260916095840381.png)
 
 硬链接相当于文件在系统中的副本，多个文件名指向**同一个inode**，共享同一份数据。
 
@@ -523,7 +522,8 @@ rpm -q --changelog rpm包名
 
 ### RPM校验机制
 
-![](https://secure2.wostatic.cn/static/4XiZg2TBRFTWnu9Am2GoRC/image.png?auth_key=1789466058-qcu8snyCBoPdrByaPgGu7Z-0-c538f87fb0eae3ce003b24b4ac694e42)
+![](https://oss.bwihz.cn/%20PicGo/20260916095905202.png)
+
 
 默认情况下，使用rpm安装软件包时会自动校验rpm包的**完整性**，校验方式为**数字签名**：
 
