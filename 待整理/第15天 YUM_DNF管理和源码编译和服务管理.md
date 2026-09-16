@@ -370,7 +370,6 @@ Nginx是一个高性能的Web服务器，同时具备以下功能：
 [root@localhost ~]# cd /opt/
 [root@localhost opt]# wget https://nginx.org/download/nginx-1.31.6.tar.gz
 ```
-
 #### 2. 解压缩
 
 ```bash
@@ -378,7 +377,6 @@ Nginx是一个高性能的Web服务器，同时具备以下功能：
 [root@localhost opt]# ls
 nginx-1.31.6  nginx-1.31.6.tar.gz
 ```
-
 #### 3. 预配置（./configure）
 
 ```bash
