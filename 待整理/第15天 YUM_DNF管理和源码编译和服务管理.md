@@ -302,11 +302,9 @@ drwxr-xr-x. 2 root root 4096 Sep 16 19:29 repodata
 
 ```
 
-### 4. 启动服务
+### 4. 关闭防火墙和SELinux，启动httpd（临时生效）
 ```bash
-[root@localhost ~]# systemctl stop firewalld
-[root@localhost ~]# setenforce 0
-[root@localhost ~]# systemctl start httpd
+
 ```
 
 ### 5. 客户端配置
