@@ -214,7 +214,6 @@ shadow-utils-2:4.6-12.el8.x86_64 : Utilities for managing accounts and shadow pa
 匹配来源：
 文件名    ：/usr/sbin/useradd
 ```
-
 ### 根据关键字搜索包
 ```bash
 [root@localhost ~]# yum search pod
