@@ -284,7 +284,8 @@ BaseOS                                     baseos
 [root@dpeak ~]# mkdir -p /var/www/html/rockylinux8/packages
 
 ## --downloadonly 只下载不安装，--destdir 指定保存目录
-[root@localhost ~]# yum install nginx --downloadonly --destdir /var/www/html/rockylinux8/packages
+[root@dpeak ~]# yum install nginx -y --downloadonly --destdir /var/www/html/rockylinux8/packages
+
 ```
 
 ### 3. 生成repodata元数据
