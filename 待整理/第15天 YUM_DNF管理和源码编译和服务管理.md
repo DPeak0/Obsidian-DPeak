@@ -304,6 +304,9 @@ drwxr-xr-x. 2 root root 4096 Sep 16 19:29 repodata
 
 ### 4. 关闭防火墙和SELinux，启动httpd（临时生效）
 ```bash
+[root@dpeak rockylinux8]# systemctl stop firewalld
+[root@dpeak rockylinux8]# setenforce 0
+[root@dpeak rockylinux8]# systemctl start httpd
 
 ```
 
