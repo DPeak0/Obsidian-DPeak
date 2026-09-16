@@ -1,7 +1,6 @@
 ---
 时间: 2026-09-16
 ---
-
 # YUM/DNF仓库管理包
 
 ## 为什么需要YUM/DNF
@@ -382,6 +381,8 @@ nginx-1.31.6  nginx-1.31.6.tar.gz
 ```bash
 [root@dpeak opt]# cd nginx-1.31.6
 [root@dpeak nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
+```
+```bash
 checking for OS
  + Linux 4.18.0-305.3.1.el8_4.x86_64 x86_64
 checking for C compiler ... not found
@@ -390,76 +391,83 @@ checking for C compiler ... not found
 # 缺少C编译器 使用yum install gcc --allowerasing安装gcc 
 # --allowerasing表示允许卸载包来满足安装需求
 
+[root@dpeak nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
 ```
-
-> [!danger] 常见报错及解决
-> 源码编译安装最常见的问题就是**缺少依赖**，需要根据报错信息安装对应的开发包：
->
-> | 报错信息 | 缺少的依赖 | 解决命令 |
-> | :--- | :--- | :--- |
-> | `C compiler cc is not found` | C编译器 | `yum install gcc --allowerasing` |
-> | `the HTTP rewrite module requires the PCRE library` | PCRE正则库 | `yum install pcre-devel` |
-> | `the HTTP gzip module requires the zlib library` | zlib压缩库 | `yum install zlib-devel` |
-
+源码编译安装最常见的问题就是**缺少依赖**，需要根据报错信息安装对应的开发包
 ```bash
-## 逐个解决依赖
-[root@localhost nginx-1.31.6]# yum install gcc -y
-[root@localhost nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
-# ... 报错缺少 pcre ...
+./configure: error: the HTTP rewrite module requires the PCRE library.
+You can either disable the module by using --without-http_rewrite_module
+option, or install the PCRE library into the system, or build the PCRE library
+statically from the source with nginx by using --with-pcre=<path> option.
+# 缺少PCRE正则库
 
-[root@localhost nginx-1.31.6]# yum install pcre-devel -y
-[root@localhost nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
-# ... 报错缺少 zlib ...
+[root@dpeak nginx-1.31.6]# yum -y install pcre-devel.x86_64
+```
+```bash
+./configure: error: the HTTP gzip module requires the zlib library.
+You can either disable the module by using --without-http_gzip_module
+option, or install the zlib library into the system, or build the zlib library
+statically from the source with nginx by using --with-zlib=<path> option.
+# 缺少zlib压缩库
 
-[root@localhost nginx-1.31.6]# yum install zlib-devel -y
-[root@localhost nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
-
+[root@dpeak nginx-1.31.6]# yum install -y zlib-devel.x86_64
+```
+```bash
+[root@dpeak nginx-1.31.6]# ./configure --prefix=/usr/local/nginx
 Configuration summary
   + using system PCRE library
+  + OpenSSL library is not used
   + using system zlib library
+
   nginx path prefix: "/usr/local/nginx"
   nginx binary file: "/usr/local/nginx/sbin/nginx"
+  nginx modules path: "/usr/local/nginx/modules"
   nginx configuration prefix: "/usr/local/nginx/conf"
   nginx configuration file: "/usr/local/nginx/conf/nginx.conf"
   nginx pid file: "/usr/local/nginx/logs/nginx.pid"
+  nginx error log file: "/usr/local/nginx/logs/error.log"
+  nginx http access log file: "/usr/local/nginx/logs/access.log"
+  nginx http client request body temporary files: "client_body_temp"
+  nginx http proxy temporary files: "proxy_temp"
+  nginx http fastcgi temporary files: "fastcgi_temp"
+  nginx http uwsgi temporary files: "uwsgi_temp"
+  nginx http scgi temporary files: "scgi_temp"
 ```
-
 #### 4. 编译
-
 ```bash
-[root@localhost nginx-1.31.6]# make
+[root@dpeak nginx-1.31.6]# yum install -y make
+[root@dpeak nginx-1.31.6]# make
 ```
-
 #### 5. 编译安装
-
 ```bash
-[root@localhost nginx-1.31.6]# make install
+[root@dpeak nginx-1.31.6]# make install
 ```
-
 #### 6. 验证安装
-
 ```bash
 ## 查看安装目录
-[root@localhost ~]# ls -l /usr/local/nginx/
-总用量 4
-drwxr-xr-x. 2 root root 4096  9月 16 14:58 conf    # 配置文件
-drwxr-xr-x. 2 root root   40  9月 16 14:58 html    # 网页文件
-drwxr-xr-x. 2 root root    6  9月 16 14:58 logs    # 日志文件
-drwxr-xr-x. 2 root root   19  9月 16 14:58 sbin    # 可执行程序
+[root@dpeak nginx-1.31.6]# ls -l /usr/local/nginx/
+total 4
+drwxr-xr-x. 2 root root 4096 Sep 16 15:31 conf # 配置文件
+drwxr-xr-x. 2 root root   40 Sep 16 15:31 html # 网页文件
+drwxr-xr-x. 2 root root    6 Sep 16 15:31 logs # 日志文件
+drwxr-xr-x. 2 root root   19 Sep 16 15:31 sbin # 可执行程序
+[root@dpeak nginx-1.31.6]# ls -l /usr/local/nginx/sbin/nginx
+-rwxr-xr-x. 1 root root 5658176 Sep 16 15:31 /usr/local/nginx/sbin/nginx
 ```
-
 #### 7. 启动nginx
-
 ```bash
 ## 启动（源码安装的不能用systemctl，需要直接调用二进制文件）
-[root@localhost ~]# /usr/local/nginx/sbin/nginx
-
-## 验证进程
-[root@localhost ~]# ps -ef | grep nginx
-root       17670       1  0 15:01 ?   00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
-nobody     17671   17670  0 15:01 ?   00:00:00 nginx: worker process
+[root@dpeak nginx-1.31.6]#  /usr/local/nginx/sbin/nginx
+[root@dpeak nginx-1.31.6]# netstat -tnlp | grep nginx
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      143066/nginx: maste
 ```
 
+#### 8.关闭防火墙和selinux，通过浏览器访问
+```bash
+[root@dpeak nginx-1.31.6]# systemctl stop firewalld.service
+[root@dpeak nginx-1.31.6]# setenforce 0
+```
+![](https://oss.bwihz.cn/%20PicGo/20260916195828255.png)
 > [!warning] 源码安装 vs RPM安装的服务管理
 > - **RPM安装**的软件可以用 `systemctl start/stop/restart` 管理
 > - **源码安装**的软件需要直接调用二进制文件或自行编写systemd服务单元文件
@@ -485,8 +493,7 @@ nobody     17671   17670  0 15:01 ?   00:00:00 nginx: worker process
 
 ## systemd单元类型
 
-systemctl 根据不同的**单元（unit）**进行管理：
-
+systemctl 根据不同的**单元**（unit）进行管理：
 ```bash
 [root@localhost ~]# systemctl list-unit --type
 automount  mount      scope      slice      swap       timer
@@ -499,7 +506,7 @@ device     path       service    socket     target
 | :--- | :--- | :--- |
 | **service** | 服务单元，运行的软件/应用程序 | `httpd.service` |
 | **target** | 启动目标，开机获得什么操作环境 | `multi-user.target`（命令行） |
-
+![509](https://oss.bwihz.cn/%20PicGo/20260916200149998.png)
 ## 服务管理命令
 
 ### 查看服务状态
@@ -509,6 +516,7 @@ device     path       service    socket     target
 ● httpd.service - The Apache HTTP Server
    Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)
    Active: inactive (dead)
+          高级状态 (低级状态)-->要看服务状态 只看高级状态
 ```
 
 > [!tip] 重点关注
@@ -552,83 +560,106 @@ Removed /etc/systemd/system/multi-user.target.wants/nginx.service.
 > 服务实现开机自启动，本质是在 `/etc/systemd/system/multi-user.target.wants/` 目录下创建了一个**指向服务单元文件的软链接**。
 
 ### 列出所有服务单元
-
 ```bash
 ## 列出所有服务单元文件
 [root@localhost ~]# systemctl list-unit-files --type service
 
 ## 搜索特定服务
-[root@localhost ~]# systemctl list-unit-files --type service | grep httpd
+[root@localhost ~]# systemctl list-unit-files --type service | grep httpd 
 httpd.service                              disabled
+httpd@.service                             disabled
+[root@localhost ~]# systemctl list-unit-files --type service | grep nginx
+
+[root@localhost ~]# systemctl start nginx
+Failed to start nginx.service: Unit nginx.service not found.
+[root@localhost ~]# 
+
 ```
+![](https://oss.bwihz.cn/%20PicGo/20260916200632197.png)
 
 ### 服务单元文件位置
-
 ```bash
 /usr/lib/systemd/system/     # 系统自带的服务单元文件
 ```
-
+所谓的服务单元配置文件，其实就是你启动和关闭的命令
 查看httpd的服务单元文件：
-
 ```bash
 [root@localhost ~]# cat /usr/lib/systemd/system/httpd.service
+# See httpd.service(8) for more information on using the httpd service.
+
+# Modifying this file in-place is not recommended, because changes
+# will be overwritten during package upgrades.  To customize the
+# behaviour, run "systemctl edit httpd" to create an override unit.
+
+# For example, to pass additional options (such as -D definitions) to
+# the httpd binary at startup, create an override unit (as is done by
+# systemctl edit) and enter the following:
+
+#  [Service]
+#  Environment=OPTIONS=-DMY_DEFINE
+
 [Unit]
 Description=The Apache HTTP Server
-After=network.target remote-fs.target nss-lookup.target
+Wants=httpd-init.service
+After=network.target remote-fs.target nss-lookup.target httpd-init.service
+Documentation=man:httpd.service(8)
 
 [Service]
 Type=notify
-ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND    # 启动命令
-ExecReload=/usr/sbin/httpd $OPTIONS -k graceful     # 重载命令
+Environment=LANG=C
+
+ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND  # 启动命令：systemctl start httpd.service
+ExecReload=/usr/sbin/httpd $OPTIONS -k graceful  # 重载命令
+# Send SIGWINCH for graceful stop
 KillSignal=SIGWINCH
+KillMode=mixed
+PrivateTmp=true
 
 [Install]
-WantedBy=multi-user.target     # 开机自启时加入的目标
+WantedBy=multi-user.target     #开机自启时加入的目标
+
 ```
 
 ## target启动目标
 
 ### 运行级别与target对照
 
-| 运行级别 | target | 说明 |
-| :--- | :--- | :--- |
-| 0 | `poweroff.target` | 关机 |
-| 1 | `rescue.target` | 救援模式 |
-| 3 | `multi-user.target` | **字符页面（命令行）** |
-| 5 | `graphical.target` | **图形化页面** |
-| 6 | `reboot.target` | 重启 |
-
+| 运行级别 | target              | 说明                |
+| :--- | :------------------ | :---------------- |
+| 0    | `poweroff.target`   | 关机                |
+| 1    | `rescue.target`     | 救援模式，单用户模式        |
+| 3    | `multi-user.target` | 完全多用户模式 **（命令行）** |
+| 5    | `graphical.target`  | **图形化页面**         |
+| 6    | `reboot.target`     | 重启                |
 ### 管理启动目标
 
 ```bash
-## 查看当前默认启动目标
+## 查看当前使用的启动目标
 [root@localhost ~]# systemctl get-default
 graphical.target
 
-## 设置默认启动目标
+## 设置系统默认的启动目标
 [root@localhost ~]# systemctl set-default multi-user.target
 
 ## 临时切换启动目标（不重启立即生效）
 [root@localhost ~]# systemctl isolate multi-user.target
 
-## 查看当前运行级别（旧命令，仍可用）
+## 查看当前运行级别
 [root@localhost ~]# runlevel
 N 5
 ```
 
 ### 开机临时指定target
-
 开机时按 **e** 进入编辑模式，在 `linux` 行末尾添加对应的target：
-
 ```bash
-systemd.unit=multi-user.target     # 命令行模式
-systemd.unit=rescue.target         # 救援模式
+systemd.unit=graphical.target     # 图形化模式
 ```
+最后按 **Ctrl + X** 启动即可。
+![](https://oss.bwihz.cn/%20PicGo/20260916201447706.png)
+![](https://oss.bwihz.cn/%20PicGo/20260916201451809.png)
 
-按 **Ctrl + X** 启动即可。
 
 ---
-
 ## 补充：systemctl 常用命令速查表
 
 | 命令 | 作用 |
