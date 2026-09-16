@@ -25,6 +25,7 @@ YUM仓库就是存放rpm包和元数据（repodata）的目录。yum工具通过
 | **网络仓库** | rpm包来自网络仓库（如官方仓库） | `https://` / `http://` / `ftp://` |
 
 ## 仓库配置文件格式
+![](https://oss.bwihz.cn/%20PicGo/20260916190107655.png)
 ![](https://oss.bwihz.cn/%20PicGo/20260916185958115.png)
 
 
