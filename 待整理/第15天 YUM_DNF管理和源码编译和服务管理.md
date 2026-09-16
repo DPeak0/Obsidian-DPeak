@@ -185,17 +185,13 @@ yum reinstall 包名     # 重装
 ## 查询
 
 ### 查询包是否安装
-
 ```bash
 [root@localhost ~]# yum list --installed | grep httpd
 ```
-
 ### 列出仓库中所有可用的包
-
 ```bash
 [root@localhost ~]# yum list
 ```
-
 ### 查询包的详细信息
 
 ```bash
