@@ -253,9 +253,7 @@ perl-Module-Metadata.noarch : Gather package and POD information from perl modul
 toolbox.noarch : Script to launch privileged container with podman
 
 ```
-
 ### 查看仓库列表
-
 ```bash
 ## 列出启用的仓库
 [root@localhost ~]# yum repolist
@@ -266,15 +264,12 @@ BaseOS                                     baseos
 ## 列出所有状态的仓库（含禁用的）
 [root@localhost ~]# yum repolist --all
 ```
-
 ---
-
 # 私有YUM仓库搭建
 
 ## 背景
-
+![](https://oss.bwihz.cn/%20PicGo/20260916191324755.png)
 大批量Linux主机都需要配置仓库安装软件包。如果每台都用本地仓库，工作量巨大 — 每台都要连接光驱、挂载、配置repo文件。
-
 解决方案：在局域网内**自建一台YUM仓库服务器**，所有主机的 `baseurl` 都指向这台服务器。未来需要新rpm包，只需要在仓库服务器上更新即可，下面的主机**啥都不用动**。
 
 ## 搭建步骤
