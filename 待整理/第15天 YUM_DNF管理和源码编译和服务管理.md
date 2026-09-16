@@ -394,7 +394,7 @@ checking for C compiler ... not found
 >
 > | 报错信息 | 缺少的依赖 | 解决命令 |
 > | :--- | :--- | :--- |
-> | `C compiler cc is not found` | C编译器 | `yum install gcc` |
+> | `C compiler cc is not found` | C编译器 | `yum install gcc --allowerasing` |
 > | `the HTTP rewrite module requires the PCRE library` | PCRE正则库 | `yum install pcre-devel` |
 > | `the HTTP gzip module requires the zlib library` | zlib压缩库 | `yum install zlib-devel` |
 
