@@ -276,12 +276,12 @@ BaseOS                                     baseos
 
 ### 1. 安装httpd提供Web服务
 ```bash
-[root@localhost ~]# yum install httpd -y
+[root@dpeak ~]# yum install httpd -y
 ```
 
 ### 2. 创建仓库目录并下载rpm包
 ```bash
-[root@localhost ~]# mkdir -p /var/www/html/rockylinux8/packages
+[root@dpeak ~]# mkdir -p /var/www/html/rockylinux8/packages
 
 ## --downloadonly 只下载不安装，--destdir 指定保存目录
 [root@localhost ~]# yum install nginx --downloadonly --destdir /var/www/html/rockylinux8/packages
