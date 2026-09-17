@@ -526,19 +526,20 @@ GRUB_CMDLINE_LINUX="rhgb quiet net.ifnames=0 biosdevname=0"
 
 ## 补充：常用网络排查命令速查
 
-| 命令 | 作用 |
-| :--- | :--- |
-| `ifconfig` / `ip a` | 查看网卡IP信息 |
-| `route -n` / `ip route` | 查看路由表 |
-| `cat /etc/resolv.conf` | 查看DNS配置 |
-| `ping -c 4 目标` | 测试连通性 |
-| `ss -tuln` | 查看监听端口 |
-| `ss -tunlp` | 查看端口及对应进程 |
-| `hostnamectl` | 查看/设置主机名 |
-| `nslookup 域名` | DNS解析测试 |
-| `dig 域名` | 详细DNS查询 |
-| `traceroute 目标` | 追踪路由路径 |
-| `mtr 目标` | 实时路由追踪（ping + traceroute） |
-| `nmcli device status` | 查看网卡设备状态 |
-| `nmcli connection show` | 查看所有网络连接 |
-| `curl -I 网址` | 测试HTTP服务是否正常 |
+| 命令                      | 作用                        |
+| :---------------------- | :------------------------ |
+| `ifconfig` / `ip a`     | 查看网卡IP信息                  |
+| `route -n` / `ip route` | 查看路由表                     |
+| `cat /etc/resolv.conf`  | 查看DNS配置                   |
+| `ping -c 4 目标`          | 测试连通性                     |
+| `ss -tuln`              | 查看监听端口                    |
+| `ss -tunlp`             | 查看端口及对应进程                 |
+| `hostnamectl`           | 查看/设置主机名                  |
+| `nslookup 域名`           | DNS解析测试                   |
+| `dig 域名`                | 详细DNS查询                   |
+| `traceroute 目标`         | 追踪路由路径                    |
+| `mtr 目标`                | 实时路由追踪（ping + traceroute） |
+| `nmcli device status`   | 查看网卡设备状态                  |
+| `nmcli connection show` | 查看所有网络连接                  |
+| `curl -I 网址`            | 测试HTTP服务是否正常              |
+|                         |                           |
