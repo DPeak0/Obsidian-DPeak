@@ -325,11 +325,6 @@ localhost.localdomain
 > `/etc/hosts` 的优先级**高于** `/etc/resolv.conf` 中配置的DNS服务器
 >
 > 优先级顺序：`/etc/hosts` → `/etc/resolv.conf` → DNS服务器
->
-> 可在 `/etc/nsswitch.conf` 中修改：
-> ```
-> hosts: files dns    # files（hosts文件）优先，dns其次
-> ```
 
 ### DNS解析测试工具
 
