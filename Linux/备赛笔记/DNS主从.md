@@ -180,3 +180,4 @@ dns开机自动启动：systemctl enable named
 nslookup ：测试域名解析情况
 netstat -an | grep 53： 检查TCP或者UDP的53号端口情况
 named-checkconf -z /etc/named.conf： 检查配置文件是否错误
+named-checkzone 检查区域配置文件语法
