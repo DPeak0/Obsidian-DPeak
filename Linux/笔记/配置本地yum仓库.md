@@ -13,5 +13,6 @@ EOF
 ```
 
 ```bash
+mount /dev/sr0 /media/
 yum clean all && yum makecache
 ```
