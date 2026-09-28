@@ -1,4 +1,7 @@
 ```bash
+mkdir /etc/yum.repos.d/bak
+mv /etc/yum.repos.d/*repo /etc/yum.repos.d/bak
+
 cat > /etc/yum.repos.d/dvd.repo <<EOF
 [BaseOS]
 name=BaseOS
@@ -10,9 +13,7 @@ name=AppStream
 baseurl=file:///media/AppStream
 gpgcheck=0
 EOF
-```
 
-```bash
 mount /dev/sr0 /media/
-yum clean all && yum makecache
+yum clean all ; yum makecache
 ```
