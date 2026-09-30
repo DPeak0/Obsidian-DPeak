@@ -123,6 +123,16 @@ it01  it02  ops_admin  ftpuser  webuser
 ```bash
 [root@server01 ~]# vim /etc/sudoers
 ops_admin       ALL=(ALL)       NOPASSWD:ALL
+[root@server01 ~]# su - ops_admin
+[ops_admin@server01 ~]$ sudo -l
+Matching Defaults entries for ops_admin on server01:
+    !visiblepw, always_set_home, match_group_by_gid, always_query_group_plugin, env_reset, env_keep="COLORS DISPLAY HOSTNAME HISTSIZE KDEDIR LS_COLORS",
+    env_keep+="MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE", env_keep+="LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES",
+    env_keep+="LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE", env_keep+="LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY",
+    secure_path=/sbin\:/bin\:/usr/sbin\:/usr/bin
+
+User ops_admin may run the following commands on server01:
+    (ALL) NOPASSWD: ALL
 
 ```
 
