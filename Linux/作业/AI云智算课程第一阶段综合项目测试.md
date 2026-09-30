@@ -112,10 +112,18 @@ passwd: all authentication tokens updated successfully.
 ```
 
 3. 将以上五个用户均加入yunwei组
+```bash
+[root@server01 ~]# gpasswd -M it01,it02,ops_admin,ftpuser,webuser yunwei 
+[root@server01 ~]# groupmems -g yunwei -l
+it01  it02  ops_admin  ftpuser  webuser 
 
+```
 
 4. 配置ops_admin用户可以无密码执行所有sudo命令
+```bash
+ops_admin       ALL=(ALL)       NOPASSWD:ALL
 
+```
 
 5. 创建/data/ops目录，设置该目录拥有人为it01，拥有组为yunwei，要求拥有人和拥有组对该目录拥有完整权限，其他人无任何权限
 
