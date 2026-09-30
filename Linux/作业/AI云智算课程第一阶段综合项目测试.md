@@ -97,6 +97,17 @@ do
 	echo 'RedHat1!' | passwd --stdin $users
 done
 [root@server01 ~]# chmod a+x useradd.sh 
+[root@server01 ~]# ./useradd.sh it01 it02 ops_admin ftpuser webuser
+Changing password for user it01.
+passwd: all authentication tokens updated successfully.
+Changing password for user it02.
+passwd: all authentication tokens updated successfully.
+Changing password for user ops_admin.
+passwd: all authentication tokens updated successfully.
+Changing password for user ftpuser.
+passwd: all authentication tokens updated successfully.
+Changing password for user webuser.
+passwd: all authentication tokens updated successfully.
 
 ```
 
