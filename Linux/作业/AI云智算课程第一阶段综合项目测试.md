@@ -121,6 +121,7 @@ it01  it02  ops_admin  ftpuser  webuser
 
 4. 配置ops_admin用户可以无密码执行所有sudo命令
 ```bash
+[root@server01 ~]# vim /etc/sudoers
 ops_admin       ALL=(ALL)       NOPASSWD:ALL
 
 ```
