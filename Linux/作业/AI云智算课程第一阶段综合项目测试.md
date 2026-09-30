@@ -137,7 +137,9 @@ User ops_admin may run the following commands on server01:
 ```
 
 5. 创建/data/ops目录，设置该目录拥有人为it01，拥有组为yunwei，要求拥有人和拥有组对该目录拥有完整权限，其他人无任何权限
+```bash
 
+```
 
 6. 创建/data/dev目录，设置拥有人和拥有组均为root，使用ACL配置webuser用户对该目录有完整权限，ftpuser用户对该目录无任何权限
 
