@@ -169,8 +169,10 @@ other::r-x
 
 1. 查找系统中具有SUID权限的文件，保存到/data/ops目录中，并保留权限
 ```bash
-[root@server01 ~]# find / -perm -4000 -type f -exec cp -a {} /data/ops \;
-[root@server01 ~]# ll /data/ops/
+[root@server01 ~]# find / -path /data -prune -o  -perm -4000 -type f  -exec cp -a {} /data/ops \;
+find: ‘/proc/37660/task/37660/fdinfo/5’: No such file or directory
+find: ‘/proc/37660/fdinfo/6’: No such file or directory
+[root@server01 ~]# ls -l /data/ops/
 total 1724
 -rwsr-xr-x. 1 root root                58768 Apr 12  2021 at
 -rwsr-xr-x. 1 root root                79616 May 19  2021 chage
@@ -203,6 +205,7 @@ total 1724
 -rws--x--x. 1 root root                50168 Apr 19  2021 userhelper
 -rwsr-xr-x. 1 root root                12984 Jun  2  2021 vmware-user-suid-wrapper
 -rwsr-xr-x. 1 root root                12472 May 19  2021 Xorg.wrap
+
 
 ```
 
