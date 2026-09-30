@@ -234,42 +234,42 @@ total 1724
 
 2. 查找系统中所有包含passwd的文件备份至/data目录，并将权限修改为400
 ```bash
-[root@server01 ~]# find / -path /data -prune -o -name '*passwd*' -type f -exec cp {} /data/ \;
-[root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -type f -exec chmod 777 {} \;
-[root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -ls
- 34651979    116 -rwxrwxrwx   1  root     root       116316 Oct  1  2026 /data/passwd-0.80-3.el8.x86_64.rpm
- 34651980      4 -rwxrwxrwx   1  root     root          497 Oct  1  2026 /data/passwd
- 34651981      0 -rwxrwxrwx   1  root     root            0 Oct  1  2026 /data/opasswd
- 34651982      4 -rwxrwxrwx   1  root     root         2806 Oct  1  2026 /data/passwd-
- 34651983    288 -rwxrwxrwx   1  root     root       294704 Oct  1  2026 /data/grub2-mkpasswd-pbkdf2
- 34651984      4 -rwxrwxrwx   1  root     root          605 Oct  1  2026 /data/gpasswd
- 34651985     40 -rwxrwxrwx   1  root     root        38648 Oct  1  2026 /data/vncpasswd
- 34651986     72 -rwxrwxrwx   1  root     root        71416 Oct  1  2026 /data/chgpasswd
- 34651987      4 -rwxrwxrwx   1  root     root          601 Oct  1  2026 /data/chpasswd
- 34651988     20 -rwxrwxrwx   1  root     root        17000 Oct  1  2026 /data/saslpasswd2
- 34651989     24 -rwxrwxrwx   1  root     root        20976 Oct  1  2026 /data/lpasswd
- 34651990      4 -rwxrwxrwx   1  root     root          221 Oct  1  2026 /data/kpasswd.xml
- 34651991     48 -rwxrwxrwx   1  root     root        45192 Oct  1  2026 /data/smbpasswd.so
- 34651992      4 -rwxrwxrwx   1  root     root          809 Oct  1  2026 /data/passwd-cb.pl
- 34651993      4 -rwxrwxrwx   1  root     root          439 Oct  1  2026 /data/passwd.mo
- 34651994      4 -rwxrwxrwx   1  root     root          324 Oct  1  2026 /data/grub2-mkpasswd-pbkdf2.1.gz
- 34651995      4 -rwxrwxrwx   1  root     root         3079 Oct  1  2026 /data/sslpasswd.1ssl.gz
- 34651996      4 -rwxrwxrwx   1  root     root         2753 Oct  1  2026 /data/gpasswd.1.gz
- 34651997      4 -rwxrwxrwx   1  root     root         1108 Oct  1  2026 /data/lpasswd.1.gz
- 34651998      8 -rwxrwxrwx   1  root     root         4128 Oct  1  2026 /data/passwd.1.gz
- 34651999      4 -rwxrwxrwx   1  root     root         1136 Oct  1  2026 /data/vncpasswd.1.gz
- 34652000      4 -rwxrwxrwx   1  root     root         2762 Oct  1  2026 /data/chgpasswd.8.gz
- 34652001      4 -rwxrwxrwx   1  root     root         1872 Oct  1  2026 /data/chpasswd.8.gz
- 34652002      4 -rwxrwxrwx   1  root     root         1556 Oct  1  2026 /data/saslpasswd2.8.gz
- 34652003      4 -rwxrwxrwx   1  root     root         2678 Oct  1  2026 /data/smbpasswd.5.gz
- 34652004      4 -rwxrwxrwx   1  root     root         2709 Oct  1  2026 /data/passwd.5.gz
- 34652005      4 -rwxrwxrwx   1  root     root           38 Oct  1  2026 /data/passwd2des.3.gz
- 34652006      4 -rwxrwxrwx   1  root     root         2443 Oct  1  2026 /data/passwd.vim
- 34652007      8 -rwxrwxrwx   1  root     root         4468 Oct  1  2026 /data/masterpasswd.aug
- 34652008      4 -rwxrwxrwx   1  root     root         1043 Oct  1  2026 /data/htpasswd.aug
- 34652009      4 -rwxrwxrwx   1  root     root         3609 Oct  1  2026 /data/passwd.aug
- 34652010      4 -rwxrwxrwx   1  root     root          920 Oct  1  2026 /data/htpasswd
- 34652011      4 -rwxrwxrwx   1  root     root         1199 Oct  1  2026 /data/passwd.awk
+[root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -type f -exec chmod 400 {} \;
+[root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -type f -ls
+ 34651979    116 -r--------   1  root     root       116316 Oct  1  2026 /data/passwd-0.80-3.el8.x86_64.rpm
+ 34651980      4 -r--------   1  root     root          497 Oct  1  2026 /data/passwd
+ 34651981      0 -r--------   1  root     root            0 Oct  1  2026 /data/opasswd
+ 34651982      4 -r--------   1  root     root         2806 Oct  1  2026 /data/passwd-
+ 34651983    288 -r--------   1  root     root       294704 Oct  1  2026 /data/grub2-mkpasswd-pbkdf2
+ 34651984      4 -r--------   1  root     root          605 Oct  1  2026 /data/gpasswd
+ 34651985     40 -r--------   1  root     root        38648 Oct  1  2026 /data/vncpasswd
+ 34651986     72 -r--------   1  root     root        71416 Oct  1  2026 /data/chgpasswd
+ 34651987      4 -r--------   1  root     root          601 Oct  1  2026 /data/chpasswd
+ 34651988     20 -r--------   1  root     root        17000 Oct  1  2026 /data/saslpasswd2
+ 34651989     24 -r--------   1  root     root        20976 Oct  1  2026 /data/lpasswd
+ 34651990      4 -r--------   1  root     root          221 Oct  1  2026 /data/kpasswd.xml
+ 34651991     48 -r--------   1  root     root        45192 Oct  1  2026 /data/smbpasswd.so
+ 34651992      4 -r--------   1  root     root          809 Oct  1  2026 /data/passwd-cb.pl
+ 34651993      4 -r--------   1  root     root          439 Oct  1  2026 /data/passwd.mo
+ 34651994      4 -r--------   1  root     root          324 Oct  1  2026 /data/grub2-mkpasswd-pbkdf2.1.gz
+ 34651995      4 -r--------   1  root     root         3079 Oct  1  2026 /data/sslpasswd.1ssl.gz
+ 34651996      4 -r--------   1  root     root         2753 Oct  1  2026 /data/gpasswd.1.gz
+ 34651997      4 -r--------   1  root     root         1108 Oct  1  2026 /data/lpasswd.1.gz
+ 34651998      8 -r--------   1  root     root         4128 Oct  1  2026 /data/passwd.1.gz
+ 34651999      4 -r--------   1  root     root         1136 Oct  1  2026 /data/vncpasswd.1.gz
+ 34652000      4 -r--------   1  root     root         2762 Oct  1  2026 /data/chgpasswd.8.gz
+ 34652001      4 -r--------   1  root     root         1872 Oct  1  2026 /data/chpasswd.8.gz
+ 34652002      4 -r--------   1  root     root         1556 Oct  1  2026 /data/saslpasswd2.8.gz
+ 34652003      4 -r--------   1  root     root         2678 Oct  1  2026 /data/smbpasswd.5.gz
+ 34652004      4 -r--------   1  root     root         2709 Oct  1  2026 /data/passwd.5.gz
+ 34652005      4 -r--------   1  root     root           38 Oct  1  2026 /data/passwd2des.3.gz
+ 34652006      4 -r--------   1  root     root         2443 Oct  1  2026 /data/passwd.vim
+ 34652007      8 -r--------   1  root     root         4468 Oct  1  2026 /data/masterpasswd.aug
+ 34652008      4 -r--------   1  root     root         1043 Oct  1  2026 /data/htpasswd.aug
+ 34652009      4 -r--------   1  root     root         3609 Oct  1  2026 /data/passwd.aug
+ 34652010      4 -r--------   1  root     root          920 Oct  1  2026 /data/htpasswd
+ 34652011      4 -r--------   1  root     root         1199 Oct  1  2026 /data/passwd.awk
+
 ```
 
 3. 将/etc目录打包并压缩至/data/etc.tar.xz
