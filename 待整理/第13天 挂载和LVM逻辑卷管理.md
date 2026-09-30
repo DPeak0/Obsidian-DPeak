@@ -161,7 +161,7 @@ bash: ./demo.sh: 权限不够
 | **`1`** | **检查** —> 建议给 **ext 类型的根文件系统**使用，**1 的检查优先级高** |
 | **`2`** | **检查** —> 优先级低于 1（用于非根文件系统） |
 
-![](https://secure2.wostatic.cn/static/nEheeZqA7JEbNZs6X9iFRS/image.png?auth_key=1790771650-g9XkMtG3z1KxT4iEuUpvJh-0-64cb7c8cef204b7e3899a18f488e0800)
+![](https://oss.bwihz.cn/%20PicGo/20260930203623282.png)
 
 ### 需求：`/dev/sdb4` 开机永久挂载到 `/media` 目录
 
@@ -189,18 +189,18 @@ mount -a
 
 ## 开机挂载失败 → 紧急模式处理
 
-![](https://secure2.wostatic.cn/static/cHLDVenwqefLg4bRpYGpa1/image.png?auth_key=1790771650-tRkkPW2tQipk5Mkd8o5J12-0-295ae241d8008483a5eebba810972534)
+![](https://oss.bwihz.cn/%20PicGo/20260930203624379.png)
 
 如果你开机的时候遇到了上面的报错信息，大概率是因为**开机的时候挂载 `/etc/fstab` 文件中，发现有文件系统无法挂载**。
 
 > [!warning] 关键判断
 > **只要开机的时候有文件系统挂载不起来，你都会看到上面的报错！**
 
-![](https://secure2.wostatic.cn/static/qPgHJ99mnaPYy6uNQf79eb/image.png?auth_key=1790771650-5SSLxYYuSeCDbahaG4DYjb-0-d8ce7012eaa463e118b78f707bb95e02)
+![](https://oss.bwihz.cn/%20PicGo/20260930203625643.png)
 
-![](https://secure2.wostatic.cn/static/2D5ff8Kqg84QFT2QKsNJqA/image.png?auth_key=1790771650-vqzE6JQEmQXvpdMtRkyx94-0-5026c27b4628ceda4ef12e7b921063a8)
+![](https://oss.bwihz.cn/%20PicGo/20260930203626706.png)
 
-![](https://secure2.wostatic.cn/static/8BTsahsUbVU77QvUc9M5r4/image.png?auth_key=1790771650-rLbQsxoEvatrMuAbvtpcth-0-87a8d9c8a6714009485d5e78b6bac3ff)
+![](https://oss.bwihz.cn/%20PicGo/20260930203628253.png)
 
 **上面的问题报错原因**：`fstab` 文件有条目无法挂载，所以开机就进入了这样的页面（**紧急模式 emergency mode**）。
 
@@ -325,7 +325,7 @@ umount: /data: target is busy.
 - **swap 占据的其实是磁盘的空间**，作用就是**允许你的计算机运行更多的程序**
 - **swap 其实就是把磁盘空间当作内存空间使用**
 
-![](https://secure2.wostatic.cn/static/pQnsZBHfMSvtvgkU1u9ZLs/image.png?auth_key=1790771650-a8GLouQvRXuwFKZVGWpnsf-0-f8340cf11f94f744a5835f61c01f2487)
+![](https://oss.bwihz.cn/%20PicGo/20260930203629513.png)
 
 ### 解决内存不足的问题
 
@@ -334,7 +334,7 @@ umount: /data: target is busy.
 | **直接升级内存空间** | **永久有效，效率最好** |
 | **采用 swap 交换分区** | **效率一般，节省成本** |
 
-![](https://secure2.wostatic.cn/static/nv6WJec4hPMFDy1NPybMtm/image.png?auth_key=1790771650-dRrjKkTKdhY9pgVLhNXbc7-0-35764463a4bb28eae18c59cb3e60571d)
+![](https://oss.bwihz.cn/%20PicGo/20260930203630959.png)
 
 > [!info] 各系统叫法
 > | 系统 | 叫法 |
@@ -344,7 +344,7 @@ umount: /data: target is busy.
 >
 > 本质是同一个东西：**用磁盘空间模拟内存**。
 
-![](https://secure2.wostatic.cn/static/uwP525WiW4w3MUG4XtHfK5/image.png?auth_key=1790771650-iUbxj6piK6EBbxYSCMTeQH-0-3d1efeb4ce1ff83e33f15b1b55464e38)
+![](https://oss.bwihz.cn/%20PicGo/20260930203632281.png)
 
 > [!warning] swap 的性能代价
 > 磁盘（尤其机械盘）的读写速度比内存**慢几个数量级**。
@@ -787,7 +787,7 @@ mount: /media: wrong fs type, bad option, bad superblock on /dev/sdb2, missing c
 > [!important] 铁律（记住）
 > **如果遇到了文件系统的故障，记住 —> 一定一定一定要先卸载掉，再去修复！**
 
-![](https://secure2.wostatic.cn/static/fCvrcibq2yDe2VnsaRtbdX/image.png?auth_key=1790771651-wSevbg1dy6sbSbqA3yLUPN-0-04fbc8fa54bb3218c72f3af85255e891)
+![](https://oss.bwihz.cn/%20PicGo/20260930203633432.png)
 
 > [!important] 修复的本质原理（记住）
 > **修复文件系统的本质原理：就是通过文件系统的备份 superblock 进行还原。**
@@ -843,7 +843,7 @@ mount: /media: wrong fs type, bad option, bad superblock on /dev/sdb2, missing c
 
 **LVM 的出现就是为了解决普通分区的问题 —> 普通分区扩容难的问题。**
 
-![](https://secure2.wostatic.cn/static/4FKLXarWSfeV696tZcWuL6/image.png?auth_key=1790771657-3t6wjvQpDvREfju8u5T9Wu-0-3ddbf9cecb8c3a2285c42d81715e47c3)
+![](https://oss.bwihz.cn/%20PicGo/20260930203634449.png)
 
 ### 普通分区扩容难在哪里
 
@@ -860,7 +860,7 @@ mount: /media: wrong fs type, bad option, bad superblock on /dev/sdb2, missing c
 
 **将新增加的磁盘空间扩容给 `/`**
 
-![](https://secure2.wostatic.cn/static/4R2W85GRKehfMoVzdoSiHB/image.png?auth_key=1790771657-6G4gjbPcp6PtkG2E5Re31x-0-656a010d21bf7ddf0f074d7b384c53f9)
+![](https://oss.bwihz.cn/%20PicGo/20260930203635500.png)
 
 > [!important] LVM 三大好处（记住）
 > | 好处 | 说明 |
@@ -906,7 +906,7 @@ graph TD
 
 ## 创建和使用 LV 逻辑卷
 
-![](https://secure2.wostatic.cn/static/3hq4LKrp9ypjtXMZesn2As/image.png?auth_key=1790771657-9dqD5JJxJJXmQYHyuPbsNR-0-10fe4bdf6887e180ff4dac3809c1a67c)
+![](https://oss.bwihz.cn/%20PicGo/20260930203636690.png)
 
 **个人虚拟机额外添加了 3 块硬盘。**
 
@@ -1400,7 +1400,7 @@ old_desc_blocks = 3, new_desc_blocks = 4
 
 ## PV 数据迁移和卷组的缩容操作
 
-![](https://secure2.wostatic.cn/static/iYCHRFaK2mmbqZg8Tt5tYM/image.png?auth_key=1790771661-bADFKwQ7ukN4xk3UJ6PtTf-0-0f79ce4bb1cff2aabb6159b0560580a4)
+![](https://oss.bwihz.cn/%20PicGo/20260930203637891.png)
 
 **背景**：现在需要将服务器设备上的一块磁盘拔出来做其他用处。此时你需要将这个磁盘上的所有的数据**迁移到其他的 PV 物理卷**中，然后**从卷组中把这个物理卷移除出去**。
 
