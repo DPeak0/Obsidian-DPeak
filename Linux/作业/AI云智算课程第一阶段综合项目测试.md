@@ -30,12 +30,13 @@
 前提要求： 测试前在**server01**上提前安装好带图形界面的CentOS8.4系统
 
 1. 配置服务器主机名为 server01.yunxiang.com
-```
-```
-1. 配置静态 IP 地址（10.10.10.254/24），网关 10.10.10.254，DNS 指向本机10.10.10.254
 ```bash
 [root@dpeak ~]# hostnamectl set-hostname server01.yunxiang.com
 [root@dpeak ~]# bash
+[root@server01 ~]# 
+```
+1. 配置静态 IP 地址（10.10.10.254/24），网关 10.10.10.254，DNS 指向本机10.10.10.254
+```bash
 [root@server01 ~]# nmcli connection delete ens160 
 Connection 'ens160' (81da3a43-99af-4daf-87a2-f79be55b8b39) successfully deleted.
 [root@server01 ~]# nmcli connection add type ethernet ipv4.method manual ipv4.addresses 10.10.10.254/24 ipv4.gateway 10.10.10.254 ipv4.dns 10.10.10.254 ifname ens160 con-name ens160 autoconnect yes 
@@ -43,10 +44,12 @@ Connection 'ens160' (a99293dd-2860-4b6e-9534-482dd2e3c2d9) successfully added.
 
 ```
 2. 永久关闭 SELinux和firewalld防火墙
+```bash
 
-3. 将系统时区设置为 Asia/Shanghai
+```
+2. 将系统时区设置为 Asia/Shanghai
 
-4. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
+3. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
 
 ## **任务二： 用户与配置权限  5分**
 
