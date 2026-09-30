@@ -348,12 +348,44 @@ Command (m for help): w
 The partition table has been altered.
 Syncing disks.
 
+[root@server01 ~]# pvcreate /dev/sdb2
+  Physical volume "/dev/sdb2" successfully created.
+[root@server01 ~]# vgcreate vg0 /dev/sdb2
+  Volume group "vg0" successfully created
+[root@server01 ~]# lvcreate -n data -L 2G vg0
+  Logical volume "data" created.
+[root@server01 ~]# mkfs.ext4 /dev/vg0/data
+mke2fs 1.45.6 (20-Mar-2020)
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: 5eb61766-49f9-40a9-bb8d-04e83ece3919
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912
 
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done
 
+[root@server01 ~]# mkdir /opt/data
+[root@server01 ~]# echo '/dev/vg0/data /opt/data ext4 defaults 0 0' >> /etc/fstab
+[root@server01 ~]# mount -a
+[root@server01 ~]# df | grep data
+/dev/mapper/vg0-data   1998672    6144   1871288   1% /opt/data
+[root@server01 ~]# cp -a /etc /opt/data/
+[root@server01 ~]# ls /opt/data/
+etc  lost+found
 ```
 
 3. 因数据扩容需要，将该逻辑卷扩容至5G，并确保ext4文件系统也已拉伸成功。拉伸成功后给/dev/vg0/data创建1G容量大小的快照/dev/vg0/snap01，挂载快照验证数据完整性。
+```bash
+[root@server01 ~]# lvextend -L 5G /dev/vg0/data
+  Size of logical volume vg0/data changed from 2.00 GiB (512 extents) to 5.00 GiB (1280 extents).
+  Logical volume vg0/data successfully resized.
+[root@server01 ~]# lvs
+  LV   VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  data vg0 -wi-ao---- 5.00g
 
+```
 
 4. 给服务器增加2G的swap，确保新增的swap优先级高于系统原有的swap分区。
 
