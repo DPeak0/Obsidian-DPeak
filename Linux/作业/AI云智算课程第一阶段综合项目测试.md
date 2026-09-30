@@ -280,11 +280,55 @@ total 1724
 
 1. 在server01主机上，给硬盘2创建5G的分区，格式化为xfs，挂载至/opt/web，要求每次开机均生效
 ```bash
+[root@server01 ~]# mkdir /opt/web
+[root@server01 ~]# fdisk /dev/sdb
+
+Welcome to fdisk (util-linux 2.32.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x2d61474d.
+
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1-4, default 1):
+First sector (2048-104857599, default 2048):
+Last sector, +sectors or +size{K,M,G,T,P} (2048-104857599, default 104857599): +5G
+
+Created a new partition 1 of type 'Linux' and of size 5 GiB.
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+[root@server01 ~]# mkfs.xfs /dev/sdb1
+meta-data=/dev/sdb1              isize=512    agcount=4, agsize=327680 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1
+data     =                       bsize=4096   blocks=1310720, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+
+[root@server01 ~]# echo '/dev/sdb1 /opt/web xfs defaults 0 0' >> /etc/fstab
+[root@server01 ~]# mount -a
+[root@server01 ~]# df | grep sdb1
+/dev/sdb1        5232640   69544   5163096   2% /opt/web
 
 ```
 
 2. 在硬盘2上创建2G逻辑卷/dev/vg0/data，格式化为ext4，挂载至/opt/data目录，要求每次开机均生效，将/etc目录整体备份至该目录中
+```bash
 
+```
 
 3. 因数据扩容需要，将该逻辑卷扩容至5G，并确保ext4文件系统也已拉伸成功。拉伸成功后给/dev/vg0/data创建1G容量大小的快照/dev/vg0/snap01，挂载快照验证数据完整性。
 
