@@ -88,6 +88,14 @@ yunwei:x:2000:
 
 2. 创建it01，it02，ops_admin，ftpuser，webuser五个用户，密码均为RedHat1!
 ```bash
+[root@server01 ~]# vim useradd.sh 
+[root@server01 ~]# cat useradd.sh 
+#!/bin/bash
+for users in $@
+do
+	useradd $users
+	echo 'RedHat1!' | passwd --stdin $users
+done
 
 ```
 
