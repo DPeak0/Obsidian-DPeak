@@ -234,6 +234,8 @@ total 1724
 
 2. 查找系统中所有包含passwd的文件备份至/data目录，并将权限修改为400
 ```bash
+[root@server01 ~]# find / -path /data -prune -o -name '*passwd*' -type f -exec cp {} /data/ \;
+[root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -type f
 
 ```
 
