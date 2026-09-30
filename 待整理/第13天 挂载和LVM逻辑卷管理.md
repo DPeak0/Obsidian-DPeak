@@ -1069,7 +1069,7 @@ lvcreate
   Block device           253:0
 ```
 
-![](https://secure2.wostatic.cn/static/xyX2rifd9QrkdZakDah73/image.png?auth_key=1790771659-aJ3qaf6LHDMhHQgeTqug8f-0-78e35dc8ec36af239edd73bb20fe89e6)
+![](https://oss.bwihz.cn/%20PicGo/20260930203652742.png)
 
 > [!important] LV 的两种路径写法（记住）
 > | 写法 | 示例 |
