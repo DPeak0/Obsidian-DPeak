@@ -138,7 +138,7 @@ User ops_admin may run the following commands on server01:
 
 5. 创建/data/ops目录，设置该目录拥有人为it01，拥有组为yunwei，要求拥有人和拥有组对该目录拥有完整权限，其他人无任何权限
 ```bash
-[root@server01 ~]# mkdir /data/ops
+[root@server01 ~]# mkdir -p /data/ops
 [root@server01 ~]# chown it01:yunwei /data/ops
 [root@server01 ~]# chmod 770 /data/ops
 [root@server01 ~]# ls -ld /data/ops
@@ -169,11 +169,47 @@ other::r-x
 
 1. 查找系统中具有SUID权限的文件，保存到/data/ops目录中，并保留权限
 ```bash
+[root@server01 ~]# find / -perm -4000 -type f -exec cp -a {} /data/ops \;
+[root@server01 ~]# ll /data/ops/
+total 1724
+-rwsr-xr-x. 1 root root                58768 Apr 12  2021 at
+-rwsr-xr-x. 1 root root                79616 May 19  2021 chage
+-rws--x--x. 1 root root                33944 May 19  2021 chfn
+-rws--x--x. 1 root root                25552 May 19  2021 chsh
+-rwsr-x---. 1 root cockpit-wsinstance  54704 May 19  2021 cockpit-session
+-rwsr-xr-x. 1 root root                63368 Mar 15  2021 crontab
+-rwsr-x---. 1 root dbus                63656 Jun 11  2021 dbus-daemon-launch-helper
+-rwsr-xr-x. 1 root root                37720 Apr 12  2021 fusermount
+-rwsr-xr-x. 1 root root                33600 Apr 12  2021 fusermount3
+-rwsr-xr-x. 1 root root                84368 May 19  2021 gpasswd
+-rwsr-xr-x. 1 root root                12016 May 28  2021 grub2-set-bootflag
+-rwsr-x---. 1 root sssd               172208 May 31  2021 krb5_child
+-rwsr-x---. 1 root sssd                97528 May 31  2021 ldap_child
+-rwsr-xr-x. 1 root root                50584 May 19  2021 mount
+-rwsr-xr-x. 1 root root               193872 Jun  2  2021 mount.nfs
+-rwsr-xr-x. 1 root root                43560 May 19  2021 newgrp
+-rwsr-xr-x. 1 root root                12184 Jun  2  2021 pam_timestamp_check
+-rwsr-xr-x. 1 root root                33544 Mar 15  2021 passwd
+-rwsr-xr-x. 1 root root                28976 Jun 11  2021 pkexec
+-rwsr-xr-x. 1 root root                17016 Jun 11  2021 polkit-agent-helper-1
+-rwsr-x---. 1 root sssd                29032 May 31  2021 proxy_child
+-rwsr-xr-x. 1 root root                16696 Jun  3  2021 qemu-bridge-helper
+-rwsr-x---. 1 root sssd                55472 May 31  2021 selinux_child
+-rwsr-xr-x. 1 root root                20832 May 19  2021 spice-client-glib-usb-acl-helper
+-rwsr-xr-x. 1 root root                50464 May 19  2021 su
+---s--x--x. 1 root root               165632 May 19  2021 sudo
+-rwsr-xr-x. 1 root root                33776 May 19  2021 umount
+-rwsr-xr-x. 1 root root                37776 Jun  2  2021 unix_chkpwd
+-rws--x--x. 1 root root                50168 Apr 19  2021 userhelper
+-rwsr-xr-x. 1 root root                12984 Jun  2  2021 vmware-user-suid-wrapper
+-rwsr-xr-x. 1 root root                12472 May 19  2021 Xorg.wrap
 
 ```
 
 2. 查找系统中所有包含passwd的文件备份至/data目录，并将权限修改为400
+```bash
 
+```
 
 3. 将/etc目录打包并压缩至/data/etc.tar.xz
 
