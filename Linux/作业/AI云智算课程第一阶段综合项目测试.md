@@ -6,13 +6,12 @@
 **你的角色：你是刚入职的初级运维工程师（Linux 方向），Leader 给你布置了一项任务——在测试环境中独立搭建并验证公司基础设施的核心组件，为后续正式上线做技术验证。**
 # **二、实验环境规划：**
 
-| 主机名                | 角色                                        | 主机配置                                      | 网卡数量及IP地址                                     |
-| ------------------ | ----------------------------------------- | ----------------------------------------- | --------------------------------------------- |
-| server01           | DHCP+PXE+DNS主+yum源+chrony时间服务器+Apache+NFS | 内存2G，CPU：2<br><br>硬盘1：50G <br><br>硬盘2：50G | 网卡1： NAT模式，IP地址设置为xxx.xxx.xxx.100/24          |
-| 网卡2： 10.10.10.254  |                                           |                                           |                                               |
-| kvm-host           | KVM宿主机，DNS辅助，Nginx负载均衡器                   | 内存：8G CPU: 8 硬盘：100G                      | 网卡1： 10.10.10.101                             |
-| kvm-vm1（KVM Guest） | Apache主机                                  | 内存：2G cpu: 2<br><br>硬盘： 20G               | 网卡1： KVM桥接模式，IP地址通过DHCP自动获取，后续在任务七中根据要求修改静态地址 |
-| kvm-vm2（KVM Guest） | Apache主机                                  | 内存：2G cpu: 2<br><br>硬盘： 20G               | 网卡1： KVM桥接模式，IP地址通过DHCP自动获取，后续在任务七中根据要求修改静态地址 |
+| 主机名                | 角色                                        | 主机配置                                      | 网卡数量及IP地址                                                     |
+| ------------------ | ----------------------------------------- | ----------------------------------------- | ------------------------------------------------------------- |
+| server01           | DHCP+PXE+DNS主+yum源+chrony时间服务器+Apache+NFS | 内存2G，CPU：2<br><br>硬盘1：50G <br><br>硬盘2：50G | 网卡1： NAT模式，IP地址设置为xxx.xxx.xxx.100/24<br><br>网卡2： 10.10.10.254 |
+| kvm-host           | KVM宿主机，DNS辅助，Nginx负载均衡器                   | 内存：8G CPU: 8 硬盘：100G                      | 网卡1： 10.10.10.101                                             |
+| kvm-vm1（KVM Guest） | Apache主机                                  | 内存：2G cpu: 2<br><br>硬盘： 20G               | 网卡1： KVM桥接模式，IP地址通过DHCP自动获取，后续在任务七中根据要求修改静态地址                 |
+| kvm-vm2（KVM Guest） | Apache主机                                  | 内存：2G cpu: 2<br><br>硬盘： 20G               | 网卡1： KVM桥接模式，IP地址通过DHCP自动获取，后续在任务七中根据要求修改静态地址                 |
 
 # **三、项目需求总览**
 任务一：Linux 系统基础配置  5分
@@ -31,14 +30,23 @@
 前提要求： 测试前在**server01**上提前安装好带图形界面的CentOS8.4系统
 
 1. 配置服务器主机名为 server01.yunxiang.com
+```
+```
+1. 配置静态 IP 地址（10.10.10.254/24），网关 10.10.10.254，DNS 指向本机10.10.10.254
+```bash
+[root@dpeak ~]# hostnamectl set-hostname server01.yunxiang.com
+[root@dpeak ~]# bash
+[root@server01 ~]# nmcli connection delete ens160 
+Connection 'ens160' (81da3a43-99af-4daf-87a2-f79be55b8b39) successfully deleted.
+[root@server01 ~]# nmcli connection add type ethernet ipv4.method manual ipv4.addresses 10.10.10.254/24 ipv4.gateway 10.10.10.254 ipv4.dns 10.10.10.254 ifname ens160 con-name ens160 autoconnect yes 
+Connection 'ens160' (a99293dd-2860-4b6e-9534-482dd2e3c2d9) successfully added.
 
-2. 配置静态 IP 地址（10.10.10.254/24），网关 10.10.10.254，DNS 指向本机10.10.10.254
+```
+2. 永久关闭 SELinux和firewalld防火墙
 
-3. 永久关闭 SELinux和firewalld防火墙
+3. 将系统时区设置为 Asia/Shanghai
 
-4. 将系统时区设置为 Asia/Shanghai
-
-5. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
+4. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
 
 ## **任务二： 用户与配置权限  5分**
 
