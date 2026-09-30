@@ -79,14 +79,21 @@ local stratum 10
 ## **任务二： 用户与配置权限  5分**
 
 1. 创建运维组，名称为yunwei，指定gid=2000
+```bash
+
+```
 
 2. 创建it01，it02，ops_admin，ftpuser，webuser五个用户，密码均为RedHat1!
 
+
 3. 将以上五个用户均加入yunwei组
+
 
 4. 配置ops_admin用户可以无密码执行所有sudo命令
 
+
 5. 创建/data/ops目录，设置该目录拥有人为it01，拥有组为yunwei，要求拥有人和拥有组对该目录拥有完整权限，其他人无任何权限
+
 
 6. 创建/data/dev目录，设置拥有人和拥有组均为root，使用ACL配置webuser用户对该目录有完整权限，ftpuser用户对该目录无任何权限
 
