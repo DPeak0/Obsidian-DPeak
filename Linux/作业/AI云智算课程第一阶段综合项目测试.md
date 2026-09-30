@@ -51,7 +51,9 @@ Removed /etc/systemd/system/multi-user.target.wants/firewalld.service.
 Removed /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
 
 [root@server01 ~]# vim /etc/selinux/config 
+[root@server01 ~]# cat /etc/selinux/config | grep -w SELINUX=disabled
 SELINUX=disabled
+
 ```
 2. 将系统时区设置为 Asia/Shanghai
 
