@@ -384,6 +384,16 @@ etc  lost+found
 [root@server01 ~]# lvs
   LV   VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   data vg0 -wi-ao---- 5.00g
+  
+[root@server01 ~]# resize2fs /dev/vg0/data
+resize2fs 1.45.6 (20-Mar-2020)
+Filesystem at /dev/vg0/data is mounted on /opt/data; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/vg0/data is now 1310720 (4k) blocks long.
+[root@server01 ~]# df -h | grep data
+/dev/mapper/vg0-data  4.9G   39M  4.6G   1% /opt/data
+
+  
 [root@server01 ~]# lvcreate -n snap01 -s -L 1G /dev/vg0/data
   Logical volume "snap01" created.
 [root@server01 ~]# lvs
