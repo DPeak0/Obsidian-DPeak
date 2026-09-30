@@ -148,6 +148,8 @@ drwxrwx---. 2 it01 yunwei 6 Oct  1 01:51 /data/ops
 
 6. 创建/data/dev目录，设置拥有人和拥有组均为root，使用ACL配置webuser用户对该目录有完整权限，ftpuser用户对该目录无任何权限
 ```bash
+[root@server01 ~]# setfacl -m u:webuser:rwx /data/dev/
+[root@server01 ~]# setfacl -m u:ftpuser:--- /data/dev/
 
 ```
 
