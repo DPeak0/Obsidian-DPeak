@@ -274,7 +274,7 @@ total 1724
 
 3. 将/etc目录打包并压缩至/data/etc.tar.xz
 ```bash
-
+[root@server01 ~]# tar -cJf /data/etc.tar.xz /etc
 ```
 ## **任务四：磁盘管理   15分**
 
