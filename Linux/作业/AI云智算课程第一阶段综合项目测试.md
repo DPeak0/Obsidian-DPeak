@@ -60,6 +60,20 @@ SELINUX=disabled
 ```
 5. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
 ```bash
+[root@server01 ~]# vim /etc/chrony.conf 
+[root@server01 ~]# cat /etc/chrony.conf
+# Use public servers from the pool.ntp.org project.
+# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+#pool 2.pool.ntp.org iburst
+pool ntp.aliyun.com iburst
+
+# Allow NTP client access from local network.
+#allow 192.168.0.0/16
+allow 10.10.10.0/24
+
+# Serve time even if not synchronized to a time source.
+#local stratum 10
+local stratum 10
 
 ```
 ## **任务二： 用户与配置权限  5分**
