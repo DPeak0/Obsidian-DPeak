@@ -42,33 +42,24 @@ server01.yunxiang.com
 Connection 'ens160' (60f52b1f-d769-40be-ba09-a1856d624521) successfully added.
 [root@server01 ~]# nmcli connection add type ethernet ipv4.method manual ipv4.addresses 10.10.10.254/24 ipv4.gateway 10.10.10.254 ipv4.dns 10.10.10.254 ifname ens192 con-name ens192 autoconnect yes 
 Connection 'ens192' (80d18411-813d-4dcf-8824-24de6377ba30) successfully added.
-[root@server01 ~]# ip addr
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host 
-       valid_lft forever preferred_lft forever
-2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
-    link/ether 00:0c:29:e4:85:c6 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.200.100/24 brd 192.168.200.255 scope global noprefixroute ens160
-       valid_lft forever preferred_lft forever
-    inet6 fe80::defa:88f2:87a3:5931/64 scope link noprefixroute 
-       valid_lft forever preferred_lft forever
-3: ens192: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
-    link/ether 00:0c:29:e4:85:d0 brd ff:ff:ff:ff:ff:ff
-    inet 10.10.10.254/24 brd 10.10.10.255 scope global noprefixroute ens192
-       valid_lft forever preferred_lft forever
-    inet6 fe80::27cc:6be1:4a3c:458/64 scope link noprefixroute 
-       valid_lft forever preferred_lft forever
-4: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default qlen 1000
-    link/ether 52:54:00:cd:08:50 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
-       valid_lft forever preferred_lft forever
-5: virbr0-nic: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel master virbr0 state DOWN group default qlen 1000
-    link/ether 52:54:00:cd:08:50 brd ff:ff:ff:ff:ff:ff
+[root@server01 ~]# ifconfig 
+ens160: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.200.100  netmask 255.255.255.0  broadcast 192.168.200.255
+        inet6 fe80::defa:88f2:87a3:5931  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:e4:85:c6  txqueuelen 1000  (Ethernet)
+        RX packets 152  bytes 19260 (18.8 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 113  bytes 12306 (12.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-
+ens192: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.10.10.254  netmask 255.255.255.0  broadcast 10.10.10.255
+        inet6 fe80::27cc:6be1:4a3c:458  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:e4:85:d0  txqueuelen 1000  (Ethernet)
+        RX packets 18  bytes 2472 (2.4 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 34  bytes 3974 (3.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 3. 永久关闭 SELinux和firewalld防火墙
 ```bash
