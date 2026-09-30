@@ -400,6 +400,11 @@ The filesystem on /dev/vg0/data is now 1310720 (4k) blocks long.
   LV     VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   data   vg0 owi-aos--- 5.00g
   snap01 vg0 swi-a-s--- 1.00g      data   0.01
+  
+[root@server01 ~]# mkdir /opt/snap01
+[root@server01 ~]# mount /dev/vg0/snap01 /opt/snap01
+[root@server01 ~]# ls /opt/snap01
+etc  lost+found
 
 ```
 
