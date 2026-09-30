@@ -35,7 +35,7 @@
 [root@dpeak ~]# bash
 [root@server01 ~]# 
 ```
-1. 配置静态 IP 地址（10.10.10.254/24），网关 10.10.10.254，DNS 指向本机10.10.10.254
+2. 配置静态 IP 地址（10.10.10.254/24），网关 10.10.10.254，DNS 指向本机10.10.10.254
 ```bash
 [root@server01 ~]# nmcli connection delete ens160 
 Connection 'ens160' (81da3a43-99af-4daf-87a2-f79be55b8b39) successfully deleted.
@@ -43,7 +43,7 @@ Connection 'ens160' (81da3a43-99af-4daf-87a2-f79be55b8b39) successfully deleted.
 Connection 'ens160' (a99293dd-2860-4b6e-9534-482dd2e3c2d9) successfully added.
 
 ```
-2. 永久关闭 SELinux和firewalld防火墙
+3. 永久关闭 SELinux和firewalld防火墙
 ```bash
 [root@server01 ~]# systemctl stop firewalld.service
 [root@server01 ~]# systemctl disable firewalld.service 
@@ -53,12 +53,15 @@ Removed /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
 [root@server01 ~]# vim /etc/selinux/config 
 [root@server01 ~]# cat /etc/selinux/config | grep -w SELINUX=disabled
 SELINUX=disabled
+```
+4. 将系统时区设置为 Asia/Shanghai
+```bash
+[root@server01 ~]# timedatectl set-timezone Asia/Shanghai 
+```
+5. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
+```bash
 
 ```
-2. 将系统时区设置为 Asia/Shanghai
-
-3. 配置时间服务器，指向ntp.aliyun.com，并允许10.10.10.0/24网络中的计算机可以从该主机同步时间
-
 ## **任务二： 用户与配置权限  5分**
 
 1. 创建运维组，名称为yunwei，指定gid=2000
