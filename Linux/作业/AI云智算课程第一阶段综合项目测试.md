@@ -327,6 +327,28 @@ realtime =none                   extsz=4096   blocks=0, rtextents=0
 
 2. 在硬盘2上创建2G逻辑卷/dev/vg0/data，格式化为ext4，挂载至/opt/data目录，要求每次开机均生效，将/etc目录整体备份至该目录中
 ```bash
+[root@server01 ~]# fdisk /dev/sdb
+
+Welcome to fdisk (util-linux 2.32.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): n
+Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (2-4, default 2):
+First sector (10487808-104857599, default 10487808):
+Last sector, +sectors or +size{K,M,G,T,P} (10487808-104857599, default 104857599): +10G                                                                         
+Created a new partition 2 of type 'Linux' and of size 10 GiB.
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+
 
 ```
 
