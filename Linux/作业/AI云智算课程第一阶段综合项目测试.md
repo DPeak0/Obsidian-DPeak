@@ -409,7 +409,31 @@ etc  lost+found
 ```
 
 4. 给服务器增加2G的swap，确保新增的swap优先级高于系统原有的swap分区。
+```bash
+[root@server01 ~]# fdisk /dev/sdb
 
+Welcome to fdisk (util-linux 2.32.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): n
+Partition type
+   p   primary (2 primary, 0 extended, 2 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (3,4, default 3):
+First sector (31459328-104857599, default 31459328):
+Last sector, +sectors or +size{K,M,G,T,P} (31459328-104857599, default 104857599): +2G
+
+Created a new partition 3 of type 'Linux' and of size 2 GiB.
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+
+```
 ## **任务五： DHCP+PXE自动化安装服务器  20分**
 
 搭建DHCP+TFTP+PXE+httpd服务器，要求如下：
