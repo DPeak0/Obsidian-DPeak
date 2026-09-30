@@ -92,6 +92,11 @@ allow 10.10.10.0/24
 # Serve time even if not synchronized to a time source.
 #local stratum 10
 local stratum 10
+[root@server01 ~]# chronyc sources
+210 Number of sources = 1
+MS Name/IP address         Stratum Poll Reach LastRx Last sample
+===============================================================================
+^* 203.107.6.88                  2   6    17     7   +877us[+2549us] +/-   36ms
 
 ```
 ## **任务二： 用户与配置权限  5分**
