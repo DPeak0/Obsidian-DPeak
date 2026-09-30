@@ -45,6 +45,11 @@ Connection 'ens160' (a99293dd-2860-4b6e-9534-482dd2e3c2d9) successfully added.
 ```
 2. 永久关闭 SELinux和firewalld防火墙
 ```bash
+[root@server01 ~]# systemctl stop firewalld.service
+[root@server01 ~]# systemctl disable firewalld.service 
+Removed /etc/systemd/system/multi-user.target.wants/firewalld.service.
+Removed /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
+
 
 ```
 2. 将系统时区设置为 Asia/Shanghai
