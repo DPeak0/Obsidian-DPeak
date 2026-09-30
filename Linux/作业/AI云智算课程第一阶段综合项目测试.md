@@ -50,7 +50,8 @@ Connection 'ens160' (a99293dd-2860-4b6e-9534-482dd2e3c2d9) successfully added.
 Removed /etc/systemd/system/multi-user.target.wants/firewalld.service.
 Removed /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
 
-
+[root@server01 ~]# vim /etc/selinux/config 
+SELINUX=disabled
 ```
 2. 将系统时区设置为 Asia/Shanghai
 
