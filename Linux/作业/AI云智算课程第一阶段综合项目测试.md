@@ -96,6 +96,7 @@ do
 	useradd $users
 	echo 'RedHat1!' | passwd --stdin $users
 done
+[root@server01 ~]# chmod a+x useradd.sh 
 
 ```
 
