@@ -151,6 +151,17 @@ drwxrwx---. 2 it01 yunwei 6 Oct  1 01:51 /data/ops
 [root@server01 ~]# mkdir /data/dev
 [root@server01 ~]# setfacl -m u:webuser:rwx /data/dev/
 [root@server01 ~]# setfacl -m u:ftpuser:--- /data/dev/
+[root@server01 ~]# getfacl /data/dev/
+getfacl: Removing leading '/' from absolute path names
+# file: data/dev/
+# owner: root
+# group: root
+user::rwx
+user:ftpuser:---
+user:webuser:rwx
+group::r-x
+mask::rwx
+other::r-x
 
 ```
 
