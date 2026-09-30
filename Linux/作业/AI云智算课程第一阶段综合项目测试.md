@@ -80,11 +80,16 @@ local stratum 10
 
 1. 创建运维组，名称为yunwei，指定gid=2000
 ```bash
+[root@server01 ~]# groupadd -g 2000 yunwei
+[root@server01 ~]# getent group yunwei
+yunwei:x:2000:
 
 ```
 
 2. 创建it01，it02，ops_admin，ftpuser，webuser五个用户，密码均为RedHat1!
+```bash
 
+```
 
 3. 将以上五个用户均加入yunwei组
 
