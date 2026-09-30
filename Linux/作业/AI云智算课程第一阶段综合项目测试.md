@@ -384,6 +384,12 @@ etc  lost+found
 [root@server01 ~]# lvs
   LV   VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   data vg0 -wi-ao---- 5.00g
+[root@server01 ~]# lvcreate -n snap01 -s -L 1G /dev/vg0/data
+  Logical volume "snap01" created.
+[root@server01 ~]# lvs
+  LV     VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  data   vg0 owi-aos--- 5.00g
+  snap01 vg0 swi-a-s--- 1.00g      data   0.01
 
 ```
 
