@@ -778,6 +778,20 @@ kvm-host A      10.10.10.101
 kvm-vm1 A       10.10.10.11
 kvm-vm2 A       10.10.10.12
 
+$TTL 1D
+@       IN SOA  server01.yunxiang.com. admin.yunxiang.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      server01.yunxiang.com.
+        A       127.0.0.1
+        AAAA    ::1
+101     PTR     kvm-host.yunxiang.com.
+11      PTR     kvm-vm1.yunxiang.com.
+12      PTR     kvm-vm2.yunxiang.com.
+
 ```
 
 2. 在kvm-host主机上配置该DNS的备份DNS，并验证DNS记录同步成功。
