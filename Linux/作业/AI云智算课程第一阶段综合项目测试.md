@@ -634,6 +634,8 @@ label linux
 
 1. 通过上述PXE安装完kvm-host主机后，确保该主机IP地址为10.10.10.101，主机名为kvm-host,在该主机中安装KVM套件
 ```bash
+[root@kvm-host ~]# hostname
+kvm-host.yunxiang.com
 
 ```
 
