@@ -767,6 +767,10 @@ and check to make sure that only the key(s) you wanted were added.
 Activate the web console with: systemctl enable --now cockpit.socket
 
 Last login: Tue Oct  6 18:59:35 2026 from 10.10.10.1
+[root@kvm-host ~]# exit
+logout
+Connection to 10.10.10.101 closed.
+
 
 ```
 ## **任务七：DNS服务器  10分**
