@@ -192,83 +192,13 @@ other::r-x
 
 1. 查找系统中具有SUID权限的文件，保存到/data/ops目录中，并保留权限
 ```bash
-[root@server01 ~]# find / -path /data -prune -o  -perm -4000 -type f  -exec cp -a {} /data/ops \;
-find: ‘/proc/37660/task/37660/fdinfo/5’: No such file or directory
-find: ‘/proc/37660/fdinfo/6’: No such file or directory
-[root@server01 ~]# ls -l /data/ops/
-total 1724
--rwsr-xr-x. 1 root root                58768 Apr 12  2021 at
--rwsr-xr-x. 1 root root                79616 May 19  2021 chage
--rws--x--x. 1 root root                33944 May 19  2021 chfn
--rws--x--x. 1 root root                25552 May 19  2021 chsh
--rwsr-x---. 1 root cockpit-wsinstance  54704 May 19  2021 cockpit-session
--rwsr-xr-x. 1 root root                63368 Mar 15  2021 crontab
--rwsr-x---. 1 root dbus                63656 Jun 11  2021 dbus-daemon-launch-helper
--rwsr-xr-x. 1 root root                37720 Apr 12  2021 fusermount
--rwsr-xr-x. 1 root root                33600 Apr 12  2021 fusermount3
--rwsr-xr-x. 1 root root                84368 May 19  2021 gpasswd
--rwsr-xr-x. 1 root root                12016 May 28  2021 grub2-set-bootflag
--rwsr-x---. 1 root sssd               172208 May 31  2021 krb5_child
--rwsr-x---. 1 root sssd                97528 May 31  2021 ldap_child
--rwsr-xr-x. 1 root root                50584 May 19  2021 mount
--rwsr-xr-x. 1 root root               193872 Jun  2  2021 mount.nfs
--rwsr-xr-x. 1 root root                43560 May 19  2021 newgrp
--rwsr-xr-x. 1 root root                12184 Jun  2  2021 pam_timestamp_check
--rwsr-xr-x. 1 root root                33544 Mar 15  2021 passwd
--rwsr-xr-x. 1 root root                28976 Jun 11  2021 pkexec
--rwsr-xr-x. 1 root root                17016 Jun 11  2021 polkit-agent-helper-1
--rwsr-x---. 1 root sssd                29032 May 31  2021 proxy_child
--rwsr-xr-x. 1 root root                16696 Jun  3  2021 qemu-bridge-helper
--rwsr-x---. 1 root sssd                55472 May 31  2021 selinux_child
--rwsr-xr-x. 1 root root                20832 May 19  2021 spice-client-glib-usb-acl-helper
--rwsr-xr-x. 1 root root                50464 May 19  2021 su
----s--x--x. 1 root root               165632 May 19  2021 sudo
--rwsr-xr-x. 1 root root                33776 May 19  2021 umount
--rwsr-xr-x. 1 root root                37776 Jun  2  2021 unix_chkpwd
--rws--x--x. 1 root root                50168 Apr 19  2021 userhelper
--rwsr-xr-x. 1 root root                12984 Jun  2  2021 vmware-user-suid-wrapper
--rwsr-xr-x. 1 root root                12472 May 19  2021 Xorg.wrap
-
-
+[root@server01 ~]# find / -perm -4000 -type f  -exec cp -a {} /data/ops/ \;
 ```
 
 2. 查找系统中所有包含passwd的文件备份至/data目录，并将权限修改为400
 ```bash
+[root@server01 ~]# find / -name '*passwd*' -type f -exec cp {} /data/ \;
 [root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -type f -exec chmod 400 {} \;
-[root@server01 ~]# find /data -maxdepth 1 -name '*passwd*' -type f -ls
- 34651979    116 -r--------   1  root     root       116316 Oct  1  2026 /data/passwd-0.80-3.el8.x86_64.rpm
- 34651980      4 -r--------   1  root     root          497 Oct  1  2026 /data/passwd
- 34651981      0 -r--------   1  root     root            0 Oct  1  2026 /data/opasswd
- 34651982      4 -r--------   1  root     root         2806 Oct  1  2026 /data/passwd-
- 34651983    288 -r--------   1  root     root       294704 Oct  1  2026 /data/grub2-mkpasswd-pbkdf2
- 34651984      4 -r--------   1  root     root          605 Oct  1  2026 /data/gpasswd
- 34651985     40 -r--------   1  root     root        38648 Oct  1  2026 /data/vncpasswd
- 34651986     72 -r--------   1  root     root        71416 Oct  1  2026 /data/chgpasswd
- 34651987      4 -r--------   1  root     root          601 Oct  1  2026 /data/chpasswd
- 34651988     20 -r--------   1  root     root        17000 Oct  1  2026 /data/saslpasswd2
- 34651989     24 -r--------   1  root     root        20976 Oct  1  2026 /data/lpasswd
- 34651990      4 -r--------   1  root     root          221 Oct  1  2026 /data/kpasswd.xml
- 34651991     48 -r--------   1  root     root        45192 Oct  1  2026 /data/smbpasswd.so
- 34651992      4 -r--------   1  root     root          809 Oct  1  2026 /data/passwd-cb.pl
- 34651993      4 -r--------   1  root     root          439 Oct  1  2026 /data/passwd.mo
- 34651994      4 -r--------   1  root     root          324 Oct  1  2026 /data/grub2-mkpasswd-pbkdf2.1.gz
- 34651995      4 -r--------   1  root     root         3079 Oct  1  2026 /data/sslpasswd.1ssl.gz
- 34651996      4 -r--------   1  root     root         2753 Oct  1  2026 /data/gpasswd.1.gz
- 34651997      4 -r--------   1  root     root         1108 Oct  1  2026 /data/lpasswd.1.gz
- 34651998      8 -r--------   1  root     root         4128 Oct  1  2026 /data/passwd.1.gz
- 34651999      4 -r--------   1  root     root         1136 Oct  1  2026 /data/vncpasswd.1.gz
- 34652000      4 -r--------   1  root     root         2762 Oct  1  2026 /data/chgpasswd.8.gz
- 34652001      4 -r--------   1  root     root         1872 Oct  1  2026 /data/chpasswd.8.gz
- 34652002      4 -r--------   1  root     root         1556 Oct  1  2026 /data/saslpasswd2.8.gz
- 34652003      4 -r--------   1  root     root         2678 Oct  1  2026 /data/smbpasswd.5.gz
- 34652004      4 -r--------   1  root     root         2709 Oct  1  2026 /data/passwd.5.gz
- 34652005      4 -r--------   1  root     root           38 Oct  1  2026 /data/passwd2des.3.gz
- 34652006      4 -r--------   1  root     root         2443 Oct  1  2026 /data/passwd.vim
- 34652007      8 -r--------   1  root     root         4468 Oct  1  2026 /data/masterpasswd.aug
- 34652008      4 -r--------   1  root     root         1043 Oct  1  2026 /data/htpasswd.aug
- 34652009      4 -r--------   1  root     root         3609 Oct  1  2026 /data/passwd.aug
- 34652010      4 -r--------   1  root     root          920 Oct  1  2026 /data/htpasswd
- 34652011      4 -r--------   1  root     root         1199 Oct  1  2026 /data/passwd.awk
 
 ```
 
@@ -378,18 +308,12 @@ etc  lost+found
 
 3. 因数据扩容需要，将该逻辑卷扩容至5G，并确保ext4文件系统也已拉伸成功。拉伸成功后给/dev/vg0/data创建1G容量大小的快照/dev/vg0/snap01，挂载快照验证数据完整性。
 ```bash
-[root@server01 ~]# lvextend -L 5G /dev/vg0/data
-  Size of logical volume vg0/data changed from 2.00 GiB (512 extents) to 5.00 GiB (1280 extents).
-  Logical volume vg0/data successfully resized.
+[root@server01 ~]# lvextend -L 5G -r /dev/vg0/data
+
 [root@server01 ~]# lvs
   LV   VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
   data vg0 -wi-ao---- 5.00g
-  
-[root@server01 ~]# resize2fs /dev/vg0/data
-resize2fs 1.45.6 (20-Mar-2020)
-Filesystem at /dev/vg0/data is mounted on /opt/data; on-line resizing required
-old_desc_blocks = 1, new_desc_blocks = 1
-The filesystem on /dev/vg0/data is now 1310720 (4k) blocks long.
+
 [root@server01 ~]# df -h | grep data
 /dev/mapper/vg0-data  4.9G   39M  4.6G   1% /opt/data
 
@@ -405,7 +329,7 @@ The filesystem on /dev/vg0/data is now 1310720 (4k) blocks long.
 [root@server01 ~]# mount /dev/vg0/snap01 /opt/snap01
 [root@server01 ~]# ls /opt/snap01
 etc  lost+found
-
+[root@server01 ~]# umount /opt/snap01
 ```
 
 4. 给服务器增加2G的swap，确保新增的swap优先级高于系统原有的swap分区。
@@ -436,10 +360,10 @@ Syncing disks.
 Setting up swapspace version 1, size = 2 GiB (2147479552 bytes)
 no label, UUID=4c141d6a-d94b-4d20-bc5f-3090e2e30e05
 
-[root@server01 ~]# swapon -p 666 /dev/sdb3
+[root@server01 ~]# swapon -p 1 /dev/sdb3
 [root@server01 ~]# swapon -s
 Filename                                Type            Size    Used    Priority
-/dev/sdb3                               partition       2097148 0       666
+/dev/sdb3                               partition       2097148 0       1
 
 ```
 ## **任务五： DHCP+PXE自动化安装服务器  20分**
@@ -494,6 +418,12 @@ swap   2G
 
 5.  通过该服务器安装kvm-host主机，确保该服务器通过kvm-host.cfg安装。
 ```bash
+[root@server01 ~]# cd /var/lib/tftpboot/
+[root@server01 tftpboot]# cp /media/isolinux/* .
+[root@server01 tftpboot]# cp /usr/share/syslinux/pxelinux.0 .
+[root@server01 tftpboot]# mkdir pxelinux.cfg
+[root@server01 tftpboot]# cp isolinux.cfg pxelinux.cfg/default
+[root@server01 tftpboot]# vim pxelinux.cfg/default
 
 ```
 ## **任务六：KVM虚拟化技术  20分**
