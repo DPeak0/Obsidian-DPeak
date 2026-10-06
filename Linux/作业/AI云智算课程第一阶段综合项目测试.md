@@ -636,7 +636,40 @@ label linux
 ```bash
 [root@kvm-host ~]# hostname
 kvm-host.yunxiang.com
+[root@kvm-host ~]# ifconfig
+br0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.10.10.101  netmask 255.255.255.0  broadcast 10.10.10.255
+        inet6 fe80::20c:29ff:fe07:3c28  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:07:3c:28  txqueuelen 1000  (Ethernet)
+        RX packets 1178  bytes 267620 (261.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 519  bytes 135016 (131.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
+ens160: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        ether 00:0c:29:07:3c:28  txqueuelen 1000  (Ethernet)
+        RX packets 1181  bytes 288998 (282.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 519  bytes 135016 (131.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 53  bytes 8676 (8.4 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 53  bytes 8676 (8.4 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 52:54:00:04:8d:a3  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+[root@kvm-host ~]# yum group list --installed | grep -i virt
+   Virtualization Host
 ```
 
 2. 配置桥接器br0
@@ -670,6 +703,10 @@ qemu-img create -f qcow2 -o preallocation-metedata kvm-vm2.qcow2 20G
 ```
 
 4. 通过PXE分别安装kvm-vm1和kvm-vm2两台虚拟机，磁盘选择上述创建的磁盘文件，网络选择br0，ks文件选择kvm-vm.cfg文件，确保这两台主机安装完成后主机名符合要求。
+![](https://oss.bwihz.cn/PicGo/20261006191828772.png)
+
+
+
 
 5. 确保kvm-host和kvm-vm1,kvm-vm2三台主机时间均同步自server01时间服务器。
 
