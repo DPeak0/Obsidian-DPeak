@@ -377,6 +377,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/dhcpd.service → /u
 Created symlink /etc/systemd/system/sockets.target.wants/tftp.socket → /usr/lib/systemd/system/tftp.socket.
 Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
 
+
 ```
 
 2. 在dhcp服务器中配置作用域为10.10.10.0/24，地址池范围：10.10.10.20-10.10.10.50，网关为10.10.10.254，DNS地址10.10.10.254
@@ -407,6 +408,121 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 /     60G
 swap  4G
 ```bash
+[root@server01 ks]# cat ks-host.cfg
+#version=RHEL8
+# Use graphical install
+graphical
+
+reboot
+repo --name="AppStream" --baseurl=http://10.10.10.254/pub/AppStream
+
+%packages
+@^virtualization-hypervisor
+@^graphical-server-environment
+kexec-tools
+chrony
+qemu-img
+libvirt
+virt-install
+virt-manager
+
+%end
+
+# Keyboard layouts
+keyboard --xlayouts='us'
+# System language
+lang en_US.UTF-8 --addsupport=zh_CN.UTF-8
+
+# Network information
+network  --bootproto=dhcp --device=ens160 --ipv6=auto --activate
+network  --hostname=kvm-host.yunxiang.com
+
+# Use CDROM installation media
+#cdrom
+url --url=http://10.10.10.254/pub
+
+# Run the Setup Agent on first boot
+firstboot --disable
+
+#ignoredisk --only-use=sda
+# Partition clearing information
+clearpart --all --initlabel
+# Disk partitioning information
+part swap --fstype="swap"  --size=4096
+part /boot --fstype="xfs"  --size=500
+part / --fstype="xfs"  --size=61440
+
+# System timezone
+timezone Asia/Shanghai --isUtc --ntpservers=10.10.10.254
+
+# Root password
+rootpw --iscrypted $6$/Kh7.wRgV9lgLxoa$IDe3afb3efcjZ/8J/aq1jbmRNRkWKfhjU5TFxJDLPyFksKShlW9AkH7vmZA75PNFpQ5Hl1x5I93vhXDiMgNxX0
+user --name=user1 --password=$6$/Kh7.wRgV9lgLxoa$IDe3afb3efcjZ/8J/aq1jbmRNRkWKfhjU5TFxJDLPyFksKShlW9AkH7vmZA75PNFpQ5Hl1x5I93vhXDiMgNxX0 --iscrypted --gecos="user1"
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end
+
+%post
+#!/bin/bash
+rm -rf /etc/yum.repos.d/*.repo
+cat > /etc/yum.repos.d/dvd.repo << END
+[BaseOS]
+name=BaseOS
+baseurl=http://10.10.10.254/pub/BaseOS
+gpgcheck=0
+
+
+[AppStream]
+name=AppStream
+baseurl=http://10.10.10.254/pub/AppStream
+gpgcheck=0
+END
+echo $(hostname) > /etc/hostname
+
+yum -y install httpd bind nginx
+systemctl enable chronyd --now
+systemctl enable httpd --now
+systemctl disable firewalld.service --now
+sed -i '7s/enforcing/disabled/g' /etc/selinux/config
+setenforce 0
+yum -y install net-tools vim-enhanced bash-completion qemu-kvm libvirt virt-install virt-viewer
+yum -y groupinstall 'Virtualization Host'
+systemctl enable --now libvirtd
+sed -i 's/pool 2.centos.pool.ntp.org iburst/server 10.10.10.254 iburst/' /etc/chrony.conf
+cat > /etc/sysconfig/network-scripts/ifcfg-ens160 << END
+TYPE=Ethernet
+DEVICE=ens160
+ONBOOT=yes
+BRIDGE=br0
+NAME=ens160
+END
+
+cat > /etc/sysconfig/network-scripts/ifcfg-br0 << END
+TYPE=Bridge
+DEVICE=br0
+ONBOOT=yes
+#BOOTPROTO=dhcp
+IPADDR=10.10.10.101
+NETMASK=255.255.255.0
+NAME="br0"
+END
+
+nmcli connection reload
+nmcli connection down ens160 && nmcli connection up ens160
+nmcli connection down br0 &&  nmcli connection up br0
+
+mkdir /data
+cd /data
+qemu-img create -f qcow2 -o preallocation-metedata kvm-vm1.qcow2 20G
+qemu-img create -f qcow2 -o preallocation-metedata kvm-vm2.qcow2 20G
+%end
 
 ```
 kvm-vm.cfg文件用户安装kvm-vm1和kvm-vm2，要求该系统最小化安装，不要安装图形界面
@@ -414,7 +530,78 @@ kvm-vm.cfg文件用户安装kvm-vm1和kvm-vm2，要求该系统最小化安装�
 /boot  500M
 swap   2G
 /    10G
+```bash
+[root@server01 ks]# cat ks-vm.cfg
+#platform=x86, AMD64, 或 Intel EM64T
+#version=DEVEL
+# Install OS instead of upgrade
+install
+# Keyboard layouts
+keyboard 'us'
+# Root password
+rootpw --iscrypted $6$7u599V7G6ms1YhnA$WRvMuUifEbuAVkTYYUPZRokzNRPrffod7MIZQGoo8bAxbD2C6FcBCuVYt2h.sNs26DqK3XitSmFXq.iCnGacA/
+# System language
+lang en_US
+# System authorization information
+auth  --useshadow  --passalgo=sha512
+# Use graphical install
+graphical
+firstboot --disable
+# SELinux configuration
+selinux --disabled
+# Do not configure the X Window System
+skipx
 
+
+# Firewall configuration
+firewall --disabled
+# Network information
+network  --bootproto=dhcp --device=eth0
+# Reboot after installation
+reboot
+# System timezone
+timezone Asia/Shanghai
+# Use network installation
+url --url="http://10.10.10.254/pub"
+# System bootloader configuration
+bootloader --location=mbr
+# Clear the Master Boot Record
+zerombr
+# Partition clearing information
+clearpart --all --initlabel
+# Disk partitioning information
+part /boot --fstype="xfs" --size=500
+part swap --fstype="swap" --size=2048
+part / --fstype="xfs" --size=10240
+
+%packages
+@fonts
+%end
+
+
+%post
+#!/bin/bash
+rm -rf /etc/yum.repos.d/*
+cat >> /etc/yum.repos.d/dvd.repo <<EOF
+[BaseOS]
+name=BaseOS
+baseurl=http://10.10.10.254/pub/BaseOS
+gpgcheck=0
+enabled=1
+
+[AppStream]
+name=AppStream
+baseurl=http://10.10.10.254/pub/AppStream
+gpgcheck=0
+enabled=1
+EOF
+
+yum install -y vim bash-completion net-tools
+sed -i 's/^pool/d' /etc/chrony.conf
+sed -i '$a\pool 10.10.10.254 iburst/' /etc/chrony.conf
+
+
+```
 
 
 5.  通过该服务器安装kvm-host主机，确保该服务器通过kvm-host.cfg安装。
@@ -425,19 +612,53 @@ swap   2G
 [root@server01 tftpboot]# mkdir pxelinux.cfg
 [root@server01 tftpboot]# cp isolinux.cfg pxelinux.cfg/default
 [root@server01 tftpboot]# vim pxelinux.cfg/default
+label linux
+  menu label ^Install Rocky Linux 8 kvm-host
+  kernel vmlinuz
+  append initrd=initrd.img inst.repo=http://10.10.10.254/pub inst.ks=http://10.10.10.254/ks/ks-host.cfg quiet
+
+label linux
+  menu label ^Install Rocky Linux 8 kvm-vm
+  kernel vmlinuz
+  append initrd=initrd.img inst.repo=http://10.10.10.254/pub inst.ks=http://10.10.10.254/ks/ks-vm.cfg quiet
 
 ```
 ## **任务六：KVM虚拟化技术  20分**
 
 1. 通过上述PXE安装完kvm-host主机后，确保该主机IP地址为10.10.10.101，主机名为kvm-host,在该主机中安装KVM套件
-2. 配置桥接器br0
 ```bash
 
+```
+
+2. 配置桥接器br0
+```bash
+cat > /etc/sysconfig/network-scripts/ifcfg-ens160 << END
+TYPE=Ethernet
+DEVICE=ens160
+ONBOOT=yes
+BRIDGE=br0
+NAME=ens160
+END
+
+cat > /etc/sysconfig/network-scripts/ifcfg-br0 << END
+TYPE=Bridge
+DEVICE=br0
+ONBOOT=yes
+#BOOTPROTO=dhcp
+IPADDR=10.10.10.101
+NETMASK=255.255.255.0
+NAME="br0"
+END
 
 ```
 
 3. 创建/data/kvm-vm1.qcow2和/data/kvm-vm2.qcow2两个精简磁盘的文件，容量为20G
-
+```bash
+mkdir /data
+cd /data
+qemu-img create -f qcow2 -o preallocation-metedata kvm-vm1.qcow2 20G
+qemu-img create -f qcow2 -o preallocation-metedata kvm-vm2.qcow2 20G
+```
 
 4. 通过PXE分别安装kvm-vm1和kvm-vm2两台虚拟机，磁盘选择上述创建的磁盘文件，网络选择br0，ks文件选择kvm-vm.cfg文件，确保这两台主机安装完成后主机名符合要求。
 
