@@ -458,6 +458,7 @@ END
 
 3. 创建/data/kvm-vm1.qcow2和/data/kvm-vm2.qcow2两个精简磁盘的文件，容量为20G
 
+
 4. 通过PXE分别安装kvm-vm1和kvm-vm2两台虚拟机，磁盘选择上述创建的磁盘文件，网络选择br0，ks文件选择kvm-vm.cfg文件，确保这两台主机安装完成后主机名符合要求。
 
 5. 确保kvm-host和kvm-vm1,kvm-vm2三台主机时间均同步自server01时间服务器。
