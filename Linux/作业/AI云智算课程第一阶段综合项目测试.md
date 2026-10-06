@@ -761,6 +761,23 @@ zone "10.10.10.in-addr.arpa" IN {
         allow-update { none; };
 };
 
+[root@server01 named]# cp -a named.localhost yunxiang.com
+[root@server01 named]# vim yunxiang.com
+$TTL 1D
+@       IN SOA  server01.yunxiang.com. admin.yunxiang.com. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      server01.yunxiang.com.
+        A       127.0.0.1
+        AAAA    ::1
+server01 A      10.10.10.254
+kvm-host A      10.10.10.101
+kvm-vm2 A       10.10.10.11
+kvm-vm2 A       10.10.10.12
+
 ```
 
 2. 在kvm-host主机上配置该DNS的备份DNS，并验证DNS记录同步成功。
