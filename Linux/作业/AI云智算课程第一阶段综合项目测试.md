@@ -623,6 +623,8 @@ label linux
   append initrd=initrd.img inst.repo=http://10.10.10.254/pub inst.ks=http://10.10.10.254/ks/ks-vm.cfg quiet
 
 ```
+- 修改启动项
+  ![](https://oss.bwihz.cn/PicGo/20261006181827035.png)
 
 
 
