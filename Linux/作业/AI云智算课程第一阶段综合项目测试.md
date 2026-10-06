@@ -432,27 +432,7 @@ swap   2G
 1. 通过上述PXE安装完kvm-host主机后，确保该主机IP地址为10.10.10.101，主机名为kvm-host,在该主机中安装KVM套件
 2. 配置桥接器br0
 ```bash
-network  --hostname=kvm-host.yunxiang.com
 
-yum -y groupinstall 'Virtualization Host'
-
-cat > /etc/sysconfig/network-scripts/ifcfg-ens160 << END
-TYPE=Ethernet
-DEVICE=ens160
-ONBOOT=yes
-BRIDGE=br0
-NAME=ens160
-END
-
-cat > /etc/sysconfig/network-scripts/ifcfg-br0 << END
-TYPE=Bridge
-DEVICE=br0
-ONBOOT=yes
-#BOOTPROTO=dhcp
-IPADDR=10.10.10.101
-NETMASK=255.255.255.0
-NAME="br0"
-END
 
 ```
 
