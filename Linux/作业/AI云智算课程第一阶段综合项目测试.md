@@ -784,6 +784,9 @@ kvm-host.yunxiang.com A 10.10.10.101
 kvm-vm1.yunxiang.com  A  10.10.10.11
 kvm-vm2.yunxiang.com A 10.10.10.12
 并添加这些主机的反向解析
+![](https://oss.bwihz.cn/PicGo/20261006201842555.png)
+![](https://oss.bwihz.cn/PicGo/20261006201953761.png)
+
 ```bash
 [root@server01 ~]# yum install -y bind
 [root@server01 ~]# vim /etc/named.conf
@@ -896,6 +899,13 @@ Address: 10.10.10.101
 
 1. 在server01上创建/nfsdata目录，使用nfs共享该目录，确保kvm-vm1和kvm-vm2两台主机对该目录可以访问并拥有写权限
 ```bash
+[root@kvm-host ~]# cat /etc/exports
+/nfsdata 10.10.10.11(rw)
+/nfsdata 10.10.10.12(rw)
+[root@kvm-host ~]# systemctl restart nfs-server
+[root@kvm-host ~]# exportfs -v
+/nfsdata        10.10.10.11(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)
+/nfsdata        10.10.10.12(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)
 
 ```
 
