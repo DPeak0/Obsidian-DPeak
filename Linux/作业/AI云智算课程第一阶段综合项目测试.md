@@ -852,7 +852,9 @@ Created symlink /etc/systemd/system/multi-user.target.wants/named.service → /u
 ```
 
 2. 在kvm-host主机上配置该DNS的备份DNS，并验证DNS记录同步成功。
+```bash
 
+```
 ## **任务八：web服务器  10分**
 
 1. 在server01上创建/nfsdata目录，使用nfs共享该目录，确保kvm-vm1和kvm-vm2两台主机对该目录可以访问并拥有写权限
