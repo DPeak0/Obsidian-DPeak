@@ -870,14 +870,12 @@ zone "yunxiang.com" IN {
         type slave;
         file "slaves/yunxiang.com";
         masters {10.10.10.254;};
-        allow-update { none; };
 };
 
 zone "10.10.10.in-addr.arpa" IN {
         type slave;
         file "slaves/10.10.10.in-addr.arpa";
         masters {10.10.10.254;};
-        allow-update { none; };
 };
 
 
