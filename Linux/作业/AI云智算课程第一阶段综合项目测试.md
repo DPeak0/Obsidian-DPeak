@@ -736,6 +736,30 @@ kvm-vm2.yunxiang.com A 10.10.10.12
 并添加这些主机的反向解析
 ```bash
 [root@server01 ~]# yum install -y bind
+[root@server01 ~]# vim /etc/named.conf
+options {
+        listen-on port 53 { any; };
+        listen-on-v6 port 53 { ::1; };
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        secroots-file   "/var/named/data/named.secroots";
+        recursing-file  "/var/named/data/named.recursing";
+        allow-query     { any; };
+        
+[root@server01 ~]# vim /etc/named.rfc1912.zones
+zone "yunxiang.com" IN {
+        type master;
+        file "yunxiang.com";
+        allow-update { none; };
+};
+
+zone "10.10.10.in-addr.arpa" IN {
+        type master;
+        file "10.10.10.in-addr.arpa";
+        allow-update { none; };
+};
 
 ```
 
