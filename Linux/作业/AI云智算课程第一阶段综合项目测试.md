@@ -878,6 +878,7 @@ zone "10.10.10.in-addr.arpa" IN {
         masters {10.10.10.254;};
 };
 
+[root@kvm-host ~]# systemctl restart named
 [root@kvm-host ~]# ls /var/named/slaves/
 10.10.10.in-addr.arpa  yunxiang.com
 
