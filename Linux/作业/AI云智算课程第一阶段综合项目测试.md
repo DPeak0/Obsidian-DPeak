@@ -448,6 +448,10 @@ Filename                                Type            Size    Used    Priority
 1. 在server01上安装dhcp,tftp,httpd软件包，确保这些服务每次开机均自动启动
 ```bash
 [root@server01 ~]# yum install -y dhcp-server tftp-server httpd
+[root@server01 ~]# systemctl enable dhcpd tftp httpd
+Created symlink /etc/systemd/system/multi-user.target.wants/dhcpd.service → /usr/lib/systemd/system/dhcpd.service.
+Created symlink /etc/systemd/system/sockets.target.wants/tftp.socket → /usr/lib/systemd/system/tftp.socket.
+Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
 
 ```
 
