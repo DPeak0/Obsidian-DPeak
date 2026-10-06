@@ -447,7 +447,7 @@ Filename                                Type            Size    Used    Priority
 搭建DHCP+TFTP+PXE+httpd服务器，要求如下：
 1. 在server01上安装dhcp,tftp,httpd软件包，确保这些服务每次开机均自动启动
 ```bash
-[root@server01 ~]# yum install -y dhcp-server tftp-server httpd
+[root@server01 ~]# yum install -y dhcp-server tftp-server httpd syslinux-nonlinux
 [root@server01 ~]# systemctl enable dhcpd tftp httpd
 Created symlink /etc/systemd/system/multi-user.target.wants/dhcpd.service → /usr/lib/systemd/system/dhcpd.service.
 Created symlink /etc/systemd/system/sockets.target.wants/tftp.socket → /usr/lib/systemd/system/tftp.socket.
@@ -457,11 +457,26 @@ Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /u
 
 2. 在dhcp服务器中配置作用域为10.10.10.0/24，地址池范围：10.10.10.20-10.10.10.50，网关为10.10.10.254，DNS地址10.10.10.254
 ```bash
-
+[root@server01 ~]# vim /etc/dhcp/dhcpd.conf
+subnet 10.10.10.0 netmask 255.255.255.0 {
+  range 10.10.10.20 10.10.10.50;
+  option domain-name-servers 10.10.10.254;
+  option domain-name "internal.example.org";
+  option routers 10.10.10.254;
+  option broadcast-address 10.10.10.255;
+  default-lease-time 600;
+  max-lease-time 7200;
+  next-server 10.10.10.254;
+  filename "pxelinux.0";
+}
 ```
 
 3. 将/dev/cdrom挂载至/var/www/html/pub目录上，确保每次开机均自动挂载
+```bash
 
+[root@server01 ~]# echo "/dev/cdrom /var/www/html/pub iso9660 defaults,ro 0 0" >> /etc/fstab
+
+```
 
 4. 制作两个ks文件，ks-host.cfg和ks-vm.cfg，其中ks-host.cfg用于安装kvm-host宿主机，ks-vm.cfg安装kvm-vm1和kvm-vm2
 
