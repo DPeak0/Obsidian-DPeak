@@ -725,7 +725,50 @@ MS Name/IP address         Stratum Poll Reach LastRx Last sample
 ```
 
 **6.** **要求在server01主机上通过ssh可以免密访问其他所有主机，并验证。**
+```bash
+[root@server01 ~]# ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Created directory '/root/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:AIDksW2eaGBwncDkm3S5xj2Lim5xsojOcHicX8jBEhI root@server01.yunxiang.com
+The key's randomart image is:
++---[RSA 3072]----+
+|E*=+..           |
+|++= oo           |
+|o++oo .          |
+|oo+B.o .         |
+| o+o* o S        |
+|.= * + o         |
+|= X + o          |
+|=* o .           |
+|=+. .            |
++----[SHA256]-----+
 
+[root@server01 ~]# ssh-copy-id root@10.10.10.101
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host '10.10.10.101 (10.10.10.101)' can't be established.
+ECDSA key fingerprint is SHA256:HuIQDjkBo2tkpVZFfvDTF1MiPMJARc5Kz+dqzRp1w7g.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@10.10.10.101's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@10.10.10.101'"
+and check to make sure that only the key(s) you wanted were added.
+
+[root@server01 ~]# ssh root@10.10.10.101
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Tue Oct  6 18:59:35 2026 from 10.10.10.1
+
+```
 ## **任务七：DNS服务器  10分**
 
 1. 在server01上搭建主DNS，配置域名为yunxiang.com，在该服务器添加以上所有主机的A记录
@@ -790,9 +833,14 @@ $TTL 1D
         NS      server01.yunxiang.com.
         A       127.0.0.1
         AAAA    ::1
+254     PTR     server01.yunxinag.com.
 101     PTR     kvm-host.yunxiang.com.
 11      PTR     kvm-vm1.yunxiang.com.
 12      PTR     kvm-vm2.yunxiang.com.
+
+[root@server01 named]# systemctl restart named
+[root@server01 named]# systemctl enable named
+Created symlink /etc/systemd/system/multi-user.target.wants/named.service → /usr/lib/systemd/system/named.service.
 
 ```
 
