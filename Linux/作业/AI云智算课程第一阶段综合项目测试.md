@@ -881,7 +881,7 @@ zone "10.10.10.in-addr.arpa" IN {
 [root@kvm-host ~]# systemctl restart named
 [root@kvm-host ~]# ls /var/named/slaves/
 10.10.10.in-addr.arpa  yunxiang.com
-
+[root@kvm-host ~]# systemctl stop named
 
 ```
 ## **任务八：web服务器  10分**
