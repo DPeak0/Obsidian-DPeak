@@ -775,7 +775,7 @@ $TTL 1D
         AAAA    ::1
 server01 A      10.10.10.254
 kvm-host A      10.10.10.101
-kvm-vm2 A       10.10.10.11
+kvm-vm1 A       10.10.10.11
 kvm-vm2 A       10.10.10.12
 
 ```
