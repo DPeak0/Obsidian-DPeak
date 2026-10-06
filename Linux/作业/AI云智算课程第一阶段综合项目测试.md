@@ -478,7 +478,6 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 ```
 
 4. 制作两个ks文件，ks-host.cfg和ks-vm.cfg，其中ks-host.cfg用于安装kvm-host宿主机，ks-vm.cfg安装kvm-vm1和kvm-vm2
-
 其中**kvm-host.cfg**文件需要安装的系统具有图形界面，安装后脚本%post可以根据后续题目要求自行定义，磁盘分区信息如下：
 /boot  500M  
 /     60G
