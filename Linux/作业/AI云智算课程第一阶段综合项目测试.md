@@ -473,9 +473,8 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 
 3. 将/dev/cdrom挂载至/var/www/html/pub目录上，确保每次开机均自动挂载
 ```bash
-
 [root@server01 ~]# echo "/dev/cdrom /var/www/html/pub iso9660 defaults,ro 0 0" >> /etc/fstab
-
+[root@server01 ~]# mount -a
 ```
 
 4. 制作两个ks文件，ks-host.cfg和ks-vm.cfg，其中ks-host.cfg用于安装kvm-host宿主机，ks-vm.cfg安装kvm-vm1和kvm-vm2
