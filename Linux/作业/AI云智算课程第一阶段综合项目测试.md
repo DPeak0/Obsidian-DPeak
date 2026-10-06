@@ -865,6 +865,21 @@ options {
         recursing-file  "/var/named/data/named.recursing";
         allow-query     { any; };
 
+[root@kvm-host ~]# vim /etc/named.rfc1912.zones
+zone "yunxiang.com" IN {
+        type slave;
+        file "yunxiang.com";
+        masters {10.10.10.254;};
+        allow-update { none; };
+};
+
+zone "10.10.10.in-addr.arpa" IN {
+        type slave;
+        file "10.10.10.in-addr.arpa";
+        masters {10.10.10.254;};
+        allow-update { none; };
+};
+
 ```
 ## **任务八：web服务器  10分**
 
