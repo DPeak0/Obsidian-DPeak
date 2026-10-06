@@ -520,8 +520,8 @@ nmcli connection down br0 &&  nmcli connection up br0
 
 mkdir /data
 cd /data
-qemu-img create -f qcow2 -o preallocation-metedata kvm-vm1.qcow2 20G
-qemu-img create -f qcow2 -o preallocation-metedata kvm-vm2.qcow2 20G
+qemu-img create -f qcow2 -o preallocation=metadata kvm-vm1.qcow2 20G
+qemu-img create -f qcow2 -o preallocation=metadata kvm-vm2.qcow2 20G
 %end
 
 ```
@@ -704,27 +704,40 @@ qemu-img create -f qcow2 -o preallocation-metedata kvm-vm2.qcow2 20G
 
 4. 通过PXE分别安装kvm-vm1和kvm-vm2两台虚拟机，磁盘选择上述创建的磁盘文件，网络选择br0，ks文件选择kvm-vm.cfg文件，确保这两台主机安装完成后主机名符合要求。
 ![](https://oss.bwihz.cn/PicGo/20261006191828772.png)
-
-
+![](https://oss.bwihz.cn/PicGo/20261006191923970.png)
+![](https://oss.bwihz.cn/PicGo/20261006192309626.png)
+![](https://oss.bwihz.cn/PicGo/20261006192339494.png)
+- kvm-vm2
+![](https://oss.bwihz.cn/PicGo/20261006192440302.png)
+![](https://oss.bwihz.cn/PicGo/20261006192452835.png)
+- 开始自动安装
+  ![](https://oss.bwihz.cn/PicGo/20261006192555741.png)
 
 
 5. 确保kvm-host和kvm-vm1,kvm-vm2三台主机时间均同步自server01时间服务器。
+```bash
+[root@kvm-host ~]# chronyc sources
+210 Number of sources = 1
+MS Name/IP address         Stratum Poll Reach LastRx Last sample
+===============================================================================
+^* 10.10.10.254                  3   6   377     4   -371us[ -503us] +/-   36ms
+
+```
 
 **6.** **要求在server01主机上通过ssh可以免密访问其他所有主机，并验证。**
 
 ## **任务七：DNS服务器  10分**
 
 1. 在server01上搭建主DNS，配置域名为yunxiang.com，在该服务器添加以上所有主机的A记录
-
 server01.yunxiang.com  A 10.10.10.254
-
 kvm-host.yunxiang.com A 10.10.10.101
-
 kvm-vm1.yunxiang.com  A  10.10.10.11
-
 kvm-vm2.yunxiang.com A 10.10.10.12
-
 并添加这些主机的反向解析
+```bash
+[root@server01 ~]# yum install -y bind
+
+```
 
 2. 在kvm-host主机上配置该DNS的备份DNS，并验证DNS记录同步成功。
 
