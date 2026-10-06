@@ -406,14 +406,15 @@ subnet 10.10.10.0 netmask 255.255.255.0 {
 /boot  500M  
 /     60G
 swap  4G
+```bash
+
+```
 kvm-vm.cfg文件用户安装kvm-vm1和kvm-vm2，要求该系统最小化安装，不要安装图形界面
 分区信息如下：
 /boot  500M
 swap   2G
 /    10G
-```bash
 
-```
 
 
 5.  通过该服务器安装kvm-host主机，确保该服务器通过kvm-host.cfg安装。
