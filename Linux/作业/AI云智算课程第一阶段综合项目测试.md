@@ -778,6 +778,8 @@ kvm-host A      10.10.10.101
 kvm-vm1 A       10.10.10.11
 kvm-vm2 A       10.10.10.12
 
+[root@server01 named]# cp -a named.loopback 10.10.10.in-addr.arpa
+[root@server01 named]# vim 10.10.10.in-addr.arpa
 $TTL 1D
 @       IN SOA  server01.yunxiang.com. admin.yunxiang.com. (
                                         0       ; serial
