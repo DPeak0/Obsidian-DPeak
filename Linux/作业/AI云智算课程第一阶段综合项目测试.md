@@ -878,6 +878,8 @@ zone "10.10.10.in-addr.arpa" IN {
         masters {10.10.10.254;};
 };
 
+[root@kvm-host ~]# ls /var/named/slaves/
+10.10.10.in-addr.arpa  yunxiang.com
 
 ```
 ## **任务八：web服务器  10分**
