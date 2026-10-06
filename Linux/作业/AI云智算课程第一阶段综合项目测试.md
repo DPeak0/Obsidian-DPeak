@@ -883,16 +883,29 @@ zone "10.10.10.in-addr.arpa" IN {
 10.10.10.in-addr.arpa  yunxiang.com
 [root@kvm-host ~]# systemctl stop named
 
+[root@kvm-host ~]# echo 'nameserver 10.10.10.101' >> /etc/resolv.conf
+[root@kvm-host ~]# nslookup kvm-host.yunxiang.com
+Server:         10.10.10.254
+Address:        10.10.10.254#53
+
+Name:   kvm-host.yunxiang.com
+Address: 10.10.10.101
+
 ```
 ## **任务八：web服务器  10分**
 
 1. 在server01上创建/nfsdata目录，使用nfs共享该目录，确保kvm-vm1和kvm-vm2两台主机对该目录可以访问并拥有写权限
+```bash
+
+```
 
 2. 在kvm-host安装nginx服务器，提供负载均衡，负载均衡算法为轮循，kvm-vm1权重为1,kvm-vm2权重为2
+
 
 3. 在kvm-vm1和kvm-vm2上安装apache，并确保每次启动均自动开启该服务，将server01上的nfs共享挂载至/var/www/html，写入内容Hello, yunxiang.com到index.html文件中
 
 当用户输入http:// kvm-host.yunxiang.com可以访问到apache中的内容。
+
 
 ## **任务九： 巡检脚本及计划任务  10分**
 
