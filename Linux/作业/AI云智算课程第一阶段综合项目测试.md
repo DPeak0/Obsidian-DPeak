@@ -624,7 +624,7 @@ label linux
 
 ```
 - 修改启动项
-  ![](https://oss.bwihz.cn/PicGo/20261006181827035.png)
+  ![](https://oss.bwihz.cn/PicGo/20261006181913352.png)
 
 
 
