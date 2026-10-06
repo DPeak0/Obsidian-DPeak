@@ -623,6 +623,9 @@ label linux
   append initrd=initrd.img inst.repo=http://10.10.10.254/pub inst.ks=http://10.10.10.254/ks/ks-vm.cfg quiet
 
 ```
+
+
+
 ## **任务六：KVM虚拟化技术  20分**
 
 1. 通过上述PXE安装完kvm-host主机后，确保该主机IP地址为10.10.10.101，主机名为kvm-host,在该主机中安装KVM套件
