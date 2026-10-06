@@ -624,7 +624,9 @@ label linux
 
 ```
 - 修改启动项
-  ![](https://oss.bwihz.cn/PicGo/20261006181913352.png)
+	![](https://oss.bwihz.cn/PicGo/20261006181913352.png)
+- 通过kvm-host.cfg安装
+![](https://oss.bwihz.cn/PicGo/20261006181932898.png)
 
 
 
