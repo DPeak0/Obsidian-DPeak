@@ -434,6 +434,8 @@ swap   2G
 ```bash
 network  --hostname=kvm-host.yunxiang.com
 
+yum -y groupinstall 'Virtualization Host'
+
 cat > /etc/sysconfig/network-scripts/ifcfg-ens160 << END
 TYPE=Ethernet
 DEVICE=ens160
