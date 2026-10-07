@@ -999,18 +999,24 @@ Hello, yunxiang.com
 在kvm-host主机上编写一个完整的系统巡检脚本 /usr/local/bin/syscheck.sh，功能要求如下：
 1. 检查kvm-host主机磁盘分区使用率，超过 80% 时报警，显示”根分区使用率超过80%，请及时处理”
 2. 检查以下关键服务状态：named、nginx、chronyd
+3. 将巡检结果输出到 /var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
+4. 创建一个计划任务，要求每周一-周五9-17点每隔5分钟执行一次
 ```bash
 [root@kvm-host ~]# vim /usr/local/bin/syscheck.sh
 #!/bin/bash
 disk=$(df | grep -w / | awk '{print $5}' | tr -d %)
 if [ $disk -gt 80 ] ;then
-        echo '根分区使用率超过80%，请及时处理'
+        echo "根分区使用率超过80%，请及时处理"
 fi
 
-```
 
-3. 将巡检结果输出到 /var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
-4. 创建一个计划任务，要求每周一-周五9-17点每隔5分钟执行一次
-```bash
+for sys in named nginx chronyd ; do
+        if [ $(systemctl status $sys | grep Active | awk '{print $2}') = active ] ;then
+                echo "$sys 正在运行"
+        else
+                echo "$sys 未运行"
+        fi
+done
+
 
 ```
