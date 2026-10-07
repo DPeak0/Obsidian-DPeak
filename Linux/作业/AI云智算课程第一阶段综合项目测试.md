@@ -597,6 +597,7 @@ enabled=1
 EOF
 
 yum install -y vim bash-completion net-tools httpd
+systemctl enable httpd
 sed -i 's/^pool/d' /etc/chrony.conf
 sed -i '$a\pool 10.10.10.254 iburst/' /etc/chrony.conf
 
