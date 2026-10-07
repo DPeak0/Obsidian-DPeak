@@ -1018,5 +1018,7 @@ for sys in named nginx chronyd ; do
         fi
 done
 
+[root@kvm-host ~]# vim /etc/crontab
+*/5 9-17 * * 1-5 root /usr/local/bin/syscheck.sh > var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
 
 ```
