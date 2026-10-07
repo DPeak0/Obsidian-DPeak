@@ -960,7 +960,9 @@ server 10.10.10.12 weight=2;
 ```
 
 3. 在kvm-vm1和kvm-vm2上安装apache，并确保每次启动均自动开启该服务，将server01上的nfs共享挂载至/var/www/html，写入内容Hello, yunxiang.com到index.html文件中
+```bash
 
+```
 当用户输入http:// kvm-host.yunxiang.com可以访问到apache中的内容。
 
 
