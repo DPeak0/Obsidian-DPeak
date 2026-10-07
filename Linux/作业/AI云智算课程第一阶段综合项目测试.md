@@ -964,12 +964,13 @@ server 10.10.10.12 weight=2;
 [root@kvm-vm1 ~]# echo '10.10.10.254:/nfsdata /var/www/html nfs defaults 0 0' >> /etc/fstab
 [root@kvm-vm1 ~]# mount -a
 
-
-
-
-
 [root@kvm-vm2 ~]# echo '10.10.10.254:/nfsdata /var/www/html nfs defaults 0 0' >> /etc/fstab
 [root@kvm-vm2 ~]# mount -a
+
+
+[root@server01 ~]# echo 'Hello, yunxiang.com' > /nfsdata/index.html
+[root@kvm-vm1 ~]# cat /var/www/html/index.html
+Hello, yunxiang.com
 
 
 ```
