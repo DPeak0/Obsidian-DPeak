@@ -523,8 +523,8 @@ nmcli connection down ens160 && nmcli connection up ens160
 nmcli connection down br0 &&  nmcli connection up br0
 
 mkdir /data
-qemu-img create -f /data/qcow2 -o preallocation=metadata kvm-vm1.qcow2 20G
-qemu-img create -f /data/qcow2 -o preallocation=metadata kvm-vm2.qcow2 20G
+qemu-img create -f qcow2 -o preallocation=metadata /data/kvm-vm1.qcow2 20G
+qemu-img create -f qcow2 -o preallocation=metadata /data/kvm-vm2.qcow2 20G
 %end
 
 ```
