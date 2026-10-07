@@ -496,7 +496,9 @@ yum -y install net-tools vim-enhanced bash-completion qemu-kvm libvirt virt-inst
 yum -y groupinstall 'Virtualization Host'
 systemctl enable --now libvirtd
 
-sed -i 's/pool 2.centos.pool.ntp.org iburst/server 10.10.10.254 iburst/' /etc/chrony.conf
+sed -i 's/^pool/#pool/' /etc/chrony.conf
+sed -i '/^#pool/a\pool 10.10.10.254 iburst/' /etc/chrony.conf
+
 
 cat > /etc/sysconfig/network-scripts/ifcfg-ens160 << END
 TYPE=Ethernet
@@ -520,9 +522,8 @@ nmcli connection reload
 nmcli connection down ens160 && nmcli connection up ens160
 nmcli connection down br0 &&  nmcli connection up br0
 
-mkdir /data
-cd /data
-qemu-img create -f qcow2 -o preallocation=metadata kvm-vm1.qcow2 20G
+mkdir /data && cd /data
+qemu-img create -f /data/qcow2 -o preallocation=metadata kvm-vm1.qcow2 20G
 qemu-img create -f qcow2 -o preallocation=metadata kvm-vm2.qcow2 20G
 %end
 
