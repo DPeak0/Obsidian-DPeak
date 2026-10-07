@@ -998,6 +998,8 @@ Hello, yunxiang.com
 
 在kvm-host主机上编写一个完整的系统巡检脚本 /usr/local/bin/syscheck.sh，功能要求如下：
 1. 检查kvm-host主机磁盘分区使用率，超过 80% 时报警，显示”根分区使用率超过80%，请及时处理”
+2. 检查以下关键服务状态：named、nginx、chronyd
+3. 将巡检结果输出到 /var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
 ```bash
 [root@kvm-host ~]# vim /usr/local/bin/syscheck.sh
 #!/bin/bash
@@ -1006,31 +1008,6 @@ if [ $disk -gt 80 ] ;then
         echo '根分区使用率超过80%，请及时处理'
 fi
 
-[root@kvm-host ~]# chmod a+x /usr/local/bin/syscheck.sh
-
-[root@kvm-host ~]# dd if=/dev/zero of=/test bs=1M count=40960
-40960+0 records in
-40960+0 records out
-42949672960 bytes (43 GB, 40 GiB) copied, 23.8566 s, 1.8 GB/s
-[root@kvm-host ~]# df -h
-Filesystem      Size  Used Avail Use% Mounted on
-devtmpfs        3.8G     0  3.8G   0% /dev
-tmpfs           3.8G     0  3.8G   0% /dev/shm
-tmpfs           3.8G  9.8M  3.8G   1% /run
-tmpfs           3.8G     0  3.8G   0% /sys/fs/cgroup
-/dev/sda2        60G   51G  9.3G  85% /
-/dev/sda1       495M  230M  266M  47% /boot
-tmpfs           775M  1.2M  774M   1% /run/user/42
-tmpfs           775M  4.0K  775M   1% /run/user/0
-[root@kvm-host ~]# /usr/local/bin/syscheck.sh
-根分区使用率超过80%，请及时处理
-
 ```
-
-2. 检查以下关键服务状态：named、nginx、chronyd
-
-
-3. 将巡检结果输出到 /var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
-
 
 4. 创建一个计划任务，要求每周一-周五9-17点每隔5分钟执行一次
