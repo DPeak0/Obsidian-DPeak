@@ -495,7 +495,9 @@ setenforce 0
 yum -y install net-tools vim-enhanced bash-completion qemu-kvm libvirt virt-install virt-viewer
 yum -y groupinstall 'Virtualization Host'
 systemctl enable --now libvirtd
+
 sed -i 's/pool 2.centos.pool.ntp.org iburst/server 10.10.10.254 iburst/' /etc/chrony.conf
+
 cat > /etc/sysconfig/network-scripts/ifcfg-ens160 << END
 TYPE=Ethernet
 DEVICE=ens160
