@@ -972,6 +972,9 @@ server 10.10.10.12 weight=2;
 [root@kvm-vm1 ~]# cat /var/www/html/index.html
 Hello, yunxiang.com
 
+[root@kvm-vm2 ~]# cat /var/www/html/index.html
+Hello, yunxiang.com
+
 
 ```
 当用户输入http:// kvm-host.yunxiang.com可以访问到apache中的内容。
