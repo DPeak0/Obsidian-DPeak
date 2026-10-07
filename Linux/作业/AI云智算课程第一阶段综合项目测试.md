@@ -973,18 +973,39 @@ server 10.10.10.12 weight=2;
 Hello, yunxiang.com
 [root@kvm-vm2 ~]# cat /var/www/html/index.html
 Hello, yunxiang.com
+
+[root@kvm-vm1 ~]# vim /etc/httpd/conf.d/kvm-vm1.conf
+<VirtualHost *:80>
+    DocumentRoot "/var/www/html"
+    ServerName kvm-vm1.yunxiang.com
+</VirtualHost>
+
+[root@kvm-vm2 ~]# vim /etc/httpd/conf.d/kvm-vm2.conf
+<VirtualHost *:80>
+    DocumentRoot "/var/www/html"
+    ServerName kvm-vm2.yunxiang.com
+</VirtualHost>
+
+
 ```
 当用户输入http:// kvm-host.yunxiang.com可以访问到apache中的内容。
-
+```bash
+[root@server01 ~]# curl kvm-host.yunxiang.com
+Hello, yunxiang.com
+```
 
 ## **任务九： 巡检脚本及计划任务  10分**
 
 在kvm-host主机上编写一个完整的系统巡检脚本 /usr/local/bin/syscheck.sh，功能要求如下：
-
 1. 检查kvm-host主机磁盘分区使用率，超过 80% 时报警，显示”根分区使用率超过80%，请及时处理”
+```bash
+
+```
 
 2. 检查以下关键服务状态：named、nginx、chronyd
 
-3.将巡检结果输出到 /var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
+
+3. 将巡检结果输出到 /var/log/syscheck/check_$(date +%Y%m%d_%H%M).log
+
 
 4. 创建一个计划任务，要求每周一-周五9-17点每隔5分钟执行一次
