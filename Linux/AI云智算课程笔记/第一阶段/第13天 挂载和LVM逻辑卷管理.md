@@ -1264,6 +1264,9 @@ Do you really want to remove active logical volume vg0/lv1? [y/n]: y
 [root@localhost ~]# lvextend -L 20G /dev/vg0/lv1
   Size of logical volume vg0/lv1 changed from 10.00 GiB (2560 extents) to 20.00 GiB (5120 extents).
   Logical volume vg0/lv1 successfully resized.
+  
+[root@localhost ~]# lvextend -L 20G -r /dev/vg0/lv1
+#将上-r选项表示扩容lv并拉伸文件系统
 ```
 
 > [!warning] 千万不要使用 mkfs
