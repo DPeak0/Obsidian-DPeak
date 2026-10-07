@@ -774,6 +774,45 @@ logout
 Connection to 10.10.10.101 closed.
 
 
+[root@server01 ~]# ssh-copy-id root@10.10.10.11
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host '10.10.10.11 (10.10.10.11)' can't be established.
+ECDSA key fingerprint is SHA256:sDpm5NyB10c51myzWivvZwsxLjpa818BksYr2ujPifM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@10.10.10.11's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@10.10.10.11'"
+and check to make sure that only the key(s) you wanted were added.
+
+[root@server01 ~]# ssh root@10.10.10.11
+Last login: Tue Oct  6 11:51:04 2026
+[root@kvm-vm1 ~]# hostname
+kvm-vm1.yunxiang.com
+[root@kvm-vm1 ~]# exit
+logout
+Connection to 10.10.10.11 closed.
+[root@server01 ~]# ssh-copy-id root@10.10.10.12
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host '10.10.10.12 (10.10.10.12)' can't be established.
+ECDSA key fingerprint is SHA256:aIdQ9GUB17mtHSeFQTEQkCiliwr6090FCI41nIEJ3Mw.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@10.10.10.12's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@10.10.10.12'"
+and check to make sure that only the key(s) you wanted were added.
+
+[root@server01 ~]# ssh root@10.10.10.12
+Last login: Tue Oct  6 12:08:48 2026
+[root@kvm-vm2 ~]# hostname
+kvm-vm2.yunxiang.com
 
 ```
 ## **任务七：DNS服务器  10分**
@@ -884,33 +923,40 @@ zone "10.10.10.in-addr.arpa" IN {
 [root@kvm-host ~]# systemctl restart named
 [root@kvm-host ~]# ls /var/named/slaves/
 10.10.10.in-addr.arpa  yunxiang.com
-[root@kvm-host ~]# systemctl stop named
 
+[root@server01 ~]# systemctl stop named
 [root@kvm-host ~]# echo 'nameserver 10.10.10.101' >> /etc/resolv.conf
-[root@kvm-host ~]# nslookup kvm-host.yunxiang.com
-Server:         10.10.10.254
-Address:        10.10.10.254#53
+[root@kvm-host ~]# nslookup server01.yunxiang.com
+Server:         10.10.10.101
+Address:        10.10.10.101#53
 
-Name:   kvm-host.yunxiang.com
-Address: 10.10.10.101
+Name:   server01.yunxiang.com
+Address: 10.10.10.254
 
 ```
 ## **任务八：web服务器  10分**
 
 1. 在server01上创建/nfsdata目录，使用nfs共享该目录，确保kvm-vm1和kvm-vm2两台主机对该目录可以访问并拥有写权限
 ```bash
-[root@kvm-host ~]# cat /etc/exports
-/nfsdata 10.10.10.11(rw)
-/nfsdata 10.10.10.12(rw)
-[root@kvm-host ~]# systemctl restart nfs-server
-[root@kvm-host ~]# exportfs -v
+[root@server01 ~]# mkdir /nfsdata
+[root@server01 ~]# vim /nfsdata
+[root@server01 ~]# vim /etc/exports
+[root@server01 ~]# systemctl restart nfs-server.service
+[root@server01 ~]# exportfs -v
 /nfsdata        10.10.10.11(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)
 /nfsdata        10.10.10.12(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)
+
 
 ```
 
 2. 在kvm-host安装nginx服务器，提供负载均衡，负载均衡算法为轮循，kvm-vm1权重为1,kvm-vm2权重为2
+```bash
+upstream webservers {
+server 10.10.10.11 weight=1;
+server 10.10.10.12 weight=2;
+}
 
+```
 
 3. 在kvm-vm1和kvm-vm2上安装apache，并确保每次启动均自动开启该服务，将server01上的nfs共享挂载至/var/www/html，写入内容Hello, yunxiang.com到index.html文件中
 
