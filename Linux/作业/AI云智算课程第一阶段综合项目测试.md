@@ -1013,11 +1013,11 @@ if [ $disk -gt 80 ] ;then
 fi
 
 
-for sys in named nginx chronyd ; do
-        if [ $(systemctl status $sys | grep Active | awk '{print $2}') = active ] ;then
-                echo "$sys 正在运行"
+for services in named nginx chronyd ; do
+        if [ $(systemctl status $services | grep Active | awk '{print $2}') = active ] ;then
+                echo "$services 正在运行"
         else
-                echo "$sys 未运行"
+                echo "$services 未运行"
         fi
 done
 
