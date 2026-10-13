@@ -4,7 +4,6 @@
 节次: 第 3 节
 环境: VMware + CentOS 8.4 + dnf 本地光盘源 + MySQL 8.0
 ---
-
 **授课目标**：掌握 MySQL 核心数据类型的选择原理，深刻理解字段约束属性（尤其是 `unsigned` 与 `auto_increment`），了解 MySQL 8.0 字符集的底层优化，并熟练运用 `ALTER TABLE` 语句对表结构进行灵活的动态调整。
 
 ## 一、常用数据类型详解
