@@ -113,13 +113,13 @@ systemctl restart mysqld
 
 ## 七、查询基础（DQL）
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `SELECT * FROM 表;` | 查全部字段（**性能差**，只取需要的列） |
-| `SELECT 列1, 列2 FROM 表;` | 指定字段，降低 I/O 与网络传输 |
-| `SELECT DISTINCT 列 FROM 表;` | **去重** |
-| `SELECT 列 AS 别名 FROM 表;` | 起别名（`AS` 可省略：`SELECT 列 别名`） |
-| `SELECT CONCAT('前缀', 列) AS 别名 FROM 表;` | 拼接后输出，报表格式化常用 |
+| 命令                                     | 说明                          |
+| :------------------------------------- | :-------------------------- |
+| `SELECT * FROM 表;`                     | 查全部字段（**性能差**，只取需要的列）       |
+| `SELECT 列1, 列2 FROM 表;`                | 指定字段，降低 I/O 与网络传输           |
+| `SELECT DISTINCT 列 FROM 表;`            | **去重**                      |
+| `SELECT 列 AS 别名 FROM 表;`               | 起别名（`AS` 可省略：`SELECT 列 别名`） |
+| `SELECT CONCAT('前缀', 列) AS 别名 FROM 表;` | 拼接后输出，报表格式化常用               |
 
 ## 八、条件过滤（WHERE）
 
