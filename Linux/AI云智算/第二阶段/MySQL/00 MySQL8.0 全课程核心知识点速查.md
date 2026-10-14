@@ -43,21 +43,22 @@ systemctl restart mysqld
 
 ## 三、表操作（Table）
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `SHOW TABLES;` | 列出当前库所有表 |
-| `DESC 表名;` | 查看表结构（等价 `DESCRIBE`、`SHOW COLUMNS FROM 表名`） |
-| `SHOW CREATE TABLE 表名\G` | 查看**完整建表语句**（含引擎、字符集、分区） |
-| `CREATE TABLE 表名 (…) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;` | 创建数据表 |
-| `CREATE TABLE 新表 LIKE 旧表;` | **只复制结构**（字段+索引，不含数据） |
-| `INSERT INTO 新表 SELECT * FROM 旧表;` | **只复制数据**，配合上一条完成整表克隆 |
-| `CREATE TABLE 新表 AS SELECT * FROM 旧表;` | 结构+数据一步到位（**不带索引/自增**，慎用） |
-| `RENAME TABLE 旧 TO 新;` | 修改表名 |
-| `DROP TABLE 表名;` | 删表（数据一起删） |
-| `DROP TABLE IF EXISTS 表名;` | 表不存在也不报错，批量脚本常用 |
-| `TRUNCATE TABLE 表名;` | **清空整表并重置自增**，速度远快于 DELETE |
-| `CHECK TABLE 表名;` | 检查表是否损坏 |
-| `OPTIMIZE TABLE 表名;` | 回收碎片空间（MyISAM 有效） |
+| 命令                                                           | 说明                                          |
+| :----------------------------------------------------------- | :------------------------------------------ |
+| `SHOW TABLES;`                                               | 列出当前库所有表                                    |
+| `DESC 表名;`                                                   | 查看表结构（等价 `DESCRIBE`、`SHOW COLUMNS FROM 表名`） |
+| `SHOW CREATE TABLE 表名\G`                                     | 查看**完整建表语句**（含引擎、字符集、分区）                    |
+| `CREATE TABLE 表名 (…) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;` | 创建数据表                                       |
+| `CREATE TABLE 新表 LIKE 旧表;`                                   | **只复制结构**（字段+索引，不含数据）                       |
+| `INSERT INTO 新表 SELECT * FROM 旧表;`                           | **只复制数据**，配合上一条完成整表克隆                       |
+| `CREATE TABLE 新表 AS SELECT * FROM 旧表;`                       | 结构+数据一步到位（**不带索引/自增**，慎用）                   |
+| `RENAME TABLE 旧 TO 新;`                                       | 修改表名                                        |
+| `DROP TABLE 表名;`                                             | 删表（数据一起删）                                   |
+| `DROP TABLE IF EXISTS 表名;`                                   | 表不存在也不报错，批量脚本常用                             |
+| `TRUNCATE TABLE 表名;`                                         | **清空整表并重置自增**，速度远快于 DELETE                  |
+| `CHECK TABLE 表名;`                                            | 检查表是否损坏                                     |
+| `OPTIMIZE TABLE 表名;`                                         | 回收碎片空间（MyISAM 有效）                           |
+
 
 ## 四、字段管理（ALTER TABLE）
 
