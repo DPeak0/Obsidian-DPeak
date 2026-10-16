@@ -97,16 +97,16 @@ systemctl restart mysqld
 
 ## 六、数据操作（DML）
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `INSERT INTO 表(列) VALUES (值);` | 单行插入 |
-| `INSERT INTO 表(列) VALUES (值),(值),(值);` | **批量插入**，造测试数据最快方式 |
-| `INSERT INTO 表 SET 列=值;` | 单行的另一种写法 |
-| `UPDATE 表 SET 列=值 WHERE 条件;` | 按条件改数据 |
-| `UPDATE 表 SET 列1=值1, 列2=值2 WHERE 条件;` | 同时改多个字段 |
-| `DELETE FROM 表 WHERE 条件;` | 按条件删行（**保留自增计数**、**可回滚**） |
-| `DELETE FROM 表;` | 删光数据，**自增不重置** |
-| `TRUNCATE TABLE 表;` | 删光数据并**重置自增**，底层是"删表重建"，**不可回滚** |
+| 命令                                     | 说明                               |
+| :------------------------------------- | :------------------------------- |
+| `INSERT INTO 表(列) VALUES (值);`         | 单行插入                             |
+| `INSERT INTO 表(列) VALUES (值),(值),(值);` | **批量插入**，造测试数据最快方式               |
+| `INSERT INTO 表 SET 列=值;`               | 单行的另一种写法                         |
+| `UPDATE 表 SET 列=值 WHERE 条件;`           | 按条件改数据                           |
+| `UPDATE 表 SET 列1=值1, 列2=值2 WHERE 条件;`  | 同时改多个字段                          |
+| `DELETE FROM 表 WHERE 条件;`              | 按条件删行（**保留自增计数**、**可回滚**）        |
+| `DELETE FROM 表;`                       | 删光数据，**自增不重置**                   |
+| `TRUNCATE TABLE 表;`                    | 删光数据并**重置自增**，底层是"删表重建"，**不可回滚** |
 
 > [!danger] 生产铁律
 > **`UPDATE` / `DELETE` 必须带 `WHERE`**，否则整表数据被覆盖/清空 —— 头号事故。
@@ -248,14 +248,15 @@ systemctl restart mysqld
 
 **EXPLAIN 关键列怎么看：**
 
-| 列 | 判断标准 |
-| :--- | :--- |
-| **`type`** | **最重要**：`const` ＞ `ref` ＞ `range` ＞ `index` ＞ **`ALL`（全表扫描，最差）** |
-| `possible_keys` | 可能用到的索引 |
-| **`key`** | **实际用到的索引，为 `NULL` 说明没走索引** |
-| `key_len` | 用到的索引长度，**越短越好** |
-| `rows` | 预估扫描行数，**越小越好** |
-| `Extra` | `Using index`（覆盖索引）✅ ／ `Using filesort` ❌ ／ `Using temporary` ❌ |
+| 列               | 判断标准                                                             |
+| :-------------- | :--------------------------------------------------------------- |
+| **`type`**      | **最重要**：`const` ＞ `ref` ＞ `range` ＞ `index` ＞ **`ALL`（全表扫描，最差）** |
+| `possible_keys` | 可能用到的索引                                                          |
+| **`key`**       | **实际用到的索引，为 `NULL` 说明没走索引**                                      |
+| `key_len`       | 用到的索引长度，**越短越好**                                                 |
+| `rows`          | 预估扫描行数，**越小越好**                                                  |
+| `Extra`         | `Using index`（覆盖索引）✅ ／ `Using filesort` ❌ ／ `Using temporary` ❌  |
+
 
 **四大索引失效场景：**
 
