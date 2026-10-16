@@ -32,14 +32,14 @@ systemctl restart mysqld
 
 ## 二、库操作（Database）
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `SHOW DATABASES;` | 列出所有库 |
-| `CREATE DATABASE 库名;` | 创建数据库 |
+| 命令                                                                             | 说明                      |
+| :----------------------------------------------------------------------------- | :---------------------- |
+| `SHOW DATABASES;`                                                              | 列出所有库                   |
+| `CREATE DATABASE 库名;`                                                          | 创建数据库                   |
 | `CREATE DATABASE 库名 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;` | **建库推荐写法**，显式指定字符集防中文乱码 |
-| `USE 库名;` | 切换当前库 |
-| `SHOW CREATE DATABASE 库名\G` | 查看建库语句 |
-| `DROP DATABASE 库名;` | 删库（**连同库下所有表，不可逆**） |
+| `USE 库名;`                                                                      | 切换当前库                   |
+| `SHOW CREATE DATABASE 库名\G`                                                    | 查看建库语句                  |
+| `DROP DATABASE 库名;`                                                            | 删库（**连同库下所有表，不可逆**）     |
 
 ## 三、表操作（Table）
 
