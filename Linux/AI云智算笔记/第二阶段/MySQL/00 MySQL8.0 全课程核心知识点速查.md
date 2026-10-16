@@ -79,16 +79,17 @@ systemctl restart mysqld
 
 ## 五、索引管理（INDEX）
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `CREATE INDEX 索引名 ON 表(列);` | 建**普通索引**，无任何限制 |
-| `CREATE UNIQUE INDEX 索引名 ON 表(列);` | 建**唯一索引**，值不可重复、**允许 NULL** |
-| `CREATE INDEX 索引名 ON 表(列1, 列2);` | 建**复合索引**，遵循最左前缀 |
-| `ALTER TABLE 表 ADD INDEX 索引名(列);` | 建索引的另一种写法 |
-| `ALTER TABLE 表 ADD UNIQUE(列);` | 加唯一约束 |
-| `DROP INDEX 索引名 ON 表;` | 删除索引 |
-| `ALTER TABLE 表 DROP INDEX 索引名;` | 删除索引（等价写法） |
-| `SHOW INDEX FROM 表\G` | 查看表上所有索引（**必须用 `\G`**，否则列挤成一团） |
+| 命令                                 | 说明                             |
+| :--------------------------------- | :----------------------------- |
+| `CREATE INDEX 索引名 ON 表(列);`        | 建**普通索引**，无任何限制                |
+| `CREATE UNIQUE INDEX 索引名 ON 表(列);` | 建**唯一索引**，值不可重复、**允许 NULL**    |
+| `CREATE INDEX 索引名 ON 表(列1, 列2);`   | 建**复合索引**，遵循最左前缀               |
+| `ALTER TABLE 表 ADD INDEX 索引名(列);`  | 建索引的另一种写法                      |
+| `ALTER TABLE 表 ADD UNIQUE(列);`     | 加唯一约束                          |
+| `DROP INDEX 索引名 ON 表;`             | 删除索引                           |
+| `ALTER TABLE 表 DROP INDEX 索引名;`    | 删除索引（等价写法）                     |
+| `SHOW INDEX FROM 表\G`              | 查看表上所有索引（**必须用 `\G`**，否则列挤成一团） |
+|                                    |                                |
 
 > [!warning] 复合索引最左前缀
 > 索引 `(class_id, age)` 下：`WHERE class_id=1` ✅ ／ `WHERE class_id=1 AND age=19` ✅ ／ **`WHERE age=19` ❌ 跳过最左列 → 全表扫描**。
