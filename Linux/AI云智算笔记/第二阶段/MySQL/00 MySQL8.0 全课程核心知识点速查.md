@@ -170,16 +170,16 @@ systemctl restart mysqld
 
 ## 十一、多表查询 / 子查询 / JOIN
 
-| 写法 | 说明 |
-| :--- | :--- |
-| `SELECT … FROM a, b WHERE a.id = b.aid;` | 隐式连接，**必须加关联条件**，否则笛卡尔积 |
+| 写法                                              | 说明                          |
+| :---------------------------------------------- | :-------------------------- |
+| `SELECT … FROM a, b WHERE a.id = b.aid;`        | 隐式连接，**必须加关联条件**，否则笛卡尔积     |
 | `SELECT … FROM a INNER JOIN b ON a.id = b.aid;` | **内连接**，只返回两表匹配的行（**推荐写法**） |
-| `SELECT … FROM a LEFT JOIN b ON a.id = b.aid;` | **左外连接**，左表全保留、右表补 NULL |
-| `SELECT … FROM a RIGHT JOIN b ON a.id = b.aid;` | 右外连接，调换表位置即等价于左连接 |
-| `SELECT … FROM a JOIN b ON … JOIN c ON …;` | 多表连查 |
-| `SELECT … WHERE 列 IN (SELECT 列 FROM …);` | **嵌套子查询**，子结果作为外层条件 |
-| `SELECT … WHERE 列 = (SELECT …);` | 标量子查询（子查询只返回一行一列） |
-| `SELECT … WHERE EXISTS (SELECT …);` | 存在性判断，大数据量下比 `IN` 快 |
+| `SELECT … FROM a LEFT JOIN b ON a.id = b.aid;`  | **左外连接**，左表全保留、右表补 NULL     |
+| `SELECT … FROM a RIGHT JOIN b ON a.id = b.aid;` | 右外连接，调换表位置即等价于左连接           |
+| `SELECT … FROM a JOIN b ON … JOIN c ON …;`      | 多表连查                        |
+| `SELECT … WHERE 列 IN (SELECT 列 FROM …);`        | **嵌套子查询**，子结果作为外层条件         |
+| `SELECT … WHERE 列 = (SELECT …);`                | 标量子查询（子查询只返回一行一列）           |
+| `SELECT … WHERE EXISTS (SELECT …);`             | 存在性判断，大数据量下比 `IN` 快         |
 
 > [!warning] 统计"数量为 0 的组"
 > `GROUP BY` 查不出 0 人的组。**用 `LEFT JOIN` + `COUNT(从表字段)`**（如 `COUNT(user.id)`），NULL 会计为 0。
