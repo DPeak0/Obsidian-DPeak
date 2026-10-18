@@ -369,7 +369,7 @@ DELIMITER ;
 | `CREATE ROLE '角色1', '角色2';`             | 创建角色（**权限的集合**）    |
 | `GRANT SELECT, INSERT ON 库.* TO '角色1';` | 把权限**打包**给角色       |
 | `GRANT '角色1' TO 'u1'@'%', 'u2'@'%';`    | 把创建好的角色**分配给指定用户** |
-| `SET DEFAULT ROLE ALL TO 'u1'@'%';`     | **手动激活**角色         |
+| `SET DEFAULT ROLE ALL TO 'u1'@'%';`     | 设置登录时**自动激活**角色    |
 | `SHOW GRANTS FOR 'u1'@'%';`             | 查看用户的角色与权限         |
 | `DROP ROLE '角色1';`                      | 删除角色               |
 
