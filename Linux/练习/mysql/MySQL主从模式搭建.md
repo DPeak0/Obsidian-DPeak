@@ -285,5 +285,16 @@ auto_increment_offset = 1
 
 ### node2
 ```bash
+[root@node2 ~]# cat /etc/my.cnf.d/replication.cnf
+[mysqld]
+bind-address = 0.0.0.0
+server-id = 2
+relay-log = mysql-relay-bin
+# 开启 Binlog（作为主库必备）
+log-bin = mysql-bin
+binlog_format = ROW
+# 双主防冲突：步长与偏移量
+auto_increment_increment = 2
+auto_increment_offset = 2
 
 ```
