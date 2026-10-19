@@ -161,12 +161,12 @@ systemctl restart mysqld
 | `SUM(列)` / `AVG(列)` | 求和 / 平均值（仅数值型） |
 | `MAX(列)` / `MIN(列)` | 最大 / 最小值 |
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `GROUP BY 列` | 按列分组，配合聚合函数统计 |
-| `SELECT 列, COUNT(*) FROM t GROUP BY 列;` | **每组统计**的标准写法 |
-| `… GROUP BY 列 HAVING COUNT(*) > 3;` | 分组后再筛（**WHERE 在分组前，HAVING 在分组后**） |
-| `SELECT GROUP_CONCAT(列) FROM t GROUP BY 分组列;` | 把每组的值**拼成一行字符串** |
+| 命令                                            | 说明                                |
+| :-------------------------------------------- | :-------------------------------- |
+| `GROUP BY 列`                                  | 按列分组，配合聚合函数统计                     |
+| `SELECT 列, COUNT(*) FROM t GROUP BY 列;`       | **每组统计**的标准写法                     |
+| `… GROUP BY 列 HAVING COUNT(*) > 3;`           | 分组后再筛（**WHERE 在分组前，HAVING 在分组后**） |
+| `SELECT GROUP_CONCAT(列) FROM t GROUP BY 分组列;` | 把每组的值**拼成一行字符串**                  |
 
 ## 十一、多表查询 / 子查询 / JOIN
 
