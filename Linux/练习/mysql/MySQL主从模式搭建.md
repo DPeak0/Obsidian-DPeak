@@ -1,3 +1,4 @@
+# 两台MySQL服务器的主从复制实验
 ## 初始化环境
 
 | 服务器   | 公网 IP                  | 私网 IP               |
@@ -222,7 +223,7 @@ Master_SSL_Verify_Server_Cert: No
 >
 
 ## 验证：数据同步功能
-### 在主库（node1）创建测试数据
+-  在主库（node1）创建测试数据
 ```bash
 [root@node1 ~]# mysql -uroot -p1 -e "
 CREATE DATABASE rep_test;
@@ -231,5 +232,49 @@ CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50));
 INSERT INTO users (name) VALUES ('Rocky'), ('HuaweiCloud');
 "
 mysql: [Warning] Using a password on the command line interface can be insecure.
+
+```
+- 在从库（node2）查下测试数据
+```mysql
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| rep_test           |
+| sys                |
++--------------------+
+5 rows in set (0.03 sec)
+
+mysql> select * from rep_test.users;
++----+-------------+
+| id | name        |
++----+-------------+
+|  1 | Rocky       |
+|  2 | HuaweiCloud |
++----+-------------+
+2 rows in set (0.00 sec)
+
+```
+
+# 两台MySQL服务器的双主复制实验
+## 双主防冲突配置
+### node1
+```bash
+[root@node1 ~]# cat /etc/my.cnf.d/replication.cnf
+[mysqld]
+# 监听所有网卡接口
+bind-address = 0.0.0.0
+# 集群内唯一节点 ID
+server-id = 1
+# 开启二进制日志
+log-bin = mysql-bin
+# Binlog 格式使用 ROW（数据一致性最高，最佳实践）
+binlog_format = ROW
+# 双主防冲突：步长与偏移量
+auto_increment_increment = 2
+auto_increment_offset = 1
 
 ```
