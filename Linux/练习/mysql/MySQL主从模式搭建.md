@@ -1,11 +1,11 @@
-### 初始化环境
+## 初始化环境
 
 | 服务器   | 公网 IP                  | 私网 IP               |
 | ----- | ---------------------- | ------------------- |
 | node1 | VMnet8： 192.168.200.10 | VMnet1：192.168.0.10 |
 | node2 | 无                      | 192.168.0.20        |
 | node3 | 无                      | 192.168.0.30        |
-- 修改主机名、配置本地hosts、本地yum源
+### 修改主机名、配置本地hosts、本地yum源
 ```bash
 [root@node1 ~]# hostnamectl set-hostname node1
 [root@node1 ~]# echo -e '192.168.0.10 node1\n192.168.0.20 node2\n192.168.0.30 node3' >> /etc/hosts
@@ -57,14 +57,15 @@ PING node3 (192.168.0.30) 56(84) bytes of data.
 rtt min/avg/max/mdev = 2.466/2.466/2.466/0.000 ms
 ```
 
-- 安装MySQL8.0
+### 安装MySQL8.0
 ```bash
 [root@node1 ~]# rpm -qa mysql-server
 mysql-server-8.0.21-1.module+el8.3.0+242+87d3366a.x86_64
 [root@node1 ~]# systemctl enable mysqld --now
 ```
 
-### 配置主库Master
+## 配置主库Master(node1)
+### 创建主库自定义配置文件
 ```bash
 [root@node1 ~]# vim /etc/my.cnf.d/replication.cnf
 [root@node1 ~]# cat /etc/my.cnf.d/replication.cnf
@@ -84,3 +85,127 @@ binlog_format = ROW
 ```
 
 
+### 创建数据同步专用用户
+```mysql
+mysql> CREATE USER 'repl'@'192.168.0.%' IDENTIFIED BY 'Repl@123456';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT REPLICATION SLAVE ON *.* TO 'repl'@'192.168.0.%';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> FLUSH PRIVILEGES ;
+Query OK, 0 rows affected (0.00 sec)
+```
+
+### 记录主库当前的Binlog坐标
+```bash
+[root@node1 ~]# mysql -uroot -p1 -e "SHOW MASTER STATUS\G"
+mysql: [Warning] Using a password on the command line interface can be insecure.
+*************************** 1. row ***************************
+             File: mysql-bin.000007
+         Position: 861
+     Binlog_Do_DB:
+ Binlog_Ignore_DB:
+Executed_Gtid_Set:
+
+```
+
+
+## 配置从库Slave(node2)
+### 创建MySQL从库自定义配置文件
+```bash
+[root@node2 ~]# vim /etc/my.cnf.d/replication.cnf
+[root@node2 ~]# cat /etc/my.cnf.d/replication.cnf
+[mysqld]
+bind-address = 0.0.0.0
+# 从库 ID 必须与主库不同
+server-id = 2
+# 开启中继日志
+relay-log = mysql-relay-bin
+# 开启全局只读模式 (非 SUPER 权限用户无法写入数据)
+read_only = 1
+```
+- 重启使配置生效
+  ```bash
+  [root@node2 ~]# systemctl restart mysqld.service
+  ```
+
+## 建立主从同步链路
+### 配置主库信息
+```mysql
+mysql> CHANGE MASTER TO
+    ->       MASTER_HOST = '192.168.0.10',
+    ->       MASTER_USER = 'repl',
+    ->       MASTER_PASSWORD = 'Repl@123456',
+    ->       MASTER_LOG_FILE = 'mysql-bin.000007',
+    ->       MASTER_LOG_POS = 861;
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+
+mysql> START SLAVE;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW SLAVE STATUS\G
+*************************** 1. row ***************************
+               Slave_IO_State:
+                  Master_Host: 192.168.0.10
+                  Master_User: repl
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000007
+          Read_Master_Log_Pos: 861
+               Relay_Log_File: mysql-relay-bin.000001
+                Relay_Log_Pos: 4
+        Relay_Master_Log_File: mysql-bin.000007
+             Slave_IO_Running: No
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB:
+          Replicate_Ignore_DB:
+           Replicate_Do_Table:
+       Replicate_Ignore_Table:
+      Replicate_Wild_Do_Table:
+  Replicate_Wild_Ignore_Table:
+                   Last_Errno: 0
+                   Last_Error:
+                 Skip_Counter: 0
+          Exec_Master_Log_Pos: 861
+              Relay_Log_Space: 156
+              Until_Condition: None
+               Until_Log_File:
+                Until_Log_Pos: 0
+           Master_SSL_Allowed: No
+           Master_SSL_CA_File:
+           Master_SSL_CA_Path:
+              Master_SSL_Cert:
+            Master_SSL_Cipher:
+               Master_SSL_Key:
+        Seconds_Behind_Master: NULL
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 13117
+                Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work.
+               Last_SQL_Errno: 0
+               Last_SQL_Error:
+  Replicate_Ignore_Server_Ids:
+             Master_Server_Id: 1
+                  Master_UUID:
+             Master_Info_File: mysql.slave_master_info
+                    SQL_Delay: 0
+          SQL_Remaining_Delay: NULL
+      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
+           Master_Retry_Count: 86400
+                  Master_Bind:
+      Last_IO_Error_Timestamp: 261019 20:55:25
+     Last_SQL_Error_Timestamp:
+               Master_SSL_Crl:
+           Master_SSL_Crlpath:
+           Retrieved_Gtid_Set:
+            Executed_Gtid_Set:
+                Auto_Position: 0
+         Replicate_Rewrite_DB:
+                 Channel_Name:
+           Master_TLS_Version:
+       Master_public_key_path:
+        Get_master_public_key: 0
+            Network_Namespace:
+1 row in set (0.00 sec)
+
+```
