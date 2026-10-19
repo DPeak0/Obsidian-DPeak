@@ -140,10 +140,14 @@ mysql> CHANGE MASTER TO
     ->       MASTER_LOG_FILE = 'mysql-bin.000007',
     ->       MASTER_LOG_POS = 861;
 Query OK, 0 rows affected, 2 warnings (0.03 sec)
-
+```
+- 启动复制线程
+```mysql
 mysql> START SLAVE;
 Query OK, 0 rows affected (0.01 sec)
-
+```
+- 查看复制状态
+```mysql
 mysql> SHOW SLAVE STATUS\G
 *************************** 1. row ***************************
                Slave_IO_State:
@@ -207,5 +211,5 @@ Master_SSL_Verify_Server_Cert: No
         Get_master_public_key: 0
             Network_Namespace:
 1 row in set (0.00 sec)
-
 ```
+
