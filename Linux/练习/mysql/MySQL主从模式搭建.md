@@ -262,6 +262,7 @@ mysql> select * from rep_test.users;
 # 两台MySQL服务器的双主复制实验
 ## 双主防冲突配置
 ### node1
+- 修改MySQL自定义配置文件
 ```bash
 [root@node1 ~]# cat /etc/my.cnf.d/replication.cnf
 [mysqld]
@@ -284,6 +285,7 @@ auto_increment_offset = 1
   ```
 
 ### node2
+- 修改MySQL自定义配置文件
 ```bash
 [root@node2 ~]# cat /etc/my.cnf.d/replication.cnf
 [mysqld]
@@ -296,5 +298,5 @@ binlog_format = ROW
 # 双主防冲突：步长与偏移量
 auto_increment_increment = 2
 auto_increment_offset = 2
-
 ```
+- 
