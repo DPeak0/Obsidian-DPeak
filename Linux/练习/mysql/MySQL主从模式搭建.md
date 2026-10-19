@@ -213,3 +213,7 @@ Master_SSL_Verify_Server_Cert: No
 1 row in set (0.00 sec)
 ```
 
+>[!注意]
+>VMware虚拟机克隆会导致server_uuid
+>
+
