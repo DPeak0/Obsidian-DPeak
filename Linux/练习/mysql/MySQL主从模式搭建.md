@@ -224,5 +224,12 @@ Master_SSL_Verify_Server_Cert: No
 ## 验证：数据同步功能
 ### 在主库（node1）创建测试数据
 ```bash
+[root@node1 ~]# mysql -uroot -p1 -e "
+CREATE DATABASE rep_test;
+USE rep_test;
+CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50));
+INSERT INTO users (name) VALUES ('Rocky'), ('HuaweiCloud');
+"
+mysql: [Warning] Using a password on the command line interface can be insecure.
 
 ```
