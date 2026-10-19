@@ -1,10 +1,11 @@
+### 初始化环境
+
 | 服务器   | 公网 IP                  | 私网 IP               |
 | ----- | ---------------------- | ------------------- |
 | node1 | VMnet8： 192.168.200.10 | VMnet1：192.168.0.10 |
 | node2 | 无                      | 192.168.0.20        |
 | node3 | 无                      | 192.168.0.30        |
-
-- 初始化环境
+- 修改主机名、配置本地hosts、本地yum源
 ```bash
 [root@node1 ~]# hostnamectl set-hostname node1
 [root@node1 ~]# echo -e '192.168.0.10 node1\n192.168.0.20 node2\n192.168.0.30 node3' >> /etc/hosts
@@ -55,4 +56,31 @@ PING node3 (192.168.0.30) 56(84) bytes of data.
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 2.466/2.466/2.466/0.000 ms
 ```
+
+- 安装MySQL8.0
+```bash
+[root@node1 ~]# rpm -qa mysql-server
+mysql-server-8.0.21-1.module+el8.3.0+242+87d3366a.x86_64
+[root@node1 ~]# systemctl enable mysqld --now
+```
+
+### 配置主库Master
+```bash
+[root@node1 ~]# vim /etc/my.cnf.d/replication.cnf
+[root@node1 ~]# cat /etc/my.cnf.d/replication.cnf
+[mysqld]
+# 监听所有网卡接口
+bind-address = 0.0.0.0
+# 集群内唯一节点 ID
+server-id = 1
+# 开启二进制日志
+log-bin = mysql-bin
+# Binlog 格式使用 ROW（数据一致性最高，最佳实践）
+binlog_format = ROW
+```
+- 重启MySQL使配置生效
+```bash
+[root@node1 ~]# systemctl restart mysqld.service
+```
+
 
