@@ -407,3 +407,8 @@ Master_SSL_Verify_Server_Cert: No
             Network_Namespace:
 1 row in set (0.00 sec)
 ```
+## 验证：双主高可用与防冲突
+- 在node1上写入数据
+```bash
+
+```
