@@ -10,7 +10,7 @@ MGR（MySQL Group Replication，组复制）依靠分布式 Paxos 算法（多�
 - **集群要求**：必须至少 3 个节点（满足 `(N/2)+1` 的多数派，允许 1 台宕机）
 - **本节架构**：node1（主）、node2（备 1）、node3（备 2），采用单主模式（Single-Primary），所有写操作都在主节点，宕机后其他两台自动选举出新主
 
-## 一、node3（第三节点）初始化安装
+## 步骤 1：node3（第三节点）初始化安装
 
 在 node3（192.168.0.30）上执行安装和启动：
 
@@ -19,7 +19,7 @@ dnf install mysql-server -y
 systemctl enable --now mysqld
 ```
 
-## 二、清理旧架构（重置 node1 和 node2）
+## 步骤 2：清理旧架构（重置 node1 和 node2）
 
 MGR 是基于 GTID（全局事务 ID）的新型集群，需要清理前两节的传统主从复制配置和状态。在 node1 和 node2 上分别执行：
 
@@ -35,7 +35,7 @@ RESET MASTER;
 rm -f /etc/my.cnf.d/replication.cnf
 ```
 
-## 三、为 3 台服务器写入 MGR 专属配置
+## 步骤 3：为 3 台服务器写入 MGR 专属配置
 
 MGR 的配置要求高度统一，核心是开启 GTID 和配置组间通讯种子节点（通信端口默认使用 33061）。
 
@@ -120,7 +120,7 @@ EOF
 systemctl restart mysqld
 ```
 
-## 四、创建 MGR 专属同步账号（node1、node2、node3 分别执行一次）
+## 步骤 4：创建 MGR 专属同步账号（node1、node2、node3 分别执行一次）
 
 在每一台服务器上建立专属的集群恢复账号，并设置系统复制通道。
 
@@ -146,7 +146,7 @@ CHANGE MASTER TO MASTER_USER='mgr_repl', MASTER_PASSWORD='Mgr@123456' FOR CHANNE
 > [!note] 为什么要关 Binlog
 > `SET SQL_LOG_BIN=0;` 是为了防止这个新建用户的操作被记入日志并传播，确保每个节点独立创建互不冲突。
 
-## 五、配置主机名解析（3 台服务器都要执行）
+## 步骤 5：配置主机名解析（3 台服务器上都要执行）
 
 MGR 的 `MEMBER_HOST` 字段显示的是主机名（如 node1 等）而不是 IP。如果节点无法通过主机名解析到对应 IP，加入集群后就会一直卡在 `RECOVERING` 状态无法恢复数据。请将 IP 与主机名的映射写入 3 台服务器的系统配置：
 
@@ -160,7 +160,7 @@ EOF
 
 请确保上面的主机名和服务器实际的主机名完全一致（可通过 `hostname` 命令查看），如果有出入，请修改为实际的主机名。
 
-## 六、启动 MGR 集群（引导主节点，在 node1 上执行）
+## 步骤 6：启动 MGR 集群（引导主节点，在 node1 上执行）
 
 MGR 集群必须由一台机器“引导”建立，这就好比建微信群的第一个人。
 
@@ -175,13 +175,13 @@ SET GLOBAL group_replication_bootstrap_group=OFF;
 "
 ```
 
-## 七、将 node2 和 node3 加入集群（在 node2 和 node3 上分别执行）
+## 步骤 7：将 node2 和 node3 加入集群（在 node2 和 node3 上分别执行）
 
 ```bash
 mysql -uroot -e "START GROUP_REPLICATION;"
 ```
 
-## 八、验证 MGR 终极高可用状态（在任意一台服务器上执行）
+## 步骤 8：验证 MGR 终极高可用状态（在任意一台服务器上执行）
 
 ```bash
 mysql -uroot -e "
@@ -192,7 +192,7 @@ FROM performance_schema.replication_group_members;
 
 **期望结果**：看到 3 行数据，所有 `MEMBER_STATE` 均为 `ONLINE`，其中一台 `MEMBER_ROLE` 为 `PRIMARY`（可读写），另外两台为 `SECONDARY`（只读备用）。三个节点全部 `ONLINE` 即代表 MGR 集群搭建成功。
 
-## 九、拓展实验（可选）：MGR 自动故障转移（拔网线测试）
+## 拓展实验（可选）：MGR 自动故障转移（拔网线测试）
 
 体验 MGR 最核心的自动容灾能力。
 

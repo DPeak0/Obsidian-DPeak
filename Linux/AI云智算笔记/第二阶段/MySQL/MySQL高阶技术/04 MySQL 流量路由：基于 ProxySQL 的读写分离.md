@@ -11,7 +11,7 @@ ProxySQL 的默认管理端口是 **6032**（默认账号密码都是 admin）�
 
 ## 上半场：环境安装与账号准备
 
-### 一、安装 ProxySQL（在 node1 上执行）
+### 步骤 1：安装 ProxySQL（在 node1 上执行）
 
 由于 ProxySQL 不在 Rocky Linux 的默认源中，需要配置官方源（国内访问官方源一般没问题，已关闭 GPG 校验加速下载）。
 
@@ -42,7 +42,7 @@ systemctl enable --now proxysql
 systemctl status proxysql
 ```
 
-### 二、创建代理需要的 MySQL 账号（在当前的 PRIMARY 节点上执行）
+### 步骤 2：创建代理需要的 MySQL 账号（在当前的 PRIMARY 节点上执行）
 
 ProxySQL 需要两个账号：一个用来监控集群谁是主谁是备（`monitor`），另一个给业务代码实际使用（`app_user`）。
 
@@ -72,7 +72,7 @@ FLUSH PRIVILEGES;
 
 ## 下半场：配置读写分离路由规则（以下操作全部在 node1 上执行）
 
-### 三、登录 ProxySQL 管理后台
+### 步骤 3：登录 ProxySQL 管理后台
 
 在 node1 的终端输入以下命令进入 ProxySQL 的配置界面：
 
@@ -80,7 +80,7 @@ FLUSH PRIVILEGES;
 mysql -uadmin -padmin -h127.0.0.1 -P6032 --prompt='ProxySQL> '
 ```
 
-### 四、配置监控账号与 MGR 集群节点
+### 步骤 4：配置监控账号与 MGR 集群节点
 
 在 `ProxySQL>` 提示符下，依次粘贴并执行以下 SQL：
 
@@ -134,7 +134,7 @@ SAVE MYSQL SERVERS TO DISK;
 | `writer_is_also_reader` | 0 | 写节点不兼职读节点 |
 | `max_transactions_behind` | 100 | 从节点落后超过 100 个事务，就认为太旧，不分配读流量或放离线组 |
 
-### 五、验证 MGR 节点是否被正确识别
+### 步骤 5：验证 MGR 节点是否被正确识别
 
 依然在 `ProxySQL>` 提示符下，执行以下查询：
 
@@ -144,7 +144,7 @@ SELECT hostgroup_id, hostname, status FROM runtime_mysql_servers;
 
 **期望结果**：你会神奇地发现，你的 3 台机器被自动分家了！PRIMARY 节点保留在 `hostgroup_id = 10`，而另外两台 SECONDARY 节点变成了 `hostgroup_id = 20`，并且状态都是 `ONLINE`。
 
-### 六、配置业务账号与读写分离路由规则
+### 步骤 6：配置业务账号与读写分离路由规则
 
 继续在 `ProxySQL>` 提示符下执行：
 
@@ -232,7 +232,7 @@ COMMIT;
 
 所以它的核心作用是：把并发操作“排队”，让同一行数据在同一时间只能被一个事务锁定修改。它相当于一种悲观锁：我担心别人会改，所以我先锁住，别人只能等我。
 
-### 七、终极效果验证（见证读写分离）
+### 步骤 7：终极效果验证（见证读写分离）
 
 现在模拟业务代码，使用 `app_user` 连接 ProxySQL 的业务端口 6033。在 node1 的系统终端里，连续多次执行下面这行测试命令（查询当前的 `server_id`）：
 
@@ -254,7 +254,7 @@ mysql -uapp_user -p'App@123456' -h127.0.0.1 -P6033 -e "SELECT @@server_id;"
 
 ### 实验 1：直观验证法（利用排他锁强制走写库）
 
-在第 4 节「配置业务账号与读写分离路由规则」中，我们写了一条专门的规则：遇到带锁的 `SELECT ... FOR UPDATE`，代表马上要修改数据，必须路由给主库。请在 node1 的终端连续多次执行以下两条命令进行对比：
+在第 4 节配置 ProxySQL 规则时，我们写了一条专门的规则：遇到带锁的 `SELECT ... FOR UPDATE`，代表马上要修改数据，必须路由给主库。请在 node1 的终端连续多次执行以下两条命令进行对比：
 
 ```bash
 # 1. 普通读测试（走组20）：你会看到结果在 1 和 3 之间交替（由 node1 和 node3 轮询处理）

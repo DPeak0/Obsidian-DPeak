@@ -7,7 +7,7 @@
 
 **本节目标**：在 node1（192.168.0.10）和 node2（192.168.0.20）上安装 MySQL 8.0，搭建一主一从架构。所有通信均基于私网 IP 进行，以确保传输速度与安全性。
 
-## 一、安装 MySQL 8.0（node1 和 node2 分别执行）
+## 步骤 1：安装 MySQL 8.0（在 node1 和 node2 上分别执行）
 
 Rocky Linux 8.4 官方源自带 MySQL 8.0，可直接通过 dnf 安装，无需额外配置源。
 
@@ -22,7 +22,7 @@ systemctl enable --now mysqld
 systemctl status mysqld
 ```
 
-## 二、配置主库 Master（在 node1 上执行）
+## 步骤 2：配置主库 Master（在 node1 上执行）
 
 ### 1. 写入主库自定义配置文件
 
@@ -81,7 +81,7 @@ mysql -uroot -e "SHOW MASTER STATUS\G"
 
 **核心操作**：请务必记录下此时屏幕输出的 `File`（如 `mysql-bin.000001`）和 `Position`（如 `751`）的值，在步骤 4 配置从库时必须用到。
 
-## 三、配置从库 Slave（在 node2 上执行）
+## 步骤 3：配置从库 Slave（在 node2 上执行）
 
 ### 1. 写入从库自定义配置文件
 
@@ -107,7 +107,7 @@ systemctl restart mysqld
 > [!warning] read_only 不是绝对只读
 > `read_only=1` 只限制普通用户，**拥有 SUPER 权限的 root 仍然可以写入**。要让 root 也写不进去，需要再加 `super_read_only=1`（本节只需 `read_only` 即可）。
 
-## 四、建立主从同步链路（在 node2 上执行）
+## 步骤 4：建立主从同步链路（在 node2 上执行）
 
 ### 1. 进入 MySQL 命令行
 
@@ -143,7 +143,7 @@ SHOW SLAVE STATUS\G
 - `Slave_IO_Running: Yes`
 - `Slave_SQL_Running: Yes`
 
-## 五、数据同步功能验证
+## 步骤 5：数据同步功能验证
 
 ### 1. 在主库（node1）生成测试数据
 

@@ -7,7 +7,7 @@
 
 在双主（Active-Active 或 Active-Standby）架构中，node1 和 node2 互为主从。最核心的技术难点在于**防冲突机制**：如果两台服务器同时对同一张表插入数据，自增主键极易产生冲突。因此需要通过设置自增步长和初始偏移量，让 node1 专门生成奇数 ID（1,3,5...），node2 专门生成偶数 ID（2,4,6...）。
 
-## 一、修改双主防冲突配置
+## 步骤 1：修改双主防冲突配置
 
 ### 1. 在 node1（192.168.0.10）上执行
 
@@ -47,7 +47,7 @@ EOF
 systemctl restart mysqld
 ```
 
-## 二、在 node2 上补齐同步账号 repl（在 node2 上执行）
+## 步骤 2：在 node2 上补齐同步账号 repl（在 node2 上执行）
 
 第 1 节实验中，`repl` 账号是在 node1 上创建的，随后才执行 `SHOW MASTER STATUS` 获取日志坐标，因此 node2 是从创建账号之后的坐标开始同步数据的，创建账号的那条命令并未同步到 node2 上。需要先在 node2 上手动补齐该账号并刷新权限，才能让 node1 反向连接 node2。
 
@@ -59,7 +59,7 @@ FLUSH PRIVILEGES;
 "
 ```
 
-## 三、获取 node2 的主库状态（在 node2 上执行）
+## 步骤 3：获取 node2 的主库状态（在 node2 上执行）
 
 ```bash
 mysql -uroot -e "SHOW MASTER STATUS\G"
@@ -67,7 +67,7 @@ mysql -uroot -e "SHOW MASTER STATUS\G"
 
 **核心操作**：请再次记录下 node2 屏幕输出的 `File`（如 `mysql-bin.000001`）和 `Position`（如 `157`）的值。
 
-## 四、将 node1 配置为 node2 的从库（在 node1 上执行）
+## 步骤 4：将 node1 配置为 node2 的从库（在 node1 上执行）
 
 ### 1. 进入 node1 的 MySQL 命令行
 
@@ -99,7 +99,7 @@ SHOW SLAVE STATUS\G
 - `Slave_IO_Running: Yes`
 - `Slave_SQL_Running: Yes`
 
-## 五、双主高可用与防冲突验证
+## 步骤 5：双主高可用与防冲突验证
 
 验证两台机器都能独立写入，且 ID 不会冲突，数据还能互相同步。
 
