@@ -410,5 +410,25 @@ Master_SSL_Verify_Server_Cert: No
 ## 验证：双主高可用与防冲突
 - 在node1上写入数据
 ```bash
+[root@node1 ~]# mysql -uroot -p1 -e "
+> USE rep_test;
+> INSERT INTO users (name) VALUES ('Node1_Insert_A'), ('Node1_Insert_B');
+> SELECT * FROM users;
+> "
+mysql: [Warning] Using a password on the command line interface can be insecure.
++----+----------------+
+| id | name           |
++----+----------------+
+|  1 | Rocky          |
+|  2 | HuaweiCloud    |
+|  3 | Node1_Insert_A |
+|  5 | Node1_Insert_B |
++----+----------------+
+[root@node1 ~]#
+
+```
+
+- 在node2上写入数据
+```bash
 
 ```
