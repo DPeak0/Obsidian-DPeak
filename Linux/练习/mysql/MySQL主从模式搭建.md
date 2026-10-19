@@ -150,17 +150,17 @@ Query OK, 0 rows affected (0.01 sec)
 ```mysql
 mysql> SHOW SLAVE STATUS\G
 *************************** 1. row ***************************
-               Slave_IO_State:
+               Slave_IO_State: Waiting for master to send event
                   Master_Host: 192.168.0.10
                   Master_User: repl
                   Master_Port: 3306
                 Connect_Retry: 60
               Master_Log_File: mysql-bin.000007
           Read_Master_Log_Pos: 861
-               Relay_Log_File: mysql-relay-bin.000001
-                Relay_Log_Pos: 4
+               Relay_Log_File: mysql-relay-bin.000003
+                Relay_Log_Pos: 324
         Relay_Master_Log_File: mysql-bin.000007
-             Slave_IO_Running: No
+             Slave_IO_Running: Yes
             Slave_SQL_Running: Yes
               Replicate_Do_DB:
           Replicate_Ignore_DB:
@@ -172,7 +172,7 @@ mysql> SHOW SLAVE STATUS\G
                    Last_Error:
                  Skip_Counter: 0
           Exec_Master_Log_Pos: 861
-              Relay_Log_Space: 156
+              Relay_Log_Space: 533
               Until_Condition: None
                Until_Log_File:
                 Until_Log_Pos: 0
@@ -182,22 +182,22 @@ mysql> SHOW SLAVE STATUS\G
               Master_SSL_Cert:
             Master_SSL_Cipher:
                Master_SSL_Key:
-        Seconds_Behind_Master: NULL
+        Seconds_Behind_Master: 0
 Master_SSL_Verify_Server_Cert: No
-                Last_IO_Errno: 13117
-                Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work.
+                Last_IO_Errno: 0
+                Last_IO_Error:
                Last_SQL_Errno: 0
                Last_SQL_Error:
   Replicate_Ignore_Server_Ids:
              Master_Server_Id: 1
-                  Master_UUID:
+                  Master_UUID: 93a36098-c6e6-11f1-8ab0-0050562925a7
              Master_Info_File: mysql.slave_master_info
                     SQL_Delay: 0
           SQL_Remaining_Delay: NULL
       Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
            Master_Retry_Count: 86400
                   Master_Bind:
-      Last_IO_Error_Timestamp: 261019 20:55:25
+      Last_IO_Error_Timestamp:
      Last_SQL_Error_Timestamp:
                Master_SSL_Crl:
            Master_SSL_Crlpath:
@@ -221,3 +221,8 @@ Master_SSL_Verify_Server_Cert: No
 >解决办法：停止MySQL服务，删除`/var/lib/mysql/auto.cnf`文件后重新启动MySQL会自动重新生成
 >
 
+## 验证：数据同步功能
+### 在主库（node1）c测试数据
+```bash
+
+```
