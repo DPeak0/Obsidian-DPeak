@@ -9,9 +9,9 @@
 
 ProxySQL 的默认管理端口是 **6032**（默认账号密码都是 admin），代理业务转发的端口是 **6033**。ProxySQL 原生支持 MySQL MGR 集群，它能通过监控账号自动识别谁是 PRIMARY，谁是 SECONDARY。
 
-# 上半场：环境安装与账号准备
+## 上半场：环境安装与账号准备
 
-## 一、安装 ProxySQL（在 node1 上执行）
+### 一、安装 ProxySQL（在 node1 上执行）
 
 由于 ProxySQL 不在 Rocky Linux 的默认源中，需要配置官方源（国内访问官方源一般没问题，已关闭 GPG 校验加速下载）。
 
@@ -42,7 +42,7 @@ systemctl enable --now proxysql
 systemctl status proxysql
 ```
 
-## 二、创建代理需要的 MySQL 账号（在当前的 PRIMARY 节点上执行）
+### 二、创建代理需要的 MySQL 账号（在当前的 PRIMARY 节点上执行）
 
 ProxySQL 需要两个账号：一个用来监控集群谁是主谁是备（`monitor`），另一个给业务代码实际使用（`app_user`）。
 
@@ -70,9 +70,9 @@ FLUSH PRIVILEGES;
 
 因为 MGR 的强一致性同步，你在 PRIMARY 上创建的这两个账号，会瞬间自动同步到另外两台 SECONDARY 上，不需要重复执行。
 
-# 下半场：配置读写分离路由规则（以下操作全部在 node1 上执行）
+## 下半场：配置读写分离路由规则（以下操作全部在 node1 上执行）
 
-## 三、登录 ProxySQL 管理后台
+### 三、登录 ProxySQL 管理后台
 
 在 node1 的终端输入以下命令进入 ProxySQL 的配置界面：
 
@@ -80,7 +80,7 @@ FLUSH PRIVILEGES;
 mysql -uadmin -padmin -h127.0.0.1 -P6032 --prompt='ProxySQL> '
 ```
 
-## 四、配置监控账号与 MGR 集群节点
+### 四、配置监控账号与 MGR 集群节点
 
 在 `ProxySQL>` 提示符下，依次粘贴并执行以下 SQL：
 
@@ -134,7 +134,7 @@ SAVE MYSQL SERVERS TO DISK;
 | `writer_is_also_reader` | 0 | 写节点不兼职读节点 |
 | `max_transactions_behind` | 100 | 从节点落后超过 100 个事务，就认为太旧，不分配读流量或放离线组 |
 
-## 五、验证 MGR 节点是否被正确识别
+### 五、验证 MGR 节点是否被正确识别
 
 依然在 `ProxySQL>` 提示符下，执行以下查询：
 
@@ -144,7 +144,7 @@ SELECT hostgroup_id, hostname, status FROM runtime_mysql_servers;
 
 **期望结果**：你会神奇地发现，你的 3 台机器被自动分家了！PRIMARY 节点保留在 `hostgroup_id = 10`，而另外两台 SECONDARY 节点变成了 `hostgroup_id = 20`，并且状态都是 `ONLINE`。
 
-## 六、配置业务账号与读写分离路由规则
+### 六、配置业务账号与读写分离路由规则
 
 继续在 `ProxySQL>` 提示符下执行：
 
@@ -171,7 +171,7 @@ exit
 > [!note] SELECT ... FOR UPDATE 的作用
 > 在事务里查数据，并给这些行加排他锁，别的事务不能改、也不能再 `FOR UPDATE` 同一行。典型场景就是：库存扣减、账户转账、抢券、订单状态流转。
 
-### 准备数据表
+#### 准备数据表
 
 以业务账号连接代理端口：
 
@@ -232,7 +232,7 @@ COMMIT;
 
 所以它的核心作用是：把并发操作“排队”，让同一行数据在同一时间只能被一个事务锁定修改。它相当于一种悲观锁：我担心别人会改，所以我先锁住，别人只能等我。
 
-## 七、终极效果验证（见证读写分离）
+### 七、终极效果验证（见证读写分离）
 
 现在模拟业务代码，使用 `app_user` 连接 ProxySQL 的业务端口 6033。在 node1 的系统终端里，连续多次执行下面这行测试命令（查询当前的 `server_id`）：
 
@@ -246,15 +246,15 @@ mysql -uapp_user -p'App@123456' -h127.0.0.1 -P6033 -e "SELECT @@server_id;"
 - 你会看到返回的 `server_id` 在 2 和 3 之间交替出现（代表 node2 和 node3 正在轮询为你提供查询服务，成功分摊了读压力）
 - 如果你执行的是 INSERT，请求就会百分之百打在写库（主库）上
 
-# 拓展实验：验证写请求 100% 打到主库
+## 拓展实验：验证写请求 100% 打到主库
 
 说明：如果第 3 节做了“拔网线”容灾测试，MGR 集群会把 PRIMARY 自动切换到 node2（`server_id=2`），node1 和 node3 变为只读备库，ProxySQL 会自动感知这个变化，把写请求的组（10 组）指向 node2。以下两个实验即基于该环境（PRIMARY=node2）验证写请求的走向。
 
 由于单纯执行 INSERT 语句屏幕只会返回 `Query OK, 1 row affected`，并不会直接打印出在哪台机器上执行的，因此用以下两个实验来直观验证。
 
-## 实验 1：直观验证法（利用排他锁强制走写库）
+### 实验 1：直观验证法（利用排他锁强制走写库）
 
-在第 4 节步骤 6 配置 ProxySQL 规则时，我们写了一条专门的规则：遇到带锁的 `SELECT ... FOR UPDATE`，代表马上要修改数据，必须路由给主库。请在 node1 的终端连续多次执行以下两条命令进行对比：
+在第 4 节「配置业务账号与读写分离路由规则」中，我们写了一条专门的规则：遇到带锁的 `SELECT ... FOR UPDATE`，代表马上要修改数据，必须路由给主库。请在 node1 的终端连续多次执行以下两条命令进行对比：
 
 ```bash
 # 1. 普通读测试（走组20）：你会看到结果在 1 和 3 之间交替（由 node1 和 node3 轮询处理）
@@ -264,11 +264,11 @@ mysql -uapp_user -p'App@123456' -h127.0.0.1 -P6033 -e "SELECT @@server_id;"
 mysql -uapp_user -p'App@123456' -h127.0.0.1 -P6033 -e "SELECT @@server_id FOR UPDATE;"
 ```
 
-## 实验 2：硬核审计法（通过 ProxySQL 内部统计证实）
+### 实验 2：硬核审计法（通过 ProxySQL 内部统计证实）
 
 我们直接发送真实的 CREATE 和 INSERT 语句，然后通过 ProxySQL 的“审计后台”来抓包，看看它到底把 SQL 发给了哪个组。
 
-### 1. 通过代理端口 (6033) 真实写入数据
+#### 1. 通过代理端口 (6033) 真实写入数据
 
 ```bash
 mysql -uapp_user -p'App@123456' -h127.0.0.1 -P6033 -e "
@@ -279,7 +279,7 @@ INSERT INTO demo (name) VALUES ('ProxySQL_Write_Test');
 "
 ```
 
-### 2. 登录 ProxySQL 管理后台 (6032) 查看流量路由审计表
+#### 2. 登录 ProxySQL 管理后台 (6032) 查看流量路由审计表
 
 ```bash
 mysql -uadmin -padmin -h127.0.0.1 -P6032 -e "
@@ -291,7 +291,7 @@ WHERE digest_text LIKE '%INSERT%' OR digest_text LIKE '%CREATE%' or digest_text 
 
 **见证奇迹**：你会清晰地在输出结果中看到，CREATE 和 INSERT 语句对应的 `hostgroup` 字段全部都是 10（写库组，即 node2）。而之前你测试的 SELECT 语句对应的都会是 20 组。
 
-## 实验 3：monitor 用户检测
+### 实验 3：monitor 用户检测
 
 如果你想验证 `monitor` 账号是否正常工作，可以在 ProxySQL admin 端口执行：
 
@@ -354,6 +354,6 @@ mysql> SELECT * FROM mysql_server_connect_log;
 - `connect_success_time_us`：建立连接耗时（微秒，几百～几千 us，正常）
 - `connect_error`：`NULL` = 连接无错误。如果这里出现文字报错，代表 monitor 账号密码 / 权限不对或者网络不通。
 
-# 结语
+## 结语
 
 主从复制保障备份，双主保障架构扩展，MGR 保障高可用与数据强一致，ProxySQL 保障业务层的智能分流。这套完整的架构完全可以支撑起真实生产环境中百万级以上的高并发业务。
