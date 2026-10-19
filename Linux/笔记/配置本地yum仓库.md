@@ -1,6 +1,6 @@
 ```bash
 mkdir /etc/yum.repos.d/bak
-mv /etc/yum.repos.d/*repo /etc/yum.repos.d/bak
+mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/bak
 
 cat > /etc/yum.repos.d/dvd.repo <<EOF
 [BaseOS]
