@@ -222,7 +222,7 @@ Master_SSL_Verify_Server_Cert: No
 >
 
 ## 验证：数据同步功能
-### 在主库（node1）c测试数据
+### 在主库（node1）创建测试数据
 ```bash
 
 ```
