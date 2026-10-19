@@ -278,3 +278,12 @@ auto_increment_increment = 2
 auto_increment_offset = 1
 
 ```
+- 重启MySQL使配置生效
+  ```bash
+  [root@node1 ~]# systemctl restart mysqld
+  ```
+
+### node2
+```bash
+
+```
