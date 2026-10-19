@@ -214,6 +214,7 @@ Master_SSL_Verify_Server_Cert: No
 ```
 
 >[!注意]
->VMware虚拟机克隆会导致server_uuid
+>VMware虚拟机克隆会导致`server_uuid`一样，从而导致
+>`server_uuid` 保存在数据目录下的 `auto.cnf` 里
 >
 
