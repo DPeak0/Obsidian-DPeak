@@ -215,8 +215,8 @@ Master_SSL_Verify_Server_Cert: No
 
 >[!注意]
 >VMware虚拟机克隆会导致`server_uuid`一样，从而导致以下报错：
->’Last_IO_Errno: 13117
->             Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work.‘
+>`Last_IO_Errno: 13117`
+>`Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server UUIDs; these UUIDs must be different for replication to work`
 >`server_uuid` 保存在数据目录下的 `auto.cnf` 里
 >
 
