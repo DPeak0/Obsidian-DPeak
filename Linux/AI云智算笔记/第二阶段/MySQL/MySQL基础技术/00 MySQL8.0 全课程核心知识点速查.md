@@ -122,6 +122,7 @@ systemctl restart mysqld
 | `SELECT 列 AS 别名 FROM 表;`               | 起别名（`AS` 可省略：`SELECT 列 别名`） |
 | `SELECT CONCAT('前缀', 列) AS 别名 FROM 表;` | 拼接后输出，报表格式化常用               |
 
+
 ## 八、条件过滤（WHERE）
 
 | 写法 | 说明 |
