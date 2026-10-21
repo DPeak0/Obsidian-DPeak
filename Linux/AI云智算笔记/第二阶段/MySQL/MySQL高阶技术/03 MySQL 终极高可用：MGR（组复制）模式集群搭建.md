@@ -256,3 +256,4 @@ FROM performance_schema.replication_group_members;
 ```
 
 此时，三个节点的状态应该全部变成 `ONLINE`。
+
