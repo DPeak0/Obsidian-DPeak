@@ -22,7 +22,7 @@
 
 
 
-![image-20260824195415159](https://oss.bwihz.cn/ytpora/image-20260824195415159.png)
+<img src="https://oss.bwihz.cn/ytpora/image-20260824195415159.png" alt="image-20260824195415159"  />
 
 
 

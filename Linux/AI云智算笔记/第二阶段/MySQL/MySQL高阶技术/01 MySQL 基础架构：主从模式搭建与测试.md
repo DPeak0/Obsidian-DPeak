@@ -166,3 +166,6 @@ SELECT * FROM users;
 ```
 
 若在 node2 成功查询出 `Rocky` 和 `HuaweiCloud` 两条数据，则第 1 节实验圆满完成。
+
+> 123123
+
